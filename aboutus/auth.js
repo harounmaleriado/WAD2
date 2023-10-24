@@ -2,9 +2,11 @@
 auth.onAuthStateChanged(user =>{
     if(user){
         console.log('User logged in: ', user)
+        checklogin(user)
     }
     else{
         console.log('User logged out')
+        checklogin()
     }
 })
 
@@ -45,3 +47,16 @@ loginForm.addEventListener("submit",(e)=>{
         loginForm.reset();
     })
 })
+
+
+const loggedOutLinks = document.querySelectorAll(".logged-out")
+const loggedInLinks = document.querySelectorAll(".logged-in")
+const checklogin = (user)=>{
+    if (user){
+        loggedInLinks.forEach(item=>item.style.display="block")
+        loggedOutLinks.forEach(item=>item.style.display="none")
+    }else{
+        loggedInLinks.forEach(item=>item.style.display="none")
+        loggedOutLinks.forEach(item=>item.style.display="block");
+    }
+}
