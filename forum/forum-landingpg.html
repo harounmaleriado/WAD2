@@ -56,13 +56,13 @@
                   <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Communities</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Leaderboard</button>
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Profile</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="score-tab" data-bs-toggle="tab" data-bs-target="#score" type="button" role="tab" aria-controls="score" aria-selected="false">Upload Benchmark Score</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">My Account</button>
+                  <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">Leaderboard</button>
               </li>
               </ul>
 
@@ -105,56 +105,6 @@
                 </div>
             
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <!-- Content for "Leaderboard" tab -->
-                    <h2>Top Contributors</h2>
-                    <table>
-                        <thead>
-                            <!-- Table headers -->
-                            <tr>
-                              <th>Rank</th>
-                              <th>User</th>
-                              <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Table rows for top contributors -->
-                            <tr>
-                              <td>1</td>
-                              <td>User1</td>
-                              <td>5000</td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>User2</td>
-                              <td>4200</td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>User3</td>
-                              <td>3800</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            
-                <div class="tab-pane fade" id="score" role="tabpanel" aria-labelledby="score-tab">
-                    <!-- Content for "Upload Benchmark Scores" tab -->
-                    <div class="container">
-                      <h2 class="mt-5">Upload Benchmark Scores</h2>
-                      <form id="benchmark-form" enctype="multipart/form-data">
-                        <div class="mb-3">
-                          <label for="image" class="form-label">Upload Image:</label>
-                          <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
-                      </form>
-                      <br><br>
-                      <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
-                    </div>
-                    
-                </div>
-
-                <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
                   <div class="container mt-5">
                     <div class="row">
                         <div class="col-md-3">
@@ -173,6 +123,57 @@
                         
                     </div>
                   </div>
+                    
+                </div>
+            
+                <div class="tab-pane fade" id="score" role="tabpanel" aria-labelledby="score-tab">
+                    <!-- Content for "Upload Benchmark Scores" tab -->
+                    <div class="container">
+                      <h2 class="mt-5">Upload Benchmark Scores</h2>
+                      <form id="benchmark-form" enctype="multipart/form-data">
+                        <div class="mb-3">
+                          <label for="image" class="form-label">Upload Image:</label>
+                          <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
+                      </form>
+                      <br><br>
+                      <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                  <!-- Content for "Leaderboard" tab -->
+                  <h2>Top Contributors</h2>
+                  <table>
+                      <thead>
+                          <!-- Table headers -->
+                          <tr>
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>Points</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <!-- Table rows for top contributors -->
+                          <tr>
+                            <td>1</td>
+                            <td>User1</td>
+                            <td>5000</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>User2</td>
+                            <td>4200</td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>User3</td>
+                            <td>3800</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  
                 
                   
                 </div>
@@ -183,6 +184,8 @@
     <footer>
         <p>&copy; 2023 HARD CYCLE</p>
     </footer>
+
+
 
 
     <!-- Bootstrap JS -->
