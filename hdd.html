@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>HDD Catalog</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -44,32 +46,62 @@
         h1 {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
+
+        .product-description {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">HARD CYCLE</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Market Place</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Donation</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Communities 
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="community-info.html">About Support Community </a></li>
+                    <li><a class="dropdown-item" href="community-guides.html">How to Earn Points</a></li>
+                    <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     <div class="container">
         <div class="search-bar">
             <input type="text" class="form-control" placeholder="Search HDDs" id="search-bar">
             <select class="form-control sort-dropdown" id="sorting-dropdown">
                 <option value="alphabet">A-Z</option>
-                <option value="asc">Price ↑</option>
-                <option value="desc">Price ↓</option>
+                <option value="asc">Price Up</option>
+                <option value="desc">Price Down</option>
             </select>
         </div>
         <h1>HDD</h1>
         <br>
         <div class="row" id="product-list">
-
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-
         const products = [
-            
+
             // Add more products here
         ];
 
@@ -101,6 +133,26 @@
                     productBox.appendChild(productImage);
                     productBox.appendChild(productNameElement);
                     productBox.appendChild(productPrice);
+
+                    const productDescription = document.createElement("p");
+                    productDescription.textContent = "Additional information about the product.";
+                    productDescription.classList.add("d-none");
+                    productDescription.classList.add("product-description");
+                    productBox.appendChild(productDescription);
+
+                    $(productDescription).tooltip({
+                        trigger: "hover",
+                        placement: "top",
+                    });
+
+                    productBox.addEventListener("mouseenter", () => {
+                        productDescription.classList.remove("d-none");
+                    });
+
+                    productBox.addEventListener("mouseleave", () => {
+                        productDescription.classList.add("d-none");
+                    });
+
                     productList.appendChild(productBox);
                 }
             });
@@ -126,7 +178,18 @@
         searchBar.addEventListener("input", () => displayProducts(searchBar.value));
 
         const sortingDropdown = document.getElementById("sorting-dropdown");
-        sortingDropdown.addEventListener("change", sortProducts); 
+        sortingDropdown.addEventListener("change", sortProducts);
+
+        document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById("search-bar");
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get("search");
+
+        if (searchQuery) {
+            searchInput.value = decodeURIComponent(searchQuery);
+            displayProducts(searchQuery);
+        }
+    });
     </script>
 </body>
 </html>
