@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Computer Parts Marketplace</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .search-bar input {
+            width: 70%;
+            padding-right: 810px;
+        }
+        .category-box {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 280px; 
+        }
+        .category-box:hover {
+            transform: scale(1.04);
+        }
+        .category-image {
+            max-width: 120px; 
+            max-height: 120px; 
+        }
+        .category-label {
+            color: gray;
+            font-size: 14px;
+            margin-top: 10px; 
+        }
+        a {
+            text-decoration: none;
+            color: gray; 
+        }
+        .btn{
+            margin-left:10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-bar">
+            <form class="form-inline" action="all.html" method="get">
+                <input type="text" class="form-control" name="search" id="search-input" placeholder="Search for computer parts">
+                <button type="submit" class="btn btn-primary bg-dark">Search</button>
+            </form>
+        </div>
+        
+
+        <div class="row">
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="all.html">
+                        <img class="category-image" src="https://img.freepik.com/premium-vector/pc-components-cpu-gpu-motherboard-cooler-ssd-hand-drawn-memory-modules-system-unit-power-supply-vector-personal-computer-parts-isolated-set_102902-6145.jpg" alt="Category Image">
+                        <div class="category-label"><br>ALL</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="cpu.html">
+                        <img class="category-image" src="https://static.vecteezy.com/system/resources/previews/020/094/296/non_2x/computer-cpu-icon-in-comic-style-circuit-board-cartoon-illustration-on-white-isolated-background-motherboard-chip-splash-effect-business-concept-vector.jpg" alt="Category Image">
+                        <div class="category-label">CPU</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="ram.html">
+                        <img class="category-image" src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg" alt="Category Image">
+                        <div class="category-label">RAM</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="hdd.html">
+                        <img class="category-image" src="https://media.istockphoto.com/id/1204276195/vector/hard-disk-vector-icon-style-illustration.jpg?s=612x612&w=0&k=20&c=Yxs2t6J3-dqvScdN-dnhEBMhfH1ygb84stn3YuhbY0Q=" alt="Category Image">
+                        <div class="category-label">HDD</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="ssd.html">
+                        <img class="category-image" src="https://static.vecteezy.com/system/resources/previews/022/610/149/non_2x/disk-ssd-storage-cartoon-illustration-vector.jpg" alt="Category Image">
+                        <div class="category-label">SSD</div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="category-box">
+                    <a href="gpu.html">
+                        <img class="category-image" src="https://www.shutterstock.com/shutterstock/videos/1074222746/thumb/7.jpg?ip=x480" alt="Category Image">
+                        <div class="category-label"><br>GPU</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector(".form-inline");
+            const searchInput = document.getElementById("search-input");
+    
+            form.addEventListener("submit", function(event) {
+                const searchValue = searchInput.value.trim();
+                const action = form.getAttribute("action");
+                const newAction = `${action}?search=${encodeURIComponent(searchValue)}`;
+                form.setAttribute("action", newAction);
+            });
+        });
+    </script>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
