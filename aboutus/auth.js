@@ -12,12 +12,12 @@ auth.onAuthStateChanged(user =>{
 
 
 //signup
-const signupForm = document.querySelector('#signup-form')
+const signupForm = document.querySelector('#signupForm')
 signupForm.addEventListener('submit',(e)=>{
     e.preventDefault();
     //get user info
-    const email=signupForm['signup-email'].value;
-    const password=signupForm['signup-password'].value;
+    const email=signupForm['signupEmail'].value;
+    const password=signupForm['signupPassword'].value;
     //sign user up
     firebase.auth().createUserWithEmailAndPassword(email,password).then(cred=>{
         console.log(cred);
@@ -35,11 +35,11 @@ signout.addEventListener("click",(e)=>{
 })
 
 //login
-const loginForm = document.querySelector("#login-form")
+const loginForm = document.querySelector("#signinForm")
 loginForm.addEventListener("submit",(e)=>{
     e.preventDefault();
-    const email=loginForm['login-email'].value;
-    const password=loginForm['login-password'].value;
+    const email=loginForm['signinEmail'].value;
+    const password=loginForm['signinPassword'].value;
 
     firebase.auth().signInWithEmailAndPassword(email,password).then(cred=>{
         console.log(cred.user);
