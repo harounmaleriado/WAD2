@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <title>HARD CYCLE - Market Place(RAM)</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -62,10 +64,10 @@
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">About Us</a>
+                <a class="nav-link" aria-current="page" href="#">About Us</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Market Place</a>
+                <a class="nav-link active" href="#">Market Place</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Donation</a>
@@ -100,7 +102,7 @@
     </div>
 
     <script>
-        const products = [
+        const productData = [
             
             // Add more products here
         ];
@@ -109,7 +111,7 @@
             const productList = document.getElementById("product-list");
             productList.innerHTML = "";
 
-            products.forEach((product, index) => {
+            productData.forEach((product, index) => {
                 const productName = product.name.toLowerCase();
                 const searchTerm = filter.toLowerCase();
 
@@ -130,20 +132,17 @@
                     const productPrice = document.createElement("p");
                     productPrice.textContent = `Price: $${product.price}`;
 
+                    const productDescription = document.createElement("p");
+                    productDescription.textContent = product.description;
+                    productDescription.classList.add("d-none");
+                    productDescription.classList.add("product-description");
+
                     productBox.appendChild(productImage);
                     productBox.appendChild(productNameElement);
                     productBox.appendChild(productPrice);
-
-                    const productDescription = document.createElement("p");
-                    productDescription.textContent = "Additional information about the product.";
-                    productDescription.classList.add("d-none");
-                    productDescription.classList.add("product-description");
                     productBox.appendChild(productDescription);
 
-                    $(productDescription).tooltip({
-                        trigger: "hover",
-                        placement: "top",
-                    });
+                    productList.appendChild(productBox);
 
                     productBox.addEventListener("mouseenter", () => {
                         productDescription.classList.remove("d-none");
@@ -152,8 +151,6 @@
                     productBox.addEventListener("mouseleave", () => {
                         productDescription.classList.add("d-none");
                     });
-
-                    productList.appendChild(productBox);
                 }
             });
         }
@@ -162,11 +159,11 @@
             const sortingDropdown = document.getElementById("sorting-dropdown");
             const selectedOption = sortingDropdown.value;
             if (selectedOption === "alphabet") {
-                products.sort((a, b) => a.name.localeCompare(b.name));
+                productData.sort((a, b) => a.name.localeCompare(b.name));
             } else if (selectedOption === "asc") {
-                products.sort((a, b) => a.price - b.price);
+                productData.sort((a, b) => a.price - b.price);
             } else if (selectedOption === "desc") {
-                products.sort((a, b) => b.price - a.price);
+                productData.sort((a, b) => b.price - a.price);
             }
 
             displayProducts(document.getElementById("search-bar").value);
@@ -181,15 +178,18 @@
         sortingDropdown.addEventListener("change", sortProducts);
 
         document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById("search-bar");
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get("search");
+            const searchInput = document.getElementById("search-bar");
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get("search");
 
-        if (searchQuery) {
-            searchInput.value = decodeURIComponent(searchQuery);
-            displayProducts(searchQuery);
-        }
-    });
+            if (searchQuery) {
+                searchInput.value = decodeURIComponent(searchQuery);
+                displayProducts(searchQuery);
+            }
+        });
     </script>
 </body>
+<footer>
+    <p>&copy; 2023 HARD CYCLE</p>
+</footer>
 </html>
