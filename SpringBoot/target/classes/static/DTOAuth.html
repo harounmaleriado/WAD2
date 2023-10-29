@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+</head>
+<body>
+
+<h2>Sign Up</h2>
+<form id="signupForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <input type="submit" value="Sign Up">
+</form>
+
+<h2>Sign In</h2>
+<form id="signinForm">
+    <label for="loginEmail">Email:</label><br>
+    <input type="email" id="loginEmail" name="loginEmail" required><br><br>
+
+    <label for="loginPassword">Password:</label><br>
+    <input type="password" id="loginPassword" name="loginPassword" required><br><br>
+
+    <input type="submit" value="Sign In">
+</form>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = {
+            name: event.target.name.value,
+            email: event.target.email.value,
+            username: event.target.username.value,
+            password: event.target.password.value
+        };
+
+        fetch('/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => alert(JSON.stringify(data)))
+        .catch(error => alert('Error:', error));
+    });
+
+    document.getElementById('signinForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const formData = {
+            email: event.target.loginEmail.value,
+            password: event.target.loginPassword.value
+        };
+
+        fetch('/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => alert(JSON.stringify(data)))
+        .catch(error => alert('Error:', error));
+    });
+</script>
+
+</body>
+</html>

@@ -12,28 +12,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 
+import ewasteless.project.DTO.UserDTO;
+
 @Service
 public class UserAuthenticationService {
 
     @Autowired
     private Firestore dbFirestore;
 
-    public String signUp(String email, String password, String name, String username) {
+    public String signUp(UserDTO user) {
         try {
+            
             UserRecord.CreateRequest AccountCreationRequest = new UserRecord.CreateRequest()
-                .setEmail(email)
-                .setPassword(password);
+                .setEmail(user.getEmail())
+                .setPassword(user.getPassword());
             UserRecord userRecord = FirebaseAuth.getInstance().createUser(AccountCreationRequest);
             
             DocumentReference userReference = dbFirestore.collection("users").document(userRecord.getUid());
             Map<String, Object> userProfileMap = new HashMap<>();
-            userProfileMap.put("email", email);
-            userProfileMap.put("name", name);
-            userProfileMap.put("username", username);
+            userProfileMap.put("email", user.getEmail());
+            userProfileMap.put("name", user.getName());
+            userProfileMap.put("username", user.getUsername());
             userProfileMap.put("UID", userRecord.getUid());
             // ... add any other fields you want here
             userReference.set(userProfileMap);
-
             return userRecord.getUid(); 
         } catch (FirebaseAuthException e) {
             // handle exception

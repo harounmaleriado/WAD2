@@ -3,6 +3,7 @@ package ewasteless.project.classes;
 import java.util.List;
 import java.util.Map;
 
+
 import com.google.cloud.firestore.DocumentReference;
 
 import lombok.Getter;
@@ -16,6 +17,8 @@ public class User {
     private String UID ;
     private String name;
     private String username;
+
+    
     private String email;
 
     private boolean enabled; // To check if email is verified
