@@ -1,8 +1,12 @@
 package ewasteless.project.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,13 +25,39 @@ public class UserAuthenticationController {
     private UserAuthenticationService authService;
 
     
+    // @PostMapping("/signup")
+    // public ResponseEntity<Map<String, String>> signUp(@Valid @RequestBody UserDTO user) {
+    //     String uid = authService.signUp(user);
+    //     Map<String, String> response = new HashMap<>();
+    //     response.put("status", "OK");
+    //     response.put("uid", uid);
+    //     return ResponseEntity.ok(response);
+    // }
+
     @PostMapping("/signup")
-    public ResponseEntity<String> signUp(@Valid @RequestBody UserDTO user) {
-        return ResponseEntity.ok(authService.signUp(user));
+    public ResponseEntity<?> signUp(@Valid @RequestBody UserDTO user) {
+        try {
+            String userId = authService.signUp(user);
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "OK");
+            response.put("uid", userId);
+            return ResponseEntity.ok(response);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> signIn(@RequestBody UserDTO user) {
-        return ResponseEntity.ok(authService.signIn(user.getEmail(), user.getPassword()));
+    public ResponseEntity<?> signIn(@RequestBody UserDTO user) {
+        try {
+            String userId = authService.signIn(user.getEmail(), user.getPassword());
+            Map<String, Object> response = new HashMap<>();
+            response.put("status", "OK");
+            response.put("uid", userId);
+            return ResponseEntity.ok(response);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 }

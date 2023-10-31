@@ -6,8 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.google.cloud.firestore.DocumentReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,10 +32,5 @@ public class UserDTO {
     @NotNull(message = "Password cannot be empty")
     @Size(min = 6, message = "Password must be at least 6 characters long") // Firebase requires a minimum of 6 characters
     private String password;
-
-    private String UID ; // same as firebase auth ID and firestore document_id
-
-    private List<DocumentReference> listings; // collection of this users listings
-
 }
 
