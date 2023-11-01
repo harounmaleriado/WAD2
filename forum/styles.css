@@ -32,7 +32,7 @@ nav ul li a {
     position: fixed;
     top: 0;
     width: 100%;
-    z-index: 1000; /* You can adjust the z-index as needed */
+    z-index: 1000; 
 }
 
 
