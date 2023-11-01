@@ -32,5 +32,7 @@ public class UserDTO {
     @NotNull(message = "Password cannot be empty")
     @Size(min = 6, message = "Password must be at least 6 characters long") // Firebase requires a minimum of 6 characters
     private String password;
+
+    
 }
 

@@ -141,6 +141,8 @@
 
 
 <script>
+    // firebase.initializeApp(firebaseConfig);
+
     document.getElementById('signupForm').addEventListener('submit', function(event) {
         event.preventDefault();
         document.getElementById('Register').click() 
@@ -162,9 +164,14 @@
             body: JSON.stringify(formData)
         })
         .then(response => response.json())
-        .then(data => JSON.stringify(data))
-        .catch(error => alert('Error:', error));
-        
+        .then(data => {
+                console.log('User registered:', data);
+                alert('Registration successful!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Registration failed!');
+            });
     });
 
     document.getElementById('signinForm').addEventListener('submit', function(event) {
@@ -172,26 +179,47 @@
         document.getElementById('Login').click()
 
         
-        const formData = {
-            email: event.target.loginEmail.value,
-            password: event.target.loginPassword.value
-        };
+        // const formData = {
+        //     email: event.target.loginEmail.value,
+        //     password: event.target.loginPassword.value
+        // };
 
-        fetch('/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => JSON.stringify(data))
-        .catch(error => alert('Erroraids:', error));
+        // fetch('/auth/login', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(formData)
+        // })
+        // .then(response => response.json())
+        // .then(data => {
+        //         console.log('User signed in:', data);
+        //         alert('Sign in successful!');
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //         alert('Sign-in failed!');
+        //     });
         
-       
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Authenticate user
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Get the ID Token
+            return userCredential.user.getIdToken();
+        })
+        .then((idToken) => {
+            // Store the token (optional)
+            sessionStorage.setItem('idToken', idToken);
+        })
+        .catch((error) => {
+            console.error("Error signing in", error);
+        });
 
     });
 </script>
-
+    
 </body>
 </html>

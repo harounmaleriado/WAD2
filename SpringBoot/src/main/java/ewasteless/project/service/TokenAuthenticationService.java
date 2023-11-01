@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 
 @Service
-public class FirebaseAuthenticationService {
+public class TokenAuthenticationService {
 
     public FirebaseToken validateToken(String idToken) {
         try {
