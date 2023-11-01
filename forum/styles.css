@@ -4,6 +4,7 @@ header {
     /* color: #fff; */
     text-align: center;
     padding: 20px;
+    margin:  50px 100px 50px;
 }
 
 /* Style for navigation menu */
@@ -51,3 +52,6 @@ th, td {
 tr:not(:first-child) td {
     border-bottom: 1px solid #000; /* Add a 1px solid black border to non-header cells */
 }
+
+
+
