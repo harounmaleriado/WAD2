@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.cloud.firestore.*;
-import com.google.firebase.cloud.FirestoreClient;
+// import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class ProductService {

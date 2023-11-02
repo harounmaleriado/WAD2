@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="homepage.css">
     <title>EcoTechHavan - Second-Hand PC Parts</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
     
 </head>
 <body>
@@ -23,13 +22,13 @@
                 </ul>
             </nav>
             <div id="userAuth">
-                <a href="" data-toggle="modal" data-target="#Register" class="logged-out" >
+                <a href="" data-toggle="modal" data-target="#Register" class="logged-out" style="display:none">
                     Register
                 </a>
-                <a href="" data-toggle="modal" data-target="#Login" class="logged-out" >
+                <a href="" data-toggle="modal" data-target="#Login" class="logged-out" style="display:none">
                     Login
                 </a>
-                <a href=""  display="hidden" id="signout" class="logged-in" >
+                <a href=""  display="hidden" id="signout" class="logged-in" style="display:none">
                     Sign Out
                 </a>
             </div>
@@ -50,20 +49,20 @@
             <div class="modal-body">
                 <form id="signupForm">
                     <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                        <label for="signupEmail">Email address</label>
+                        <input type="email" class="form-control" id="signupEmail" placeholder="Enter email" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Password" minlength="6" required>
+                        <label for="signupPassword">Password</label>
+                        <input type="password" class="form-control" id="signupPassword" placeholder="Password" minlength="6" required>
                     </div>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name" required>
+                        <label for="signupName">Name</label>
+                        <input type="text" class="form-control" id="signupName" placeholder="Name" required>
                     </div>
                     <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Username"  required>
+                        <label for="signupUsername">Username</label>
+                        <input type="text" class="form-control" id="signupUsername" placeholder="Username"  required>
                     </div>
                         <a href="" data-toggle="modal" data-target="#Login" data-dismiss="modal">Already have an account?</a>
                     </div>
@@ -89,12 +88,12 @@
             <div class="modal-body">
                 <form id="signinForm">
                 <div class="form-group">
-                    <label for="loginEmail">Email address</label>
-                    <input type="email" class="form-control" id="loginEmail" placeholder="Enter email" required>
+                    <label for="signinEmail">Email address</label>
+                    <input type="email" class="form-control" id="signinEmail" placeholder="Enter email" required>
                   </div>
                   <div class="form-group">
-                    <label for="loginPassword">Password</label>
-                    <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                    <label for="signinPassword">Password</label>
+                    <input type="password" class="form-control" id="signinPassword" placeholder="Password" required>
                   </div>
                   <a href="" data-toggle="modal" data-target="#Register" data-dismiss="modal">Don't have an account?</a>
             </div>
@@ -128,43 +127,61 @@
     </footer>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-</body>
-</html>
-
-
-
-
-
-<script>
-    // firebase.initializeApp(firebaseConfig);
-
-    document.getElementById('signupForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        document.getElementById('Register').click() 
-
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script>
+        // Import the functions you need from the SDKs you need
         
-        
-        const formData = {
-            name: event.target.name.value,
-            email: event.target.email.value,
-            username: event.target.username.value,
-            password: event.target.password.value
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        // const firebaseConfig = {
+        //   apiKey: "AIzaSyA0ci74S5hum9tLO7rLsO5czUn9bTqWEEc",
+        //   authDomain: "test-user-auth-65c41.firebaseapp.com",
+        //   projectId: "test-user-auth-65c41",
+        //   storageBucket: "test-user-auth-65c41.appspot.com",
+        //   messagingSenderId: "756050840665",
+        //   appId: "1:756050840665:web:e259d253bab41e89417548",
+        //   measurementId: "G-9J7G2GZS6E"
+        // };
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+            authDomain: "is216-e-wasteless.firebaseapp.com", 
+            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "is216-e-wasteless", 
+            storageBucket: "is216-e-wasteless.appspot.com", 
+            messagingSenderId: "739112462842", 
+            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+            measurementId: "G-3Q1JMEGCBE" 
         };
+        firebase.initializeApp(firebaseConfig)
+        // Initialize Firebase
+        const auth = firebase.auth()
 
-        fetch('/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => {
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('Register').click() 
+    
+            
+            
+            const formData = {
+                name: event.target.name.value,
+                email: event.target.email.value,
+                username: event.target.username.value,
+                password: event.target.password.value
+            };
+    
+            fetch('/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
                 console.log('User registered:', data);
                 alert('Registration successful!');
             })
@@ -172,54 +189,37 @@
                 console.error('Error:', error);
                 alert('Registration failed!');
             });
-    });
-
-    document.getElementById('signinForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        document.getElementById('Login').click()
-
-        
-        // const formData = {
-        //     email: event.target.loginEmail.value,
-        //     password: event.target.loginPassword.value
-        // };
-
-        // fetch('/auth/login', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(formData)
-        // })
-        // .then(response => response.json())
-        // .then(data => {
-        //         console.log('User signed in:', data);
-        //         alert('Sign in successful!');
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //         alert('Sign-in failed!');
-        //     });
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-
-        // Authenticate user
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            // Get the ID Token
-            return userCredential.user.getIdToken();
-        })
-        .then((idToken) => {
-            // Store the token (optional)
-            sessionStorage.setItem('idToken', idToken);
-        })
-        .catch((error) => {
-            console.error("Error signing in", error);
         });
 
-    });
-</script>
+        document.getElementById('signinForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('Login').click()
     
+    
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+    
+            // Authenticate user
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Get the ID Token
+                return userCredential.user.getIdToken();
+            })
+            .then((idToken) => {
+                // Store the token (optional)
+                sessionStorage.setItem('idToken', idToken);
+    
+            })
+            .catch((error) => {
+                console.error("Error signing in", error);
+            });
+    
+        });
+      </script>
+      <script src="auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 </body>
 </html>

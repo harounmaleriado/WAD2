@@ -14,27 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // @PostMapping("/signup")
-    // public ResponseEntity<?> signup(@RequestBody UserSignupRequest userSignupRequest) {
-    //     try {
-    //         // User signup logic
-    //         userService.signup(userSignupRequest);
-    //         return new ResponseEntity<>(HttpStatus.CREATED);
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-    //     }
-    // }
-
-
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        try {
-            User createdUser = userService.createUser(user);
-            return ResponseEntity.ok(createdUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
+ 
 
     @DeleteMapping("/{UID}")
     public ResponseEntity<Void> deleteUser(@PathVariable int UID) {

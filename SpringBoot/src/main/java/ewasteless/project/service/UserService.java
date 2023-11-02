@@ -2,11 +2,11 @@ package ewasteless.project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.google.cloud.firestore.CollectionReference;
+// import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.cloud.FirestoreClient;
+// import com.google.firebase.auth.FirebaseAuth;
+// import com.google.firebase.cloud.FirestoreClient;
 
 import ewasteless.project.classes.User;
 
@@ -41,25 +41,25 @@ public class UserService {
         
     // }
 
-    public User createUser(User user) {
-    //     // // Automatically generate a unique document ID for the new document.
-        dbFirestore.collection("users").add(user); 
+    // public User createUser(User user) {
+    // //     // // Automatically generate a unique document ID for the new document.
+    //     dbFirestore.collection("users").add(user); 
 
-    //     FirebaseAuth auth = FirebaseAuth.getInstance();
-    //     auth.createUserWithEmailAndPassword("user@example.com", "password123").addOnCompleteListener(task -> {
-    //         if (task.isSuccessful()) {
-    //             FirebaseUser firebaseUser = auth.getCurrentUser();
-    //             String uid = firebaseUser.getUid();
-    //             User user = new User(uid, "user@example.com", ...);
-    //             Firestore db = FirestoreClient.getFirestore();
-    //             db.collection("users").document(uid).set(user);
-    //         }
-    //     });
+    // //     FirebaseAuth auth = FirebaseAuth.getInstance();
+    // //     auth.createUserWithEmailAndPassword("user@example.com", "password123").addOnCompleteListener(task -> {
+    // //         if (task.isSuccessful()) {
+    // //             FirebaseUser firebaseUser = auth.getCurrentUser();
+    // //             String uid = firebaseUser.getUid();
+    // //             User user = new User(uid, "user@example.com", ...);
+    // //             Firestore db = FirestoreClient.getFirestore();
+    // //             db.collection("users").document(uid).set(user);
+    // //         }
+    // //     });
 
-    //     // better with auth. UID shld come from firebase auth, used as document ID
-        // dbFirestore.collection("users").document(String.valueOf(user.getUID())).set(user);
-        return user;
-    }
+    // //     // better with auth. UID shld come from firebase auth, used as document ID
+    //     // dbFirestore.collection("users").document(String.valueOf(user.getUID())).set(user);
+    //     return user;
+    // }
 
     public boolean deleteUser(int UID) throws Exception {
         dbFirestore.collection("users").document(String.valueOf(UID)).delete().get();
