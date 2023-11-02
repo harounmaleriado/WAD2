@@ -18,16 +18,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // @PostMapping
-    // public ResponseEntity<String> createProduct(@RequestBody Product product) {
-    //     try {
-    //         String productId = productService.addProduct(product);
-    //         return new ResponseEntity<>(productId, HttpStatus.CREATED); // Return the ID to the client.
-    //     } catch (Exception e) {
-    //         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
     @GetMapping("/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable String productId) {
         try {

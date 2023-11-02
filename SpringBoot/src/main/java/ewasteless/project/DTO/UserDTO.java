@@ -1,6 +1,6 @@
 package ewasteless.project.DTO;
 
-import java.util.List;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
