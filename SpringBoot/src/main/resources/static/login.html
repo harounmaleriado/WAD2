@@ -167,10 +167,10 @@
             
             
             const formData = {
-                name: event.target.name.value,
-                email: event.target.email.value,
-                username: event.target.username.value,
-                password: event.target.password.value
+                name: event.target.signupName.value,
+                email: event.target.signupEmail.value,
+                username: event.target.signupUsername.value,
+                password: event.target.signupPassword.value
             };
     
             fetch('/auth/signup', {
@@ -180,38 +180,54 @@
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    // Convert server response to text (assuming error message is in text format)
+                    return response.text().then(errorText => {
+                        // Throw error to be caught in catch block
+                        throw new Error(`Registration failed: ${errorText}`);
+                    });
+                }
+            return response.json();
+            })
             .then(data => {
                 console.log('User registered:', data);
                 alert('Registration successful!');
+
+                //Reset the form here if registration is successful
+                document.getElementById('signupForm').reset();
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Registration failed!');
-            });
-        });
+                alert(`Registration failed: ${error.message}`);
 
+                // Reset the form
+                document.getElementById('signupForm').reset();
+            });
+});
         document.getElementById('signinForm').addEventListener('submit', function(event) {
             event.preventDefault();
             document.getElementById('Login').click()
     
     
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            const email=signinForm['signinEmail'].value;
+            const password=signinForm['signinPassword'].value;
     
             // Authenticate user
             firebase.auth().signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
                 // Get the ID Token
                 return userCredential.user.getIdToken();
+                document.getElementById('signinForm').reset();
             })
             .then((idToken) => {
-                // Store the token (optional)
+                // Store the token 
                 sessionStorage.setItem('idToken', idToken);
-    
             })
             .catch((error) => {
                 console.error("Error signing in", error);
+                alert("Error signing in: " + error.message);  // Feedback to user
+                document.getElementById('signinForm').reset(); // Reset form
             });
     
         });
