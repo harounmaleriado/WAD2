@@ -197,7 +197,96 @@
         <p>&copy; 2023 HARD CYCLE</p>
     </footer>
 
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+            authDomain: "is216-e-wasteless.firebaseapp.com", 
+            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "is216-e-wasteless", 
+            storageBucket: "is216-e-wasteless.appspot.com", 
+            messagingSenderId: "739112462842", 
+            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+            measurementId: "G-3Q1JMEGCBE" 
+        };
+        firebase.initializeApp(firebaseConfig)
+        // Initialize Firebase
+        const auth = firebase.auth()
 
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('Register').click() 
+    
+            
+            
+            const formData = {
+                name: event.target.signupName.value,
+                email: event.target.signupEmail.value,
+                username: event.target.signupUsername.value,
+                password: event.target.signupPassword.value
+            };
+    
+            fetch('/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // Convert server response to text (assuming error message is in text format)
+                    return response.text().then(errorText => {
+                        // Throw error to be caught in catch block
+                        throw new Error(`Registration failed: ${errorText}`);
+                    });
+                }
+            return response.json();
+            })
+            .then(data => {
+                console.log('User registered:', data);
+                alert('Registration successful!');
+
+                //Reset the form here if registration is successful
+                document.getElementById('signupForm').reset();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert(`Registration failed: ${error.message}`);
+
+                // Reset the form
+                document.getElementById('signupForm').reset();
+            });
+});
+        document.getElementById('signinForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('Login').click()
+    
+    
+            const email=signinForm['signinEmail'].value;
+            const password=signinForm['signinPassword'].value;
+    
+            // Authenticate user
+            firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                // Get the ID Token
+                return userCredential.user.getIdToken();
+                document.getElementById('signinForm').reset();
+            })
+            .then((idToken) => {
+                // Store the token 
+                sessionStorage.setItem('idToken', idToken);
+            })
+            .catch((error) => {
+                console.error("Error signing in", error);
+                alert("Error signing in: " + error.message);  // Feedback to user
+                document.getElementById('signinForm').reset(); // Reset form
+            });
+    
+        });
+      </script>
+      <script src="auth.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
