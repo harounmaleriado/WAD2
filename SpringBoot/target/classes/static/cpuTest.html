@@ -8,6 +8,27 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script>
+      
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+            authDomain: "is216-e-wasteless.firebaseapp.com", 
+            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "is216-e-wasteless", 
+            storageBucket: "is216-e-wasteless.appspot.com", 
+            messagingSenderId: "739112462842", 
+            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+            measurementId: "G-3Q1JMEGCBE" 
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+
+    </script>
+
    
     
     
@@ -106,103 +127,71 @@
         </div>
     </div>
     <script>
-        const productData = [
-            {
-                name: "Intel i5-9400F",
-                price: 120,
-                image: "https://m.media-amazon.com/images/I/6110pa-yuJL._AC_UF894,1000_QL80_.jpg",
-                description: "Description for Intel i5-9400F.",
-            },
-            {
-                name: "Intel i7-13700K",
-                price: 595,
-                image: "https://m.media-amazon.com/images/I/41g+M6Q-NrL.jpg",
-                description: "Description for Intel i7-13700K.",
-            },
-            {
-                name: "AMD Ryzen 7 5800x",
-                price: 320,
-                image: "https://m.media-amazon.com/images/I/61IIbwz-+ML._AC_SL1500_.jpg",
-                description: "Description for AMD Ryzen 7 5800x.",
-            },
-            {
-                name: "AMD Ryzen 7 3700x",
-                price: 150,
-                image: "https://m.media-amazon.com/images/I/71Q2Vcw-wlL.jpg",
-                description: "Description for AMD Ryzen 7 3700x.",
-            },
-            {
-                name: "Ryzen 5 5600X",
-                price: 200,
-                image: "https://m.media-amazon.com/images/I/61twhaihHtL._AC_UF1000,1000_QL80_.jpg",
-                description: "Description for Ryzen 5 5600X.",
-            },
-            // Add more products here
-        ];
+        
+    // fetch
+    const db = firebase.firestore();
+    let productData = [];
 
-        function displayProducts(filter = "") {
-            const productList = document.getElementById("product-list");
-            productList.innerHTML = "";
+    async function fetchProducts() {
+        const productsRef = db.collection('CPU');
+        const snapshot = await productsRef.get();
+        return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    }
 
-            productData.forEach((product, index) => {
-                const productName = product.name.toLowerCase();
-                const searchTerm = filter.toLowerCase();
+    async function init() {
+        productData = await fetchProducts();
+        displayProducts();
+        
+    }
 
-                if (productName.includes(searchTerm)) {
-                    const productBox = document.createElement("div");
-                    productBox.classList.add("col-md-4");
-                    productBox.classList.add("product-box");
-                    productBox.setAttribute("data-index", index);
+    function displayProducts(filter = "") {
+        const productList = document.getElementById("product-list");
+        productList.innerHTML = "";
 
-                    const productImage = document.createElement("img");
-                    productImage.src = product.image;
-                    productImage.alt = "Product Image";
-                    productImage.classList.add("product-image");
+        productData.forEach((product, index) => {
+            const productName = product.model.toLowerCase();
+            const searchTerm = filter.toLowerCase();
 
-                    const productNameElement = document.createElement("h3");
-                    productNameElement.textContent = product.name;
+            if (productName.includes(searchTerm)) {
+                const productBox = document.createElement("div");
+                productBox.classList.add("col-md-4", "product-box");
+                productBox.setAttribute("data-index", index);
 
-                    const productPrice = document.createElement("p");
-                    productPrice.textContent = `Price: $${product.price}`;
+                
+                // Display Product Brand
+                const productBrandElement = document.createElement("h3");
+                productBrandElement.textContent = product.brand;
 
-                    const productDescription = document.createElement("p");
-                    productDescription.textContent = product.description;
-                    productDescription.classList.add("d-none");
-                    productDescription.classList.add("product-description");
+                // Display Product Name
+                const productModelElement = document.createElement("p");
+                productModelElement.textContent = product.model;
 
-                    productBox.appendChild(productImage);
-                    productBox.appendChild(productNameElement);
-                    productBox.appendChild(productPrice);
-                    productBox.appendChild(productDescription);
-
-                    productList.appendChild(productBox);
-
-                    productBox.addEventListener("mouseenter", () => {
-                        productDescription.classList.remove("d-none");
-                    });
-
-                    productBox.addEventListener("mouseleave", () => {
-                        productDescription.classList.add("d-none");
-                    });
-                }
-            });
-        }
-
-        function sortProducts() {
-            const sortingDropdown = document.getElementById("sorting-dropdown");
-            const selectedOption = sortingDropdown.value;
-            if (selectedOption === "alphabet") {
-                productData.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (selectedOption === "asc") {
-                productData.sort((a, b) => a.price - b.price);
-            } else if (selectedOption === "desc") {
-                productData.sort((a, b) => b.price - a.price);
+                // Append the elements to the productBox
+                productList.appendChild(productBox);
+                productBox.appendChild(productBrandElement);
+                productBox.appendChild(productModelElement);
             }
+        });
+    }
 
-            displayProducts(document.getElementById("search-bar").value);
+
+    function sortProducts() {
+        const sortingDropdown = document.getElementById("sorting-dropdown");
+        const selectedOption = sortingDropdown.value;
+
+        if (selectedOption === "alphabet") {
+            productData.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (selectedOption === "asc") {
+            productData.sort((a, b) => a.price - b.price);
+        } else if (selectedOption === "desc") {
+            productData.sort((a, b) => b.price - a.price);
         }
 
-        sortProducts();
+        displayProducts(document.getElementById("search-bar").value);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        init();
 
         const searchBar = document.getElementById("search-bar");
         searchBar.addEventListener("input", () => displayProducts(searchBar.value));
@@ -210,16 +199,14 @@
         const sortingDropdown = document.getElementById("sorting-dropdown");
         sortingDropdown.addEventListener("change", sortProducts);
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("search-bar");
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get("search");
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get("search");
+        if (searchQuery) {
+            searchBar.value = decodeURIComponent(searchQuery);
+            displayProducts(searchQuery);
+        }
+    });
 
-            if (searchQuery) {
-                searchInput.value = decodeURIComponent(searchQuery);
-                displayProducts(searchQuery);
-            }
-        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
