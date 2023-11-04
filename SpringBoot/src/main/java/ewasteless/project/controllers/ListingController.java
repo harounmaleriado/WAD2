@@ -42,7 +42,7 @@ public class ListingController {
     }
 
     @GetMapping("/{LID}")
-    public ResponseEntity<Listing> getListing(@PathVariable("LID") String LID) throws Exception {
+    public ResponseEntity<Listing> getListing(@PathVariable String LID) throws Exception {
         try {
             Listing listing = listingService.getListingById(LID);
             return ResponseEntity.ok(listing);
@@ -61,7 +61,7 @@ public class ListingController {
     }
 
     @DeleteMapping("/{LID}")
-    public ResponseEntity<Void> deleteListing(@PathVariable("LID") String LID) {
+    public ResponseEntity<Void> deleteListing(@PathVariable String LID) {
         try {
             listingService.deleteListing(LID);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

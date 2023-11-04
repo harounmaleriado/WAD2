@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/newUserRegistration")
 public class UserRegistrationController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class UserRegistrationController {
 
     // Expects formData following constraints as defined in UserDTO.java
     // Returns ResponseEntity.ok(response)
-    @PostMapping("/signup")
+    @PostMapping
     public ResponseEntity<?> signUp(@Valid @RequestBody UserDTO user) {
         try {
             // Returns new user UID
