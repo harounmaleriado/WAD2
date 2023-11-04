@@ -24,8 +24,8 @@ public class User {
     // A map of product type to product ID reference
     // private Map<String, String> products;
 
-    private String UID ;
-    // A list of listing IDs associated with the user
+    private String UID ; // same as document ID
+    
     private List<DocumentReference> listings;
 
 }

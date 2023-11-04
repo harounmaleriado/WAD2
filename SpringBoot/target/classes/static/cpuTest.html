@@ -12,16 +12,26 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
     <script>
-      
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
-            authDomain: "is216-e-wasteless.firebaseapp.com", 
-            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "is216-e-wasteless", 
-            storageBucket: "is216-e-wasteless.appspot.com", 
-            messagingSenderId: "739112462842", 
-            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
-            measurementId: "G-3Q1JMEGCBE" 
+        // real
+        // const firebaseConfig = { 
+        //     apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+        //     authDomain: "is216-e-wasteless.firebaseapp.com", 
+        //     databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        //     projectId: "is216-e-wasteless", 
+        //     storageBucket: "is216-e-wasteless.appspot.com", 
+        //     messagingSenderId: "739112462842", 
+        //     appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+        //     measurementId: "G-3Q1JMEGCBE" 
+        // };
+
+        // test
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+            authDomain: "is216-proj-76064.firebaseapp.com",
+            projectId: "is216-proj-76064",
+            storageBucket: "is216-proj-76064.appspot.com",
+            messagingSenderId: "1065642689100",
+            appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
         };
 
         // Initialize Firebase
@@ -154,22 +164,109 @@
                 productBox.classList.add("col-md-4", "product-box");
                 productBox.setAttribute("data-index", index);
 
-                
                 // Display Product Brand
                 const productBrandElement = document.createElement("h3");
                 productBrandElement.textContent = product.brand;
-
+                
                 // Display Product Name
                 const productModelElement = document.createElement("p");
                 productModelElement.textContent = product.model;
 
-                // Append the elements to the productBox
+                // Create Form
+                const listingForm = document.createElement("form");
+                listingForm.classList.add("listing-form", "d-none");  // Initially hidden
+
+                // Create Input for Price
+                const priceInput = document.createElement("input");
+                priceInput.required = true;
+                priceInput.type = "number";
+                priceInput.placeholder = "Price";
+                priceInput.classList.add("form-control", "mb-2");
+                
+                // Create Input for Product Description
+                const descriptionInput = document.createElement("input");
+                descriptionInput.required = true;
+                descriptionInput.type = "text";
+                descriptionInput.placeholder = "Description";
+                descriptionInput.classList.add("form-control", "mb-2");
+
+                // Create Input for Postal Code
+                const postalCodeInput = document.createElement("input");
+                postalCodeInput.required = true;
+                postalCodeInput.type = "text";
+                postalCodeInput.placeholder = "Postal Code";
+                postalCodeInput.classList.add("form-control", "mb-2");
+
+                // Create Button
+                const createListingBtn = document.createElement("button");
+                createListingBtn.type = "submit";
+                createListingBtn.textContent = "Create Listing";
+                createListingBtn.classList.add("btn", "btn-primary");
+
+                // Append elements to the form
+                listingForm.appendChild(priceInput);
+                listingForm.appendChild(descriptionInput);
+                listingForm.appendChild(postalCodeInput);
+                listingForm.appendChild(createListingBtn);
+
+                // Append elements to the productBox
                 productList.appendChild(productBox);
                 productBox.appendChild(productBrandElement);
                 productBox.appendChild(productModelElement);
+                productBox.appendChild(listingForm);
+
+                // Show form on mouse enter
+                productBox.addEventListener("mouseenter", () => {
+                    listingForm.classList.remove("d-none");
+                });
+
+                // Hide form on mouse leave
+                productBox.addEventListener("mouseleave", () => {
+                    listingForm.classList.add("d-none");
+                });
+
+                // Add Event Listener to form
+                listingForm.addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    createListing({
+                        productId: product.id,
+                        price: priceInput.value,
+                        description: descriptionInput.value,
+                        postalCode: postalCodeInput.value,
+                        // userId: sessionStorage.getItem("userId")
+                    });
+                });
             }
         });
     }
+
+
+    async function createListing(listingData) {
+    // Ensure all fields are filled
+    if (!listingData.productId || !listingData.price || !listingData.description || !listingData.postalCode) {
+        alert("All fields must be filled!");
+        return;
+    }
+
+    // Get the current user
+    const user = firebase.auth().currentUser;
+
+    if (user != null) {
+        const userId = user.uid;
+        try {
+            const response = await axios.post('/api/listings', { ...listingData, userId });
+            console.log('Listing Created: ', response);
+            alert('Listing successfully created!');
+        } catch (error) {
+            console.error('Error creating listing: ', error);
+            alert('Error creating listing.');
+        }
+    } else {
+        console.error("No user is signed in");
+        alert("Please sign in to create a listing.");
+    }
+    }
+
 
 
     function sortProducts() {

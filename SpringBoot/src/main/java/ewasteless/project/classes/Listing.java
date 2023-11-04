@@ -23,7 +23,5 @@ public class Listing {
     
     private String productDesciption ;
 
-    
-
-    
+    private int postalCode ;
 }

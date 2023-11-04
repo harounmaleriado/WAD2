@@ -1,18 +1,19 @@
 package ewasteless.project.service;
 
+// Spring imports
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+// Firebase import
+import com.google.cloud.firestore.*;
 
-import ewasteless.project.classes.Product;
-
+// Java imports
 import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.google.cloud.firestore.*;
-// import com.google.firebase.cloud.FirestoreClient;
+// Model import
+import ewasteless.project.classes.Product;
 
 @Service
 public class ProductService {

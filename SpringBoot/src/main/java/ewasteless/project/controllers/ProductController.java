@@ -1,13 +1,16 @@
 package ewasteless.project.controllers;
 
+// Spring imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// Model imports 
 import ewasteless.project.classes.Product;
 import ewasteless.project.service.ProductService;
 
+// Java imports
 import java.util.List;
 import java.util.Optional;
 

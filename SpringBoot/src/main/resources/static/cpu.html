@@ -140,53 +140,75 @@
             // Add more products here
         ];
 
-        function displayProducts(filter = "") {
-            const productList = document.getElementById("product-list");
-            productList.innerHTML = "";
+    function displayProducts(filter = "") {
+    const productList = document.getElementById("product-list");
+    productList.innerHTML = "";
 
-            productData.forEach((product, index) => {
-                const productName = product.name.toLowerCase();
-                const searchTerm = filter.toLowerCase();
+    productData.forEach((product, index) => {
+        const productName = product.model.toLowerCase();
+        const searchTerm = filter.toLowerCase();
 
-                if (productName.includes(searchTerm)) {
-                    const productBox = document.createElement("div");
-                    productBox.classList.add("col-md-4");
-                    productBox.classList.add("product-box");
-                    productBox.setAttribute("data-index", index);
+        if (productName.includes(searchTerm)) {
+            const productBox = document.createElement("div");
+            productBox.classList.add("col-md-4", "product-box");
+            productBox.setAttribute("data-index", index);
 
-                    const productImage = document.createElement("img");
-                    productImage.src = product.image;
-                    productImage.alt = "Product Image";
-                    productImage.classList.add("product-image");
+            // Display Product Brand
+            const productBrandElement = document.createElement("h3");
+            productBrandElement.textContent = product.brand;
+            productBox.appendChild(productBrandElement);
 
-                    const productNameElement = document.createElement("h3");
-                    productNameElement.textContent = product.name;
+            // Display Product Name
+            const productModelElement = document.createElement("p");
+            productModelElement.textContent = product.model;
+            productBox.appendChild(productModelElement);
 
-                    const productPrice = document.createElement("p");
-                    productPrice.textContent = `Price: $${product.price}`;
+            // Create Form
+            const form = document.createElement("form");
+            form.classList.add("d-none"); // Initially hidden
 
-                    const productDescription = document.createElement("p");
-                    productDescription.textContent = product.description;
-                    productDescription.classList.add("d-none");
-                    productDescription.classList.add("product-description");
+            // Price Input
+            const priceInput = document.createElement("input");
+            priceInput.setAttribute("type", "text");
+            priceInput.setAttribute("placeholder", "Price");
+            form.appendChild(priceInput);
 
-                    productBox.appendChild(productImage);
-                    productBox.appendChild(productNameElement);
-                    productBox.appendChild(productPrice);
-                    productBox.appendChild(productDescription);
+            // Product Description Input
+            const productDescInput = document.createElement("input");
+            productDescInput.setAttribute("type", "text");
+            productDescInput.setAttribute("placeholder", "Product Description");
+            form.appendChild(productDescInput);
 
-                    productList.appendChild(productBox);
+            // Postal Code Input
+            const postalCodeInput = document.createElement("input");
+            postalCodeInput.setAttribute("type", "text");
+            postalCodeInput.setAttribute("placeholder", "Postal Code");
+            form.appendChild(postalCodeInput);
 
-                    productBox.addEventListener("mouseenter", () => {
-                        productDescription.classList.remove("d-none");
-                    });
+            // Create Listing Button
+            const createListingBtn = document.createElement("button");
+            createListingBtn.textContent = "Create Listing";
+            form.appendChild(createListingBtn);
 
-                    productBox.addEventListener("mouseleave", () => {
-                        productDescription.classList.add("d-none");
-                    });
-                }
+            // Append the form to the productBox
+            productBox.appendChild(form);
+
+            // Show form on mouse enter
+            productBox.addEventListener("mouseenter", () => {
+                form.classList.remove("d-none");
             });
+
+            // Hide form on mouse leave
+            productBox.addEventListener("mouseleave", () => {
+                form.classList.add("d-none");
+            });
+
+            // Append the productBox to the productList
+            productList.appendChild(productBox);
         }
+    });
+}
+
 
         function sortProducts() {
             const sortingDropdown = document.getElementById("sorting-dropdown");

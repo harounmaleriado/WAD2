@@ -1,17 +1,21 @@
 package ewasteless.project.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
+// Spring imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// Firebase imports
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 
+// Java imports
+import java.util.HashMap;
+import java.util.Map;
+
+// Model imports
 import ewasteless.project.DTO.UserDTO;
 
 @Service

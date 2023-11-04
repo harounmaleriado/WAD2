@@ -4,21 +4,21 @@ package ewasteless.project.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-// Java imports
-import java.util.List;
-// import java.util.concurrent.ExecutionException;
-
-// Your application's model imports
+// Model imports
 import ewasteless.project.classes.Listing;
 import ewasteless.project.service.ListingService;
+
+// Java imports
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/listings")
@@ -28,23 +28,26 @@ public class ListingController {
     private ListingService listingService;
 
     @PostMapping
-    public ResponseEntity<String> addListing(@RequestBody Listing listing) {   
+    public ResponseEntity<String> addListing(@RequestParam String sellerId, 
+                                            @RequestParam String productId,
+                                             @RequestParam double price, 
+                                            @RequestParam String productDescription,
+                                             @RequestParam int postalCode) {
         try {
-            String listingId = listingService.addListing(listing);
-            return new ResponseEntity<>(listingId, HttpStatus.CREATED); 
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            String listingId = listingService.addListing(sellerId, productId, price, productDescription, postalCode);
+            return ResponseEntity.ok("Listing added with ID: " + listingId);
+        } catch (ExecutionException | InterruptedException e) {
+            return ResponseEntity.status(500).body("Error while adding listing: " + e.getMessage());
         }
     }
-   
 
-    @GetMapping("/{listingId}")
-    public ResponseEntity<Listing> getListing(@PathVariable String listingId) {
+    @GetMapping("/{LID}")
+    public ResponseEntity<Listing> getListing(@PathVariable("LID") String LID) throws Exception {
         try {
-            Listing listing = listingService.getListingById(listingId);
-            return new ResponseEntity<>(listing, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            Listing listing = listingService.getListingById(LID);
+            return ResponseEntity.ok(listing);
+        } catch (ExecutionException | InterruptedException e) {
+            return ResponseEntity.status(500).body(null);
         }
     }
 
@@ -56,6 +59,17 @@ public class ListingController {
             @RequestParam(required = false) String sellerId) throws Exception {
         return ResponseEntity.ok(listingService.searchListings(brand, model, price, sellerId));
     }
+
+    @DeleteMapping("/{LID}")
+    public ResponseEntity<Void> deleteListing(@PathVariable("LID") String LID) {
+        try {
+            listingService.deleteListing(LID);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
 }
 
 
