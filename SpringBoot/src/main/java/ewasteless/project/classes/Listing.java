@@ -19,7 +19,11 @@ public class Listing {
     // reference to product sold
     private DocumentReference PID ;
 
-    private double price ;    
+    private double price ;
+    
+    private String productDesciption ;
+
+    
 
     
 }
