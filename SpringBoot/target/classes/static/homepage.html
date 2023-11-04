@@ -32,15 +32,12 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">HARD CYCLE</a>
+          <a class="navbar-brand" href="homepage.html">HARD CYCLE</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="homepage.html">Home</a>
-              </li>
               <li class="nav-item">
                 <a class="nav-link" href="aboutus.html">About Us</a>
               </li>
@@ -225,77 +222,7 @@
         // Initialize Firebase
         const auth = firebase.auth()
 
-        document.getElementById('signupForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            document.getElementById('Register').click() 
-    
-            
-            
-            const formData = {
-                name: event.target.signupName.value,
-                email: event.target.signupEmail.value,
-                username: event.target.signupUsername.value,
-                password: event.target.signupPassword.value
-            };
-    
-            fetch('/auth/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    // Convert server response to text (assuming error message is in text format)
-                    return response.text().then(errorText => {
-                        // Throw error to be caught in catch block
-                        throw new Error(`Registration failed: ${errorText}`);
-                    });
-                }
-            return response.json();
-            })
-            .then(data => {
-                console.log('User registered:', data);
-                alert('Registration successful!');
 
-                //Reset the form here if registration is successful
-                document.getElementById('signupForm').reset();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert(`Registration failed: ${error.message}`);
-
-                // Reset the form
-                document.getElementById('signupForm').reset();
-            });
-});
-        document.getElementById('signinForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            document.getElementById('Login').click()
-    
-    
-            const email=signinForm['signinEmail'].value;
-            const password=signinForm['signinPassword'].value;
-    
-            // Authenticate user
-            firebase.auth().signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                // Get the ID Token
-                return userCredential.user.getIdToken();
-                document.getElementById('signinForm').reset();
-            })
-            .then((idToken) => {
-                // Store the token 
-                sessionStorage.setItem('idToken', idToken);
-            })
-            .catch((error) => {
-                console.error("Error signing in", error);
-                alert("Error signing in: " + error.message);  // Feedback to user
-                document.getElementById('signinForm').reset(); // Reset form
-            });
-    
-        });
       </script>
       <script src="auth.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
