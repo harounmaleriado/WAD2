@@ -38,9 +38,6 @@
         // Set up Axios interceptor to automatically attach ID token to requests
         axios.interceptors.request.use(async function(config) {
             console.log('bonk') ;
-
-
-
             // retrieve token from firebase
             // const user = firebase.auth().currentUser;
 
