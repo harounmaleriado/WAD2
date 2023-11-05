@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>HARD CYCLE - Market Place</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="homepage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
             padding: 0%;
             margin: 0%;
+            margin-bottom: 20px;
         }
         .container {
             margin-top: 20px;
@@ -25,13 +26,12 @@
             width: 70%;
             padding-right: 810px;
         }
-        .carousel-box {
+        .category-box {
             text-align: center;
-            padding: 100px;
+            padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
             background-color: #fff;
-            margin-right: 10px;
             margin-bottom: 20px;
             transition: transform 0.2s;
             display: flex;
@@ -40,140 +40,124 @@
             align-items: center;
             min-height: 280px;
         }
-        .carousel-image {
-            max-width: 240px;
-            max-height: 240px;
+        .category-image {
+            max-width: 230px;
+            max-height: 230px;
+            height: auto;
         }
-        .carousel-label {
+        .category-label {
             color: gray;
-            font-size: 40px;
-            margin-top: 10px;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+        /* Responsive grid adjustments */
+        @media (max-width: 576px) {
+            .category-box {
+                margin-right: 0;
+                margin-left: 0;
+            }
         }
         a {
             text-decoration: none;
             color: gray;
-        }
-        .carousel-control-prev-icon{
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
-        }
-        .carousel-control-next-icon{
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="homepage.html">HARD CYCLE</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <a class="navbar-brand" href="homepage.html">HARD CYCLE</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-              <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" aria-current="page" href="aboutus.html">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="marketplace.html">Market Place</a>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="marketplaceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Market Place
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="marketplaceDropdown">
+                    <li><a class="dropdown-item" href="browse-listings.html">Browse Listings</a></li>
+                    <li><a class="dropdown-item" href="marketplace.html">Create Listing</a></li>
+                </ul>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">Donation</a>
-              </li>
-              <li class="nav-item dropdown">
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Communities 
+                Communities 
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <li><a class="dropdown-item" href="community-info.html">About Support Community </a></li>
                     <li><a class="dropdown-item" href="community-guides.html">How to Earn Points</a></li>
                     <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
                 </ul>
-              </li>
+            </li>
             </ul>
-          </div>
         </div>
-      </nav>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <div id="categoryCarousel" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#categoryCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#categoryCarousel" data-slide-to="1"></li>
-                        <li data-target="#categoryCarousel" data-slide-to="2"></li>
-                        <li data-target="#categoryCarousel" data-slide-to="3"></li>
-                        <li data-target="#categoryCarousel" data-slide-to="4"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <div class="carousel-box">
-                                <a href="cpu.html">
-                                    <img class="carousel-image"
-                                        src="https://static.vecteezy.com/system/resources/previews/020/094/296/non_2x/computer-cpu-icon-in-comic-style-circuit-board-cartoon-illustration-on-white-isolated-background-motherboard-chip-splash-effect-business-concept-vector.jpg"
-                                        alt="Category Image">
-                                    <div class="carousel-label">CPU</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="carousel-box">
-                                <a href="ram.html">
-                                    <img class="carousel-image"
-                                        src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
-                                        alt="Category Image">
-                                    <div class="carousel-label">RAM</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="carousel-box">
-                                <a href="hdd.html">
-                                    <img class="carousel-image"
-                                        src="https://media.istockphoto.com/id/1204276195/vector/hard-disk-vector-icon-style-illustration.jpg?s=612x612&w=0&k=20&c=Yxs2t6J3-dqvScdN-dnhEBMhfH1ygb84stn3YuhbY0Q="
-                                        alt="Category Image">
-                                    <div class="carousel-label">HDD</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="carousel-box">
-                                <a href="ssd.html">
-                                    <img class="carousel-image"
-                                        src="https://static.vecteezy.com/system/resources/previews/022/610/149/non_2x/disk-ssd-storage-cartoon-illustration-vector.jpg"
-                                        alt="Category Image">
-                                    <div class="carousel-label">SSD</div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="carousel-box">
-                                <a href="gpu.html">
-                                    <img class="carousel-image"
-                                        src="https://png.pngtree.com/png-vector/20230414/ourmid/pngtree-graphics-card-vector-png-image_6705735.png"
-                                        alt="Category Image">
-                                    <div class="carousel-label">GPU</div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#categoryCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
+            <!-- CPU Category Box -->
+            <div class="col-md-6 col-sm-12">
+                    <a href="cpu.html" class="category-box">
+                        <img class="category-image"
+                            src="https://static.vecteezy.com/system/resources/previews/020/094/296/non_2x/computer-cpu-icon-in-comic-style-circuit-board-cartoon-illustration-on-white-isolated-background-motherboard-chip-splash-effect-business-concept-vector.jpg"
+                            alt="CPU">
+                        <div class="category-label">CPU</div>
                     </a>
-                    <a class="carousel-control-next" href="#categoryCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
             </div>
+            <!-- RAM Category Box -->
+            <div class="col-md-6 col-sm-12">
+                    <a href="ram.html" class="category-box">
+                        <img class="category-image"
+                            src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
+                            alt="RAM">
+                        <div class="category-label">RAM</div>
+                    </a>
+            </div>
+            <!-- HDD Category Box -->
+            <div class="col-md-6 col-sm-12">
+                <a href="hdd.html" class="category-box">
+                        <img class="category-image"
+                            src="https://media.istockphoto.com/id/1204276195/vector/hard-disk-vector-icon-style-illustration.jpg?s=612x612&w=0&k=20&c=Yxs2t6J3-dqvScdN-dnhEBMhfH1ygb84stn3YuhbY0Q="
+                            alt="HDD">
+                        <div class="category-label">HDD</div>
+                    </a>
+            </div>
+            <!-- SSD Category Box -->
+            <div class="col-md-6 col-sm-12">
+                <a href="ssd.html" class="category-box">
+                        <img class="category-image"
+                            src="https://static.vecteezy.com/system/resources/previews/022/610/149/non_2x/disk-ssd-storage-cartoon-illustration-vector.jpg"
+                            alt="SSD">
+                        <div class="category-label">SSD</div>
+                    </a>
+            </div>
+            <!-- GPU Category Box -->
+            <div class="col-md-6 col-sm-12">
+                    <a href="gpu.html" class="category-box">
+                        <img class="category-image"
+                            src="https://png.pngtree.com/png-vector/20230414/ourmid/pngtree-graphics-card-vector-png-image_6705735.png"
+                            alt="GPU">
+                        <div class="category-label">GPU</div>
+                    </a>
+            </div>
+            <!-- Add more boxes as needed -->
         </div>
+    </div>
     </div>
     <footer>
         <p>&copy; 2023 HARD CYCLE</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     
