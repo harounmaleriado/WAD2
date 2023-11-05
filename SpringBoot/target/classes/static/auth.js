@@ -24,7 +24,7 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
         password: event.target.signupPassword.value
     };
 
-    fetch('/auth/signup', {
+    fetch('/newUserRegistration', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
