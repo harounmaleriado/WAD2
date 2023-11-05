@@ -31,21 +31,23 @@ public class ListingService {
 
     // private Firestore dbFirestore = FirestoreClient.getFirestore();
 
-    public String addListing(String sellerId, 
-                            String productId, 
+    public String addListing(String UID, 
+                            String PID, 
                             double price, 
                             String productDescription, 
                             int postalCode) 
                             throws ExecutionException, InterruptedException {
         // Create DocumentReference objects for seller and product
-        DocumentReference sellerRef = dbFirestore.collection("Sellers").document(sellerId);
-        DocumentReference productRef = dbFirestore.collection("Products").document(productId);
+       
+        
+        DocumentReference sellerRef = dbFirestore.collection("users").document(UID);
+        DocumentReference productRef = dbFirestore.collection("CPU").document(PID);
 
         // Create Listing object
         Listing listing = new Listing(sellerRef, productRef, price, productDescription, postalCode);
 
         // Add the listing to Firestore asynchronously
-        ApiFuture<DocumentReference> future = dbFirestore.collection("Listings").add(listing);
+        ApiFuture<DocumentReference> future = dbFirestore.collection("listings").add(listing);
 
         // Wait for the operation to complete and retrieve the result
         DocumentReference newListingRef = future.get();

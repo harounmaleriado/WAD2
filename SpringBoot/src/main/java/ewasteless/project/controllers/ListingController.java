@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 // Model imports
 import ewasteless.project.classes.Listing;
 import ewasteless.project.service.ListingService;
+import ewasteless.project.DTO.ListingDTO;
 
 // Java imports
 import java.util.List;
@@ -28,18 +31,16 @@ public class ListingController {
     private ListingService listingService;
 
     @PostMapping
-    public ResponseEntity<String> addListing(@RequestParam String sellerId, 
-                                            @RequestParam String productId,
-                                             @RequestParam double price, 
-                                            @RequestParam String productDescription,
-                                             @RequestParam int postalCode) {
+    public ResponseEntity<String> addListing(@RequestBody ListingDTO listing) {
         try {
-            String listingId = listingService.addListing(sellerId, productId, price, productDescription, postalCode);
+            
+            String listingId = listingService.addListing(listing.getUID(), listing.getPID(), listing.getPrice(), listing.getProductDescription(), listing.getPostalCode());
             return ResponseEntity.ok("Listing added with ID: " + listingId);
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(500).body("Error while adding listing: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/{LID}")
     public ResponseEntity<Listing> getListing(@PathVariable String LID) throws Exception {
