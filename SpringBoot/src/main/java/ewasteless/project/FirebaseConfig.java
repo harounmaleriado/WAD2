@@ -1,20 +1,22 @@
 package ewasteless.project;
 
+// Spring imports
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+// Firebase imports
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.firestore.Firestore;
-// import com.google.cloud.firestore.FirestoreOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-
+// Javax import
 import javax.annotation.PostConstruct;
+
+// Java imports
 import java.io.FileInputStream;
 import java.io.IOException;
-
 
 @Configuration
 public class FirebaseConfig {
@@ -35,9 +37,6 @@ public class FirebaseConfig {
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                 // .setDatabaseUrl("https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app")
                 .build();
-            // FirebaseOptions options = FirebaseOptions.builder()
-            //         .setCredentials(GoogleCredentials.getApplicationDefault())
-            //         .build();
 
             // ??
             if (FirebaseApp.getApps().isEmpty()) {

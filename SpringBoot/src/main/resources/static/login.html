@@ -130,33 +130,34 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
     <script>
-        // Import the functions you need from the SDKs you need
-        
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        // const firebaseConfig = {
-        //   apiKey: "AIzaSyA0ci74S5hum9tLO7rLsO5czUn9bTqWEEc",
-        //   authDomain: "test-user-auth-65c41.firebaseapp.com",
-        //   projectId: "test-user-auth-65c41",
-        //   storageBucket: "test-user-auth-65c41.appspot.com",
-        //   messagingSenderId: "756050840665",
-        //   appId: "1:756050840665:web:e259d253bab41e89417548",
-        //   measurementId: "G-9J7G2GZS6E"
+       
+        // const firebaseConfig = { 
+        //     apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+        //     authDomain: "is216-e-wasteless.firebaseapp.com", 
+        //     databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        //     projectId: "is216-e-wasteless", 
+        //     storageBucket: "is216-e-wasteless.appspot.com", 
+        //     messagingSenderId: "739112462842", 
+        //     appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+        //     measurementId: "G-3Q1JMEGCBE" 
         // };
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
-            authDomain: "is216-e-wasteless.firebaseapp.com", 
-            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "is216-e-wasteless", 
-            storageBucket: "is216-e-wasteless.appspot.com", 
-            messagingSenderId: "739112462842", 
-            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
-            measurementId: "G-3Q1JMEGCBE" 
+
+        // test
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+            authDomain: "is216-proj-76064.firebaseapp.com",
+            projectId: "is216-proj-76064",
+            storageBucket: "is216-proj-76064.appspot.com",
+            messagingSenderId: "1065642689100",
+            appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
         };
+
+
+
+
         firebase.initializeApp(firebaseConfig)
+
+        
         // Initialize Firebase
         const auth = firebase.auth()
 
@@ -173,7 +174,7 @@
                 password: event.target.signupPassword.value
             };
     
-            fetch('/auth/signup', {
+            fetch('/newUserRegistration', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
