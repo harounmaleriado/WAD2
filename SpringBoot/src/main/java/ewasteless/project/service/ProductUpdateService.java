@@ -1,19 +1,12 @@
 package ewasteless.project.service;
 
-// Spring import
-import org.springframework.stereotype.Service;
-
-// Firebase import
 import com.google.cloud.firestore.Firestore;
 import com.google.firebase.cloud.FirestoreClient;
-
-// Apache imports
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Service;
 
-
-// Java import
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -41,7 +34,7 @@ public class ProductUpdateService {
                 data.put("benchmark", noBenchmark);
                 
                 // firestore will auto generate docuID
-                firestore.collection("CPU").document().set(data).get();
+                firestore.collection("GPU").document().set(data).get();
             }
 
         } catch (Exception e) {

@@ -1,9 +1,7 @@
 package ewasteless.project.service;
 
-// Spring import
 import org.springframework.stereotype.Service;
 
-// Firebase imports
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 

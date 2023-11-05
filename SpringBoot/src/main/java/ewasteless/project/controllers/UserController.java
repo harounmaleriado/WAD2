@@ -1,11 +1,9 @@
 package ewasteless.project.controllers;
 
-// Spring imports
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-// Model imports
 import ewasteless.project.classes.User;
 import ewasteless.project.service.UserService;
 
@@ -16,40 +14,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/username/{Username}")
-        public ResponseEntity<User> getUserByUsername(@PathVariable String Username) {
-            try {
-                User user = userService.getUserByUsername(Username);
-                if (user != null) {
-                    return ResponseEntity.ok(user);
-                } else {
-                    return ResponseEntity.notFound().build();
-                }
-            } catch (Exception e) {
-                return ResponseEntity.status(500).build();
-            }
-        }
+ 
 
-    @GetMapping("/uid/{UID}")
-    public ResponseEntity<User> getUserByUID(@PathVariable String UID) {
+    @DeleteMapping("/{UID}")
+    public ResponseEntity<Void> deleteUser(@PathVariable int UID) {
         try {
-            User user = userService.getUserByUID(UID);
+            userService.deleteUser(UID);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @GetMapping("/{UID}")
+    public ResponseEntity<User> getUser(@PathVariable int UID) {
+        try {
+            User user = userService.searchUserByUID(UID);
             if (user != null) {
                 return ResponseEntity.ok(user);
             } else {
                 return ResponseEntity.notFound().build();
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
-        }
-    } 
-
-    @DeleteMapping("/{UID}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String UID) {
-
-        try {
-            userService.deleteUser(UID);
-            return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }

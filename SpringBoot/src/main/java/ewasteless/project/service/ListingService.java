@@ -1,7 +1,7 @@
 package ewasteless.project.service;
 
-// Spring imports
 import org.springframework.beans.factory.annotation.Autowired;
+// Spring imports
 import org.springframework.stereotype.Service;
 
 // Firebase imports
@@ -10,18 +10,17 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;    
-import com.google.cloud.firestore.QuerySnapshot;
-
-// ApiFuture import
+// import com.google.firebase.cloud.FirestoreClient;
 import com.google.api.core.ApiFuture;
-
-// Model imports
-import ewasteless.project.classes.Listing;
+import com.google.cloud.firestore.QuerySnapshot;
 
 // Java imports
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+// Your application's model imports
+import ewasteless.project.classes.Listing;
 
 @Service
 public class ListingService {
@@ -31,31 +30,13 @@ public class ListingService {
 
     // private Firestore dbFirestore = FirestoreClient.getFirestore();
 
-    public String addListing(String UID, 
-                            String PID, 
-                            double price, 
-                            String productDescription, 
-                            int postalCode) 
-                            throws ExecutionException, InterruptedException {
-        // Create DocumentReference objects for seller and product
-       
-        
-        DocumentReference sellerRef = dbFirestore.collection("users").document(UID);
-        DocumentReference productRef = dbFirestore.collection("CPU").document(PID);
-
-        // Create Listing object
-        Listing listing = new Listing(sellerRef, productRef, price, productDescription, postalCode);
-
-        // Add the listing to Firestore asynchronously
-        ApiFuture<DocumentReference> future = dbFirestore.collection("listings").add(listing);
-
-        // Wait for the operation to complete and retrieve the result
-        DocumentReference newListingRef = future.get();
-        return newListingRef.getId();
+    public String addListing(Listing listing) throws InterruptedException, ExecutionException {
+        DocumentReference addedDocRef = dbFirestore.collection("listings").add(listing).get(); // You might need to handle exceptions.
+        return addedDocRef.getId(); // Returns the ID of the newly added listing.
     }
 
-    public Listing getListingById(String LID) throws Exception {
-        return dbFirestore.collection("listings").document(LID).get().get().toObject(Listing.class);
+    public Listing getListingById(String listingId) throws Exception {
+        return dbFirestore.collection("listings").document(listingId).get().get().toObject(Listing.class);
     }
 
     public List<Listing> searchListings(String brand, String model, Double price, String sellerId) throws Exception {
@@ -83,11 +64,6 @@ public class ListingService {
         }
     
         return results;
-    }
-
-    public void deleteListing(String LID) throws ExecutionException, InterruptedException {
-        // Attempt to delete the document from the 'listings' collection
-        dbFirestore.collection("listings").document(LID).delete().get();
     }
 }
 
