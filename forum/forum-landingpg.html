@@ -46,276 +46,275 @@
     </header>
 
     <main>
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Hello!</h5>
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Hello!</h5>
 
-              <!-- Default Tabs -->
-              <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Communities</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Profile</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="score-tab" data-bs-toggle="tab" data-bs-target="#score" type="button" role="tab" aria-controls="score" aria-selected="false">Upload Benchmark Score</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">Leaderboard</button>
+            <!-- Default Tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Communities</button>
               </li>
-              </ul>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Profile</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="score-tab" data-bs-toggle="tab" data-bs-target="#score" type="button" role="tab" aria-controls="score" aria-selected="false">Upload Benchmark Score</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="account-tab" data-bs-toggle="tab" data-bs-target="#account" type="button" role="tab" aria-controls="account" aria-selected="false">Leaderboard</button>
+            </li>
+            </ul>
 
-              <div class="tab-content pt-2" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <!-- Content for "All Questions" tab -->
-                    <!-- ... -->
-                    <div class="row">
-                      <div class="col-8">
-                          <h1 class="section-title">All Questions</h1>
-                      </div>
-                      <div class="col-4 text-end">
-                          <a href="ask_questions.html" class="btn btn-primary">Ask Questions</a>
-                      </div>
+            <div class="tab-content pt-2" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <!-- Content for "All Questions" tab -->
+                  <!-- ... -->
+                  <div class="row">
+                    <div class="col-8">
+                        <h1 class="section-title">All Questions</h1>
                     </div>
-                    <!-- filter row -->
-                    <div class="card-header" style="background: none; border: none;">
-                      <ul class="nav nav-pills card-header-pills justify-content-end">
-                          <li class="nav-item">
-                              <a class="nav-link active custom-button" href="#">Newest</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link custom-button" href="#">Product Categories</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link custom-button" href="#">Unanswered</a>
-                          </li>
-                      </ul>
-                    </div>
-                  <!-- end filter row -->
-    
-                    <!-- display the questions -->
-                    
-                    <div id= "questions" class="card border-light mb-3">
-                      <div class="card-body">
-                        <h5 class="card-title">Question-Title</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">Product Category</h6>
-                        <p class="card-text">Question Content: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                      </div>
-                      <!-- Container for dynamically fetched questions -->
-                      <div id="questions-container"></div>
-                    </div>
-                    
-                      
-                   
-                  
-                </div>
-            
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                  <div class="container mt-5">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <!-- Profile Photo -->
-                            <img src="/is216/Project/forum/images/profile_test.avif" alt="Profile Photo" class="img-fluid rounded-circle">
-                        </div>
-                        <div class="col-md-9">
-                            <!-- User Name -->
-                            <h2>User's Name</h2>
-                            <!-- User Bio -->
-                            <p>User's Bio</p>
-                            <!-- Add more user details as needed -->
-                            <h4>Current Points Earned</h4>
-                            
-                        </div>
-                        
+                    <div class="col-4 text-end">
+                        <a href="ask_questions.html" class="btn btn-primary">Ask Questions</a>
                     </div>
                   </div>
-                    
-                </div>
-            
-                <div class="tab-pane fade" id="score" role="tabpanel" aria-labelledby="score-tab">
-                    <!-- Content for "Upload Benchmark Scores" tab -->
-                    <div class="container">
-                      <h2 class="mt-5">Upload Benchmark Scores</h2>
-                      <form id="benchmark-form" enctype="multipart/form-data">
-                        <div class="mb-3">
-                          <label for="image" class="form-label">Upload Image:</label>
-                          <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
-                      </form>
-                      <br><br>
-                      <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
+                  <!-- filter row -->
+                  <div class="card-header" style="background: none; border: none;">
+                    <ul class="nav nav-pills card-header-pills justify-content-end">
+                        <li class="nav-item">
+                            <a class="nav-link active custom-button" href="#">Newest</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link custom-button" href="#">Product Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link custom-button" href="#">Unanswered</a>
+                        </li>
+                    </ul>
+                  </div>
+                <!-- end filter row -->
+  
+                  <!-- display the questions -->
+                  
+                  <div id= "questions" class="card border-light mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">Question-Title</h5>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">Product Category</h6>
+                      <p class="card-text">Question Content: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     </div>
-                </div>
-
-                <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
-                  <!-- Content for "Leaderboard" tab -->
-                  <h2>Top Contributors</h2>
-                  <table>
-                      <thead>
-                          <!-- Table headers -->
-                          <tr>
-                            <th>Rank</th>
-                            <th>User</th>
-                            <th>Points</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <!-- Table rows for top contributors -->
-                          <tr>
-                            <td>1</td>
-                            <td>User1</td>
-                            <td>5000</td>
-                          </tr>
-                          <tr>
-                            <td>2</td>
-                            <td>User2</td>
-                            <td>4200</td>
-                          </tr>
-                          <tr>
-                            <td>3</td>
-                            <td>User3</td>
-                            <td>3800</td>
-                          </tr>
-                      </tbody>
-                  </table>
+                    <!-- Container for dynamically fetched questions -->
+                    <div id="questions-container"></div>
+                  </div>
                   
+                    
+                 
                 
-                  
-                </div>
-            </div>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2023 HARD CYCLE</p>
-    </footer>
-
-
-
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    
-
-    <script>
-      // TO DISPLAY QUESTIONS
-      // Function to fetch and display questions
-      function fetchQuestions() {
-        // Make a GET request to retrieve questions from your API endpoint
-        fetch('/api/questions')
-          .then((response) => response.json())
-          .then((data) => {
-            // Process the retrieved data and display it on the page
-            const questionsContainer = document.getElementById('questions-container');
-            questionsContainer.innerHTML = '';
-    
-            data.forEach((question) => {
-              const questionCard = document.createElement('div');
-              questionCard.className = 'card border-light mb-3';
-              questionCard.innerHTML = `
-                <div class="card-body">
-                  <h5 class="card-title">${question.title}</h5>
-                  <h6 class="card-subtitle mb-2 text-body-secondary">${question.category}</h6>
-                  <p class="card-text">${question.content}</p>
-                </div>
-              `;
-              questionsContainer.appendChild(questionCard);
-            });
-          })
-          .catch((error) => {
-            console.error('Error fetching questions:', error);
-          });
-      }
-    
-
-
-      // TO DISPLAY USER'S PROFILE
-      function fetchUserProfile(userId) {
-        // Replace 'your_api_endpoint' with the actual URL of your API or data source
-        const apiUrl = `/api/user-profile/${userId}`; // Example URL
-
-        fetch(apiUrl)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`Network response was not ok: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then((userData) => {
-            // Handle the user data here
-            displayUserProfile(userData);
-          })
-          .catch((error) => {
-            console.error('Error fetching user profile:', error);
-            // Handle error or display an error message to the user
-          });
-      }
-
-      function displayUserProfile(userData) {
-        // Update the HTML elements to display user profile information
-        // For example, update user's name, bio, points, etc. using userData
-        document.getElementById('user-name').textContent = userData.name;
-        document.getElementById('user-bio').textContent = userData.bio;
-        document.getElementById('user-points').textContent = userData.points;
-        // Add more fields as needed
-      }
-
-      // Call the function with the user's ID or unique identifier
-      const userId = '123'; // Replace with the actual user's ID
-      fetchUserProfile(userId);
-
-
-      // TO DISPLAY THE LEADERBOARD
-      function fetchLeaderboard() {
-        // Replace 'your_api_endpoint' with the actual URL of your leaderboard API or data source
-        const apiUrl = '/api/leaderboard'; // Example URL
-
-        fetch(apiUrl)
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`Network response was not ok: ${response.status}`);
-            }
-            return response.json();
-          })
-          .then((leaderboardData) => {
-            // Handle the leaderboard data here
-            displayLeaderboard(leaderboardData);
-          })
-          .catch((error) => {
-            console.error('Error fetching leaderboard data:', error);
-            // Handle error or display an error message to the user
-          });
-      }
-
-      function displayLeaderboard(leaderboardData) {
-        // Update the HTML elements to display leaderboard information
-        // For example, update a table or list of top contributors using leaderboardData
-        const leaderboardTable = document.getElementById('leaderboard-table');
-        
-        // Clear existing rows in the table
-        leaderboardTable.innerHTML = '';
-        
-        // Iterate through leaderboard data and add rows to the table
-        leaderboardData.forEach((entry, index) => {
-          const row = leaderboardTable.insertRow();
-          const rankCell = row.insertCell(0);
-          const userCell = row.insertCell(1);
-          const pointsCell = row.insertCell(2);
+              </div>
           
-          rankCell.textContent = index + 1; // Rank
-          userCell.textContent = entry.username; // User's name
-          pointsCell.textContent = entry.points; // Points
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="container mt-5">
+                  <div class="row">
+                      <div class="col-md-3">
+                          <!-- Profile Photo -->
+                          <img src="/is216/Project/forum/images/profile_test.avif" alt="Profile Photo" class="img-fluid rounded-circle">
+                      </div>
+                      <div class="col-md-9">
+                          <!-- User Name -->
+                          <h2>User's Name</h2>
+                          <!-- User Bio -->
+                          <p>User's Bio</p>
+                          <!-- Add more user details as needed -->
+                          <h4>Current Points Earned</h4>
+                          
+                      </div>
+                      
+                  </div>
+                </div>
+                  
+              </div>
+          
+              <div class="tab-pane fade" id="score" role="tabpanel" aria-labelledby="score-tab">
+                  <!-- Content for "Upload Benchmark Scores" tab -->
+                  <div class="container">
+                    <h2 class="mt-5">Upload Benchmark Scores</h2>
+                    <form id="benchmark-form" enctype="multipart/form-data">
+                      <div class="mb-3">
+                        <label for="image" class="form-label">Upload Image:</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                      </div>
+                      <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
+                    </form>
+                    <br><br>
+                    <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
+                  </div>
+              </div>
+
+              <div class="tab-pane fade" id="account" role="tabpanel" aria-labelledby="account-tab">
+                <!-- Content for "Leaderboard" tab -->
+                <h2>Top Contributors</h2>
+                <table>
+                    <thead>
+                        <!-- Table headers -->
+                        <tr>
+                          <th>Rank</th>
+                          <th>User</th>
+                          <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Table rows for top contributors -->
+                        <tr>
+                          <td>1</td>
+                          <td>User1</td>
+                          <td>5000</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>User2</td>
+                          <td>4200</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>User3</td>
+                          <td>3800</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+              
+                
+              </div>
+          </div>
+
+  </main>
+
+  <footer>
+      <p>&copy; 2023 HARD CYCLE</p>
+  </footer>
+
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+
+  <script>
+    // TO DISPLAY QUESTIONS
+    // Function to fetch and display questions
+    function fetchQuestions() {
+      // Make a GET request to retrieve questions from your API endpoint
+      fetch('/api/questions')
+        .then((response) => response.json())
+        .then((data) => {
+          // Process the retrieved data and display it on the page
+          const questionsContainer = document.getElementById('questions-container');
+          questionsContainer.innerHTML = '';
+  
+          data.forEach((question) => {
+            const questionCard = document.createElement('div');
+            questionCard.className = 'card border-light mb-3';
+            questionCard.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${question.title}</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">${question.category}</h6>
+                <p class="card-text">${question.content}</p>
+              </div>
+            `;
+            questionsContainer.appendChild(questionCard);
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching questions:', error);
         });
-      }
+    }
+  
 
-      // Call the function to fetch leaderboard data
-      fetchLeaderboard();
 
-    </script>
-    
+    // TO DISPLAY USER'S PROFILE
+    function fetchUserProfile(userId) {
+      // Replace 'your_api_endpoint' with the actual URL of your API or data source
+      const apiUrl = `/api/user-profile/${userId}`; // Example URL
 
+      fetch(apiUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((userData) => {
+          // Handle the user data here
+          displayUserProfile(userData);
+        })
+        .catch((error) => {
+          console.error('Error fetching user profile:', error);
+          // Handle error or display an error message to the user
+        });
+    }
+
+    function displayUserProfile(userData) {
+      // Update the HTML elements to display user profile information
+      // For example, update user's name, bio, points, etc. using userData
+      document.getElementById('user-name').textContent = userData.name;
+      document.getElementById('user-bio').textContent = userData.bio;
+      document.getElementById('user-points').textContent = userData.points;
+      // Add more fields as needed
+    }
+
+    // Call the function with the user's ID or unique identifier
+    const userId = '123'; // Replace with the actual user's ID
+    fetchUserProfile(userId);
+
+
+    // TO DISPLAY THE LEADERBOARD
+    function fetchLeaderboard() {
+      // Replace 'your_api_endpoint' with the actual URL of your leaderboard API or data source
+      const apiUrl = '/api/leaderboard'; // Example URL
+
+      fetch(apiUrl)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((leaderboardData) => {
+          // Handle the leaderboard data here
+          displayLeaderboard(leaderboardData);
+        })
+        .catch((error) => {
+          console.error('Error fetching leaderboard data:', error);
+          // Handle error or display an error message to the user
+        });
+    }
+
+    function displayLeaderboard(leaderboardData) {
+      // Update the HTML elements to display leaderboard information
+      // For example, update a table or list of top contributors using leaderboardData
+      const leaderboardTable = document.getElementById('leaderboard-table');
+      
+      // Clear existing rows in the table
+      leaderboardTable.innerHTML = '';
+      
+      // Iterate through leaderboard data and add rows to the table
+      leaderboardData.forEach((entry, index) => {
+        const row = leaderboardTable.insertRow();
+        const rankCell = row.insertCell(0);
+        const userCell = row.insertCell(1);
+        const pointsCell = row.insertCell(2);
+        
+        rankCell.textContent = index + 1; // Rank
+        userCell.textContent = entry.username; // User's name
+        pointsCell.textContent = entry.points; // Points
+      });
+    }
+
+    // Call the function to fetch leaderboard data
+    fetchLeaderboard();
+
+  </script>
+  
 
 
 </body>
