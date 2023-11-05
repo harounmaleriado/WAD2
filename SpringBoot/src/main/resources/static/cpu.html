@@ -279,35 +279,26 @@
                         return;
                     }
                     const user = firebase.auth().currentUser;
-                        if (user != null) {
-                            const userId = user.uid;
-                            try {
-                                const response = await axios.post('/api/listings', { ...listingData, userId });
-                                console.log('Listing Created: ', response);
-                                alert('Listing successfully created!');
-                                // Close the modal here if needed
-                                let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
-                                modalInstance.hide();
-                                // Redirect to the original CPU page
-                                window.location.href = 'cpu.html';
-                            } catch (error) {
-                                console.error('Error creating listing: ', error);
-                                alert('Error creating listing.');
-                            }
-
-                        } else {
-                            console.error("No user is signed in");
-                            alert("Please sign in to create a listing.");
+                    if (user != null) {
+                        const userId = user.uid;
+                        try {
+                            const response = await axios.post('/api/listings', { ...listingData, userId });
+                            console.log('Listing Created: ', response);
+                            alert('Listing successfully created!');
+                            // Close the modal here if needed
+                            let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
+                            modalInstance.hide();
+                            // Redirect to the original CPU page
+                            window.location.href = 'cpu.html';
+                        } catch (error) {
+                            console.error('Error creating listing: ', error);
+                            alert('Error creating listing.');
                         }
-                    axios.post('YourBackendEndpoint', payload) // Replace with your actual backend endpoint
-                        .then(response => {
-                            console.log(response.data);
-                            // Handle success   
-                        })
-                        .catch(error => {
-                            console.error(error);
-                            // Handle error
-                        });
+
+                    } else {
+                        console.error("No user is signed in");
+                        alert("Please sign in to create a listing.");
+                    }
                 }
             }
         }); 
