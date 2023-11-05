@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+  <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link href="recycle.css" rel="stylesheet">
+    <title>Drop off your E-Waste!</title>
+  </head>
+  <body id="app">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">HARD CYCLE</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Market Place</a>
+            </li>
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Recycle
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="recycle.html">How to Recycle your E-Waste</a>
+                <a class="dropdown-item">E-Waste Bin Locations</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Communities
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="community-info.html">About Support Community</a>
+                <a class="dropdown-item" href="community-guides.html">How to Earn Points</a>
+                <a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container border border-secondary">
+      <h1>Drop-Off Locations</h1>
+      <h3>Where to dropoff your E-Waste</h3>
+      <div class="row">
+        <div class="card col-auto m-3 p-3 border border-secondary">
+          <div class="card-body">
+            <h5 class="card-title">ICT, Battery, Bulb Bin (3 in 1 Bin)</h5>
+            <div class="card-text">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/252447-200.png">
+                  <br>
+                  ICT
+                </li>
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/2090538-200.png">
+                  <img src="https://static.thenounproject.com/png/887370-200.png">
+                  <br>
+                  Battery (Household, Lithium-Ion)
+                </li>
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/7582-200.png">
+                  <br>
+                  Consumer Lamp (Bulb)
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card col-auto m-3 p-3 border border-secondary">
+          <div class="card-body">
+            <h5 class="card-title">Batteries and Bulb Bin</h5>
+            <div class="card-text">
+              <ul class="list-group">
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/1205515-200.png">
+                  <br>
+                  Large Household Appliance
+                </li>
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/1141070-200.png">
+                  <br>
+                  Electric Mobility Device
+                </li>
+                <li class="list-group-item">
+                  <img src="https://static.thenounproject.com/png/1850460-200.png">
+                  <br>
+                  Consumer Lamp (Fluorescent Tube)
+                </li>
+              </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="container border border-secondary">
+      <h5>Navigate the map below to find the bin nearest to you.</h5>
+      <div class="row">
+
+      </div>
+
+      <!-- <p style="text-align: left">Please only deposit the following types of batteries into the 3-in-1 Bin:
+        <br><br>
+        (a) Batteries* (AA, AAA, AAAA, D, C, 9-volt, Button Cell only) – circumference ≤ 50mm;
+        <br><br>
+        *If depositing Rechargeable or Lithium-Ion Batteries, please make sure to tape the terminal of the batteries before depositing them into the E-Bin. You may also use plastic wrap to wrap them individually to prevent any contact from terminals of other batteries. If batteries are leaking, please place them in a sealable plastic bag before disposing them in the E-Bin.
+        <br><br>
+        (b) Bulbs – circumference ≤ 100mm;
+        <br><br>
+        (c) ICT Equipment including Printers, power banks, computers & laptops, mobile phones & tablets, network & set-top boxes, TVs & desktop monitors – devices must be able to fit through a 500mm x 250mm slot. Do note that ICT equipment peripherals such as Mouse, Keyboard, Cables and Adaptors can be disposed of together.
+      </p> -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="recycle.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap"></script>
+  </body>
+</html>

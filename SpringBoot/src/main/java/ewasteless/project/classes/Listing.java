@@ -21,9 +21,7 @@ public class Listing {
 
     private double price ;
     
-    private String productDesciption ;
+    private String productDescription ;
 
-    
-
-    
+    private int postalCode ;
 }
