@@ -2,20 +2,46 @@
 <html>
 <head>
     <title>HARD CYCLE - Market Place(CPU)</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="homepage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
 
-   
-    
-    
+        // const firebaseConfig = { 
+        //     // apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+        //     // authDomain: "is216-e-wasteless.firebaseapp.com", 
+        //     // databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        //     // projectId: "is216-e-wasteless", 
+        //     // storageBucket: "is216-e-wasteless.appspot.com", 
+        //     // messagingSenderId: "739112462842", 
+        //     // appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+        //     // measurementId: "G-3Q1JMEGCBE" 
+        // };
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+            authDomain: "is216-proj-76064.firebaseapp.com",
+            projectId: "is216-proj-76064",
+            storageBucket: "is216-proj-76064.appspot.com",
+            messagingSenderId: "1065642689100",
+            appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+        const auth = firebase.auth()
+
+    </script>
+
 
 
     <style>
         body {
             background-color: #f8f9fa;
+            margin-bottom: 100px;
         }
         .container {
             margin-top: 20px;
@@ -27,18 +53,23 @@
             margin-bottom: 20px;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+        }
         .product-box {
             text-align: center;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
             background-color: #fff;
-            margin-right: 10px;
-            margin-bottom: 20px;
             transition: transform 0.2s;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             max-width: 370px;
             max-height: 500px;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
         .product-box:hover {
             transform: scale(1.04);
@@ -53,13 +84,33 @@
         h1 {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
-
+        .h1-container {
+            padding-right: 15px; 
+            padding-left: 15px;  
+        }
         .product-description {
             cursor: pointer;
         }
+        footer {
+            background: #9dc09e;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0; /* Add this to ensure it starts from the very left */
+            right: 0; /* Add this to ensure it stretches to the very right */
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in the width */
+            margin: 0; /* Reset any inherited margin */
+        }
+        .photo{
+            width: 200px;
+            height: 200px;
+        }
     </style>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
           <a class="navbar-brand" href="homepage.html">HARD CYCLE</a>
@@ -71,9 +122,15 @@
               <li class="nav-item">
                 <a class="nav-link" href="aboutus.html">About Us</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="marketplace.html">Market Place</a>
-              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="marketplaceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Market Place
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="marketplaceDropdown">
+                    <li><a class="dropdown-item" href="browse-listings.html">Browse Listings</a></li>
+                    <li><a class="dropdown-item" href="marketplace.html">Create Listing</a></li>
+                </ul>
+            </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Donation</a>
               </li>
@@ -175,182 +232,185 @@
 </div>
 
     <div class="container">
+      <div id="app" class="container">
         <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search CPUs" id="search-bar">
-            <select class="form-control sort-dropdown" id="sorting-dropdown">
+            <input type="text" class="form-control" placeholder="Search CPUs" v-model="searchQuery">
+            <select class="form-control sort-dropdown" v-model="sortOption">
                 <option value="alphabet">A-Z</option>
                 <option value="asc">Price Up</option>
                 <option value="desc">Price Down</option>
             </select>
         </div>
-        <h1>CPU</h1>
+        <div class="h1-container"> 
+            <h1>CPU</h1>
+        </div>
         <br>
-        <div class="row" id="product-list">
+        <div class="row">
+            <div id="product-list" class="col-12">
+                <div v-for="product in filteredProducts" :key="product.id" class="col-md-4 product-box" @click="openModal(product)">
+                    <h3>{{ product.brand }}</h3>
+                    <p>{{ product.model }}</p>
+                    <img class="photo":src="getImageUrl(product.brand)" class="product-image" alt="Product Image">
+                    <!-- Add more product details here -->
+                </div>
+            </div>
         </div>
     </div>
+    <!-- Modal -->
+    <!-- Modal -->
+<div class="modal fade" id="listingModal" tabindex="-1" aria-labelledby="listingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="listingModalLabel"></h5> <!-- Removed the brand and model bindings here -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="listingForm">
+                    <div class="mb-3">
+                        <label for="priceInput" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="priceInput" v-model="listingForm.price">
+                    </div>
+                    <div class="mb-3">
+                        <label for="descriptionInput" class="form-label">Description</label>
+                        <textarea class="form-control" id="descriptionInput" v-model="listingForm.description"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="postalCodeInput" class="form-label">Postal Code</label>
+                        <input type="text" class="form-control" id="postalCodeInput" v-model="listingForm.postalCode">
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="createListing">Create Listing</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
     <script>
-        const productData = [
-            {
-                name: "Intel i5-9400F",
-                price: 120,
-                image: "https://m.media-amazon.com/images/I/6110pa-yuJL._AC_UF894,1000_QL80_.jpg",
-                description: "Description for Intel i5-9400F.",
+        
+    // fetch
+    firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        new Vue({
+            el: '#app',
+            data: {
+                products: [],
+                searchQuery: '',
+                sortOption: 'alphabet',
+                selectedProduct: {}, // This will hold the selected product data
+                listingForm: { // This will bind to your form inputs
+                    price: '',
+                    description: '',
+                    postalCode: ''
+                }
             },
-            {
-                name: "Intel i7-13700K",
-                price: 595,
-                image: "https://m.media-amazon.com/images/I/41g+M6Q-NrL.jpg",
-                description: "Description for Intel i7-13700K.",
+            computed: {
+                filteredProducts() {
+                    let filtered = this.products;
+                    if (this.searchQuery) {
+                        const searchLower = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(product => {
+                            // Concatenate brand and model with a space and check if the search query is included
+                            const fullProductName = (product.brand + " " + product.model).toLowerCase();
+                            return fullProductName.includes(searchLower);
+                        });
+                    }
+                    if (this.sortOption === "alphabet") {
+                        filtered.sort((a, b) => a.model.localeCompare(b.model));
+                    } else if (this.sortOption === "asc") {
+                        filtered.sort((a, b) => a.price - b.price);
+                    } else if (this.sortOption === "desc") {
+                        filtered.sort((a, b) => b.price - a.price);
+                    }
+                    return filtered;
+                }
             },
-            {
-                name: "AMD Ryzen 7 5800x",
-                price: 320,
-                image: "https://m.media-amazon.com/images/I/61IIbwz-+ML._AC_SL1500_.jpg",
-                description: "Description for AMD Ryzen 7 5800x.",
+            created() {
+                this.fetchProducts();
             },
-            {
-                name: "AMD Ryzen 7 3700x",
-                price: 150,
-                image: "https://m.media-amazon.com/images/I/71Q2Vcw-wlL.jpg",
-                description: "Description for AMD Ryzen 7 3700x.",
-            },
-            {
-                name: "Ryzen 5 5600X",
-                price: 200,
-                image: "https://m.media-amazon.com/images/I/61twhaihHtL._AC_UF1000,1000_QL80_.jpg",
-                description: "Description for Ryzen 5 5600X.",
-            },
-            // Add more products here
-        ];
+            methods: {
+                async fetchProducts() {
+                    const productsRef = db.collection('CPU');
+                    const snapshot = await productsRef.get();
+                    this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                },
+                getImageUrl(brand) {
+                    if (brand === 'Intel') {
+                        return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
+                    } else if (brand === 'AMD') {
+                        return 'https://i.ebayimg.com/images/g/uPQAAOSwDVxexpBc/s-l400.jpg';
+                    }
+                    return ''; // default image or empty if no image is required for other brands
+                },
+                openModal(product) {
+                    console.log(product); // This should log the product that was clicked
+                    this.selectedProduct = product;
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('listingModal')).show();
+                    });
+                },
 
-    function displayProducts(filter = "") {
-    const productList = document.getElementById("product-list");
-    productList.innerHTML = "";
+                async createListing() {
+                    const listingData = {
+                        productId: this.selectedProduct.id,
+                        price: this.listingForm.price,
+                        description: this.listingForm.description,
+                        postalCode: this.listingForm.postalCode
+                    };
+                    if (!listingData.productId || !listingData.price || !listingData.description || !listingData.postalCode) {
+                        alert("All fields must be filled!");
+                        return;
+                    }
+                    const user = firebase.auth().currentUser;
+                        if (user != null) {
+                            const userId = user.uid;
+                            try {
+                                const response = await axios.post('/api/listings', { ...listingData, userId });
+                                console.log('Listing Created: ', response);
+                                alert('Listing successfully created!');
+                                // Close the modal here if needed
+                                let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
+                                modalInstance.hide();
+                                // Redirect to the original CPU page
+                                window.location.href = 'cpu.html';
+                            } catch (error) {
+                                console.error('Error creating listing: ', error);
+                                alert('Error creating listing.');
+                            }
 
-    productData.forEach((product, index) => {
-        const productName = product.model.toLowerCase();
-        const searchTerm = filter.toLowerCase();
-
-        if (productName.includes(searchTerm)) {
-            const productBox = document.createElement("div");
-            productBox.classList.add("col-md-4", "product-box");
-            productBox.setAttribute("data-index", index);
-
-            // Display Product Brand
-            const productBrandElement = document.createElement("h3");
-            productBrandElement.textContent = product.brand;
-            productBox.appendChild(productBrandElement);
-
-            // Display Product Name
-            const productModelElement = document.createElement("p");
-            productModelElement.textContent = product.model;
-            productBox.appendChild(productModelElement);
-
-            // Create Form
-            const form = document.createElement("form");
-            form.classList.add("d-none"); // Initially hidden
-
-            // Price Input
-            const priceInput = document.createElement("input");
-            priceInput.setAttribute("type", "text");
-            priceInput.setAttribute("placeholder", "Price");
-            form.appendChild(priceInput);
-
-            // Product Description Input
-            const productDescInput = document.createElement("input");
-            productDescInput.setAttribute("type", "text");
-            productDescInput.setAttribute("placeholder", "Product Description");
-            form.appendChild(productDescInput);
-
-            // Postal Code Input
-            const postalCodeInput = document.createElement("input");
-            postalCodeInput.setAttribute("type", "text");
-            postalCodeInput.setAttribute("placeholder", "Postal Code");
-            form.appendChild(postalCodeInput);
-
-            // Create Listing Button
-            const createListingBtn = document.createElement("button");
-            createListingBtn.textContent = "Create Listing";
-            form.appendChild(createListingBtn);
-
-            // Append the form to the productBox
-            productBox.appendChild(form);
-
-            // Show form on mouse enter
-            productBox.addEventListener("mouseenter", () => {
-                form.classList.remove("d-none");
-            });
-
-            // Hide form on mouse leave
-            productBox.addEventListener("mouseleave", () => {
-                form.classList.add("d-none");
-            });
-
-            // Append the productBox to the productList
-            productList.appendChild(productBox);
-        }
-    });
-}
-
-
-        function sortProducts() {
-            const sortingDropdown = document.getElementById("sorting-dropdown");
-            const selectedOption = sortingDropdown.value;
-            if (selectedOption === "alphabet") {
-                productData.sort((a, b) => a.name.localeCompare(b.name));
-            } else if (selectedOption === "asc") {
-                productData.sort((a, b) => a.price - b.price);
-            } else if (selectedOption === "desc") {
-                productData.sort((a, b) => b.price - a.price);
+                        } else {
+                            console.error("No user is signed in");
+                            alert("Please sign in to create a listing.");
+                        }
+                    axios.post('YourBackendEndpoint', payload) // Replace with your actual backend endpoint
+                        .then(response => {
+                            console.log(response.data);
+                            // Handle success   
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            // Handle error
+                        });
+                }
             }
+        }); 
 
-            displayProducts(document.getElementById("search-bar").value);
-        }
-
-        sortProducts();
-
-        const searchBar = document.getElementById("search-bar");
-        searchBar.addEventListener("input", () => displayProducts(searchBar.value));
-
-        const sortingDropdown = document.getElementById("sorting-dropdown");
-        sortingDropdown.addEventListener("change", sortProducts);
-
-        document.addEventListener("DOMContentLoaded", function() {
-            const searchInput = document.getElementById("search-bar");
-            const urlParams = new URLSearchParams(window.location.search);
-            const searchQuery = urlParams.get("search");
-
-            if (searchQuery) {
-                searchInput.value = decodeURIComponent(searchQuery);
-                displayProducts(searchQuery);
-            }
-        });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
-    <script>
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
-            authDomain: "is216-e-wasteless.firebaseapp.com", 
-            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "is216-e-wasteless", 
-            storageBucket: "is216-e-wasteless.appspot.com", 
-            messagingSenderId: "739112462842", 
-            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
-            measurementId: "G-3Q1JMEGCBE" 
-        };
-        firebase.initializeApp(firebaseConfig)
-        // Initialize Firebase
-        const auth = firebase.auth()
 
-
-      </script>
       <script src="auth.js"></script>
 <footer>
     <p>&copy; 2023 HARD CYCLE</p>
 </footer>
+    <footer>
+        <p>&copy; 2023 HARD CYCLE</p>
+    </footer>
 </body>
 </html>
+
