@@ -37,6 +37,9 @@
 
         // Set up Axios interceptor to automatically attach ID token to requests
         axios.interceptors.request.use(async function(config) {
+            console.log('bonk') ;
+
+
 
             // retrieve token from firebase
             // const user = firebase.auth().currentUser;
@@ -48,10 +51,14 @@
 
             // use token generated during log in which is stored in sessionStorage
             const token = sessionStorage.getItem('idToken');
+            console.log("Interceptor called, Token:", token);
 
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;
             }
+
+            console.log('Request URL:', config.url);
+            console.log('Request Headers:', config.headers);
 
             return config;
         }, function(error) {

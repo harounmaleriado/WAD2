@@ -31,13 +31,12 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
         },
         body: JSON.stringify(formData)
     })
-    .then(response => {
+    .then(async response => {
         if (!response.ok) {
             // Convert server response to text (assuming error message is in text format)
-            return response.text().then(errorText => {
-                // Throw error to be caught in catch block
-                throw new Error(`Registration failed: ${errorText}`);
-            });
+            const errorText = await response.text();
+            // Throw error to be caught in catch block
+            throw new Error(`Registration failed: ${errorText}`);
         }
     return response.json();
     })
@@ -60,20 +59,22 @@ document.getElementById('signinForm').addEventListener('submit', function(event)
     event.preventDefault();
     document.getElementById('Login').click()
 
-
-    const email=signinForm['signinEmail'].value;
-    const password=signinForm['signinPassword'].value;
+    const email = signinForm['signinEmail'].value;
+    const password = signinForm['signinPassword'].value;
 
     // Authenticate user
     firebase.auth().signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
         // Get the ID Token
-        return userCredential.user.getIdToken();
-        document.getElementById('signinForm').reset();
+        idToken = userCredential.user.getIdToken();
+        return idToken
     })
     .then((idToken) => {
         // Store the token 
         sessionStorage.setItem('idToken', idToken);
+        // Reset the form here
+        document.getElementById('signinForm').reset();
+        console.log('User signed in and token stored.');
     })
     .catch((error) => {
         console.error("Error signing in", error);
@@ -82,6 +83,7 @@ document.getElementById('signinForm').addEventListener('submit', function(event)
     });
 
 });
+
 
 //signup
 // const signupForm = document.querySelector('#signupForm')

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Auth with Axios</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        // Set up Axios interceptor
+        axios.interceptors.request.use(async function(config) {
+            console.log('bonk');
+            return config;
+        }, function(error) {
+            return Promise.reject(error);
+        });
+
+        // Make a request to test the interceptor
+        axios.get('https://jsonplaceholder.typicode.com/posts/1')
+            .then(response => {
+                console.log('Response:', response);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
