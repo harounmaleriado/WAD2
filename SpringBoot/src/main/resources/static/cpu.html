@@ -9,7 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script>
+    <script>
 
         // const firebaseConfig = { 
         //     // apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
@@ -354,7 +354,7 @@
 
                 async createListing() {
                     const listingData = {
-                        PID : this.selectedProduct.id,
+                        PID: this.selectedProduct.id,
                         price: parseFloat(this.listingForm.price),  // Convert to float
                         productDescription: this.listingForm.description,
                         postalCode: parseInt(this.listingForm.postalCode)  // Convert to int
@@ -363,25 +363,22 @@
                         alert("All fields must be filled!");
                         return;
                     }
-
                     const user = auth.currentUser;
-                    if (user != null) {
-                        const UID = user.uid;
-                        
-                        try {
-                            
-                            const response = await axios.post('/api/listings', { ...listingData, UID });
-                            console.log('Listing Created: ', response);
-                            alert('Listing successfully created!');
-                            // Close the modal here if needed
-                            let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
-                            modalInstance.hide();
-                            // Redirect to the original CPU page
-                            window.location.href = 'cpu.html';
-                        } catch (error) {
-                            console.error('Error creating listing: ', error);
-                            alert('Error creating listing.');
-                        }
+                        if (user != null) {
+                            const UID = user.uid;
+                            try {
+                                const response = await axios.post('/api/listings', { ...listingData, UID });
+                                console.log('Listing Created: ', response);
+                                alert('Listing successfully created!');
+                                // Close the modal here if needed
+                                let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
+                                modalInstance.hide();
+                                // Redirect to the original CPU page
+                                window.location.href = 'cpu.html';
+                            } catch (error) {
+                                console.error('Error creating listing: ', error);
+                                alert('Error creating listing.');
+                            }
 
                         } else {
                             console.error("No user is signed in");
