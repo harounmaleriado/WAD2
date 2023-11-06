@@ -34,7 +34,12 @@ public class ListingController {
     public ResponseEntity<String> addListing(@RequestBody ListingDTO listingDTO) {
         try {
             
-            String listingId = listingService.addListing(listingDTO.getUID(), listingDTO.getPID(), listingDTO.getPrice(), listingDTO.getProductDescription(), listingDTO.getPostalCode());
+            String listingId = listingService.addListing(listingDTO.getUsername(), 
+                                                        listingDTO.getPID(), 
+                                                        listingDTO.getPrice(), 
+                                                        listingDTO.getProductDescription(), 
+                                                        listingDTO.getPostalCode(),
+                                                        listingDTO.getType());
             return ResponseEntity.ok("Listing added with ID: " + listingId);
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(500).body("Error while adding listing: " + e.getMessage());

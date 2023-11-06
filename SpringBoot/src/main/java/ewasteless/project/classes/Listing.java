@@ -13,15 +13,15 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Listing {
 
-    // reference to seller
-    private DocumentReference UID ;
-
-    // reference to product sold
-    private DocumentReference PID ;
+    // seller
+    private String username ;
 
     private double price ;
     
     private String productDescription ;
 
     private int postalCode ;
+
+    // reference to product sold
+    private DocumentReference PID ;
 }

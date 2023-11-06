@@ -371,7 +371,8 @@
                         PID : this.selectedProduct.id,
                         price: parseFloat(this.listingForm.price),  // Convert to float
                         productDescription: this.listingForm.description,
-                        postalCode: parseInt(this.listingForm.postalCode)  // Convert to int
+                        postalCode: parseInt(this.listingForm.postalCode),  // Convert to int
+                        type: "CPU" 
                     };
                     if (!listingData.PID || !listingData.price || !listingData.productDescription || !listingData.postalCode) {
                         alert("All fields must be filled!");
@@ -380,11 +381,12 @@
 
                     const user = auth.currentUser;
                     if (user != null) {
-                        const UID = user.uid;
+                        // const UID = user.uid;
+                        const username = user.displayName;
                         
                         try {
                             
-                            const response = await axios.post('/api/listings', { ...listingData, UID });
+                            const response = await axios.post('/api/listings', { ...listingData, username });
                             console.log('Listing Created: ', response);
                             alert('Listing successfully created!');
                             // Close the modal here if needed
