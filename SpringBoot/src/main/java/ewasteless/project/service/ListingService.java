@@ -29,29 +29,56 @@ public class ListingService {
     @Autowired
     private Firestore dbFirestore;
 
-    // private Firestore dbFirestore = FirestoreClient.getFirestore();
-
-    public String addListing(String UID, 
+    public String addListing(String username, 
                             String PID, 
                             double price, 
                             String productDescription, 
-                            int postalCode) 
+                            int postalCode,
+                            String type) 
                             throws ExecutionException, InterruptedException {
-        // Create DocumentReference objects for seller and product
-       
         
-        DocumentReference sellerRef = dbFirestore.collection("users").document(UID);
-        DocumentReference productRef = dbFirestore.collection("CPU").document(PID);
+        if (type.equals("CPU")){
+            DocumentReference productRef = dbFirestore.collection("CPU").document(PID);
+            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+            ApiFuture<DocumentReference> future = dbFirestore.collection("cpuListings").add(listing);
+            DocumentReference newListingRef = future.get();
+            return newListingRef.getId();
+        }
 
-        // Create Listing object
-        Listing listing = new Listing(sellerRef, productRef, price, productDescription, postalCode);
-
-        // Add the listing to Firestore asynchronously
-        ApiFuture<DocumentReference> future = dbFirestore.collection("listings").add(listing);
+        if (type.equals("GPU")){
+            DocumentReference productRef = dbFirestore.collection("GPU").document(PID);
+            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+            ApiFuture<DocumentReference> future = dbFirestore.collection("gpuListings").add(listing);
+            DocumentReference newListingRef = future.get();
+            return newListingRef.getId();
+        }
+        if (type.equals("CPU")){
+            DocumentReference productRef = dbFirestore.collection("RAM").document(PID);
+            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+            ApiFuture<DocumentReference> future = dbFirestore.collection("ramListings").add(listing);
+            DocumentReference newListingRef = future.get();
+            return newListingRef.getId();
+        }
+        if (type.equals("CPU")){
+            DocumentReference productRef = dbFirestore.collection("HDD").document(PID);
+            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+            ApiFuture<DocumentReference> future = dbFirestore.collection("hddListings").add(listing);
+            DocumentReference newListingRef = future.get();
+            return newListingRef.getId();
+        }
+        if (type.equals("CPU")){
+            DocumentReference productRef = dbFirestore.collection("SSD").document(PID);
+            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+            ApiFuture<DocumentReference> future = dbFirestore.collection("ssdListings").add(listing);
+            DocumentReference newListingRef = future.get();
+            return newListingRef.getId();
+        }
+        else {
+            return "error" ;
+        }
+        
 
         // Wait for the operation to complete and retrieve the result
-        DocumentReference newListingRef = future.get();
-        return newListingRef.getId();
     }
 
     public Listing getListingById(String LID) throws Exception {
