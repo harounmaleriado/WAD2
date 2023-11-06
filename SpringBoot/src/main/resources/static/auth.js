@@ -1,3 +1,15 @@
+const loggedOutLinks = document.querySelectorAll(".logged-out")
+const loggedInLinks = document.querySelectorAll(".logged-in")
+const checklogin = (user)=>{
+    if (user){
+        loggedInLinks.forEach(item=>item.style.display="block")
+        loggedOutLinks.forEach(item=>item.style.display="none")
+    }else{
+        loggedInLinks.forEach(item=>item.style.display="none")
+        loggedOutLinks.forEach(item=>item.style.display="block");
+    }
+}
+
 //listen for authentication changes
 auth.onAuthStateChanged(user =>{
     if(user){
@@ -123,14 +135,3 @@ signout.addEventListener("click",(e)=>{
 // })
 
 
-const loggedOutLinks = document.querySelectorAll(".logged-out")
-const loggedInLinks = document.querySelectorAll(".logged-in")
-const checklogin = (user)=>{
-    if (user){
-        loggedInLinks.forEach(item=>item.style.display="block")
-        loggedOutLinks.forEach(item=>item.style.display="none")
-    }else{
-        loggedInLinks.forEach(item=>item.style.display="none")
-        loggedOutLinks.forEach(item=>item.style.display="block");
-    }
-}
