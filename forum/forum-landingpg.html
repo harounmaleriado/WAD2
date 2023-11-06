@@ -5,6 +5,39 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+
+        // const firebaseConfig = { 
+        //     // apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+        //     // authDomain: "is216-e-wasteless.firebaseapp.com", 
+        //     // databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        //     // projectId: "is216-e-wasteless", 
+        //     // storageBucket: "is216-e-wasteless.appspot.com", 
+        //     // messagingSenderId: "739112462842", 
+        //     // appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+        //     // measurementId: "G-3Q1JMEGCBE" 
+        // };
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+            authDomain: "is216-proj-76064.firebaseapp.com",
+            projectId: "is216-proj-76064",
+            storageBucket: "is216-proj-76064.appspot.com",
+            messagingSenderId: "1065642689100",
+            appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+        
+
+    </script>
+
 </head>
 <body>
 
@@ -173,6 +206,111 @@
 
   </main>
 
+  <script>
+    // Initialize Firestore
+    const firestore = firebase.firestore();
+
+    // Reference to your Firestore collection
+    const questionsCollection = firestore.collection('questions');
+
+    // Function to fetch and display questions
+    function fetchQuestions() {
+        questionsCollection.get().then((querySnapshot) => {
+            const questionsContainer = document.getElementById('questions-container');
+            questionsContainer.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const question = doc.data();
+                const questionCard = createQuestionCard(question);
+                questionsContainer.appendChild(questionCard);
+            });
+        }).catch((error) => {
+            console.error('Error fetching questions:', error);
+        });
+    }
+
+    function createQuestionCard(question) {
+      const card = document.createElement('div');
+      card.className = 'card border-light mb-3';
+
+      // Create card content based on the question data
+      // Replace 'question.fieldName' with the actual fields in your Firestore document
+      card.innerHTML = `
+          <div class="card-body">
+              <h5 class="card-title">${question.title}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">${question.category}</h6>
+              <p class="card-text">${question.content}</p>
+          </div>
+      `;
+
+      return card;
+    }
+
+    function fetchUserProfile(userId) {
+      firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+              // The user is signed in, you can access user information using 'user' object
+              const userName = user.displayName;
+              const userPoints = 100; // You can fetch this data from Firestore or another source
+              displayUserProfile(userName, userPoints);
+          } else {
+              // User is not signed in, handle this case accordingly
+          }
+      });
+    }
+    function displayUserProfile(userName, userPoints) {
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-points').textContent = `Current Points Earned: ${userPoints}`;
+    }
+
+    function fetchLeaderboard() {
+      // Reference to your Firestore collection
+      const leaderboardCollection = firestore.collection('your_collection'); // Replace 'your_collection' with the actual collection name
+
+      leaderboardCollection.orderBy('points', 'desc').limit(10).get()
+          .then((querySnapshot) => {
+              const leaderboardData = [];
+
+              querySnapshot.forEach((doc) => {
+                  const data = doc.data();
+                  leaderboardData.push(data);
+              });
+
+              displayLeaderboard(leaderboardData);
+          })
+          .catch((error) => {
+              console.error('Error fetching leaderboard data:', error);
+          });
+    }
+
+    function displayLeaderboard(leaderboardData) {
+      const leaderboardTable = document.getElementById('leaderboard-table');
+      const tbody = leaderboardTable.querySelector('tbody');
+
+      // Clear existing rows in the table
+      tbody.innerHTML = '';
+
+      leaderboardData.forEach((entry, index) => {
+          const row = document.createElement('tr');
+          const rankCell = document.createElement('td');
+          const userCell = document.createElement('td');
+          const pointsCell = document.createElement('td');
+
+          rankCell.textContent = index + 1; // Rank
+          userCell.textContent = entry.username; // User's name
+          pointsCell.textContent = entry.points; // Points
+
+          row.appendChild(rankCell);
+          row.appendChild(userCell);
+          row.appendChild(pointsCell);
+
+          tbody.appendChild(row);
+      });
+  }
+
+  </script>
+
+
   <footer>
       <p>&copy; 2023 HARD CYCLE</p>
   </footer>
@@ -183,109 +321,6 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   
-
-  <script>
-    // TO DISPLAY QUESTIONS
-    // Function to fetch and display questions using Axios
-    function fetchQuestions() {
-        // Make a GET request to retrieve questions from your API endpoint using Axios
-        axios.get('/api/questions')
-          .then((response) => {
-            const data = response.data;
-            const questionsContainer = document.getElementById('questions-container');
-            questionsContainer.innerHTML = '';
-
-            data.forEach((question) => {
-              const questionCard = createQuestionCard(question);
-              questionsContainer.appendChild(questionCard);
-            });
-          })
-          .catch((error) => {
-            console.error('Error fetching questions:', error);
-          });
-      }
-
-      // Function to fetch and display user profile using Axios
-      function fetchUserProfile() {
-        // Replace 'your_api_endpoint' with the actual URL of your API or data source
-        const apiUrl = '/api/user-profile'; // Example URL
-
-        axios.get(apiUrl)
-          .then((response) => {
-            // Handle the user data here
-            const userData = response.data;
-            displayUserProfile(userData);
-          })
-          .catch((error) => {
-            console.error('Error fetching user profile:', error);
-            // Handle error or display an error message to the user
-          });
-      }
-
-      // Function to display user profile data
-      function displayUserProfile(userData) {
-        // Update the HTML elements to display user profile information
-        document.getElementById('user-name').textContent = userData.name;
-        document.getElementById('user-points').textContent = userData.points;
-        // Add more fields as needed
-      }
-
-      // Add an event listener to detect when the "My Profile" tab is shown
-      const profileTab = document.getElementById('profile-tab');
-      profileTab.addEventListener('shown.bs.tab', fetchUserProfile);
-
-      // Function to fetch and display the leaderboard using Axios
-      function fetchLeaderboard() {
-            // Replace 'your_api_endpoint' with the actual URL of your leaderboard API or data source
-            const apiUrl = '/api/leaderboard'; // Example URL
-
-            axios.get(apiUrl)
-                .then((response) => {
-                    // Handle the leaderboard data here
-                    const leaderboardData = response.data;
-                    displayLeaderboard(leaderboardData);
-                })
-                .catch((error) => {
-                    console.error('Error fetching leaderboard data:', error);
-                    // Handle error or display an error message to the user
-                });
-        }
-
-        function displayLeaderboard(leaderboardData) {
-            const leaderboardTable = document.getElementById('leaderboard-table');
-            const tbody = leaderboardTable.querySelector('tbody');
-            
-            // Clear existing rows in the table
-            tbody.innerHTML = '';
-
-            // Iterate through leaderboard data and add rows to the table
-            leaderboardData.forEach((entry, index) => {
-                const row = document.createElement('tr');
-                const rankCell = document.createElement('td');
-                const userCell = document.createElement('td');
-                const pointsCell = document.createElement('td');
-                
-                rankCell.textContent = index + 1; // Rank
-                userCell.textContent = entry.username; // User's name
-                pointsCell.textContent = entry.points; // Points
-
-                row.appendChild(rankCell);
-                row.appendChild(userCell);
-                row.appendChild(pointsCell);
-                
-                tbody.appendChild(row);
-            });
-        }
-
-      
-
-      // Call the functions as needed
-      fetchQuestions();
-      const userId = '123'; // Replace with the actual user's ID
-      fetchUserProfile(userId);
-      fetchLeaderboard();
-
-  </script>
   
 
 
