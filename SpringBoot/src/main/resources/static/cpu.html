@@ -350,6 +350,7 @@
                     const snapshot = await productsRef.get();
                     this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
                 },
+                
                 getImageUrl(brand) {
                     if (brand === 'Intel') {
                         return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';

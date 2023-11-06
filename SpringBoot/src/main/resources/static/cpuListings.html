@@ -345,12 +345,29 @@
                 this.fetchProducts();
             },
             methods: {
+                // async fetchProducts() {
+                //     const productsRef = db.collection('CPU');
+                //     const snapshot = await productsRef.get();
+                //     this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                // },
+
                 async fetchProducts() {
-                    const productsRef = db.collection('CPU');
-                    const snapshot = await productsRef.get();
-                    this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                    const listingsRef = db.collection('cpuListings');
+                    const snapshot = await listingsRef.get();
+                    const listings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                    // Fetching the referenced CPU document for each listing
+                    const productsWithDetails = await Promise.all(listings.map(async (listing) => {
+                        const cpuDoc = await listing.pid.get(); // Assuming PID is a DocumentReference
+                        const cpuData = cpuDoc.data();
+                        // Combine the CPU data with the listing data
+                        return { ...listing, ...cpuData };
+                    }));
+
+                    this.products = productsWithDetails;
                 },
-                
+
+
                 getImageUrl(brand) {
                     if (brand === 'Intel') {
                         return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
@@ -420,4 +437,3 @@
     </footer>
 </body>
 </html>
-

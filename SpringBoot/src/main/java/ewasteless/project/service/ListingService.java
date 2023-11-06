@@ -30,56 +30,48 @@ public class ListingService {
     private Firestore dbFirestore;
 
     public String addListing(String username, 
-                            String PID, 
-                            double price, 
-                            String productDescription, 
-                            int postalCode,
-                            String type) 
-                            throws ExecutionException, InterruptedException {
-        
-        if (type.equals("CPU")){
-            DocumentReference productRef = dbFirestore.collection("CPU").document(PID);
-            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
-            ApiFuture<DocumentReference> future = dbFirestore.collection("cpuListings").add(listing);
-            DocumentReference newListingRef = future.get();
-            return newListingRef.getId();
-        }
-
-        if (type.equals("GPU")){
-            DocumentReference productRef = dbFirestore.collection("GPU").document(PID);
-            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
-            ApiFuture<DocumentReference> future = dbFirestore.collection("gpuListings").add(listing);
-            DocumentReference newListingRef = future.get();
-            return newListingRef.getId();
-        }
-        if (type.equals("CPU")){
-            DocumentReference productRef = dbFirestore.collection("RAM").document(PID);
-            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
-            ApiFuture<DocumentReference> future = dbFirestore.collection("ramListings").add(listing);
-            DocumentReference newListingRef = future.get();
-            return newListingRef.getId();
-        }
-        if (type.equals("CPU")){
-            DocumentReference productRef = dbFirestore.collection("HDD").document(PID);
-            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
-            ApiFuture<DocumentReference> future = dbFirestore.collection("hddListings").add(listing);
-            DocumentReference newListingRef = future.get();
-            return newListingRef.getId();
-        }
-        if (type.equals("CPU")){
-            DocumentReference productRef = dbFirestore.collection("SSD").document(PID);
-            Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
-            ApiFuture<DocumentReference> future = dbFirestore.collection("ssdListings").add(listing);
-            DocumentReference newListingRef = future.get();
-            return newListingRef.getId();
-        }
-        else {
-            return "error" ;
-        }
-        
-
-        // Wait for the operation to complete and retrieve the result
+                         String PID, 
+                         double price, 
+                         String productDescription, 
+                         int postalCode,
+                         String type) 
+                         throws ExecutionException, InterruptedException {
+    
+    // Get the product reference
+    DocumentReference productRef = dbFirestore.collection(type).document(PID);
+    
+    
+    // Create a Listing object
+    Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+    
+    // Decide the collection based on the type
+    String collectionPath;
+    switch (type) {
+        case "CPU":
+            collectionPath = "cpuListings";
+            break;
+        case "GPU":
+            collectionPath = "gpuListings";
+            break;
+        case "RAM":
+            collectionPath = "ramListings";
+            break;
+        case "HDD":
+            collectionPath = "hddListings";
+            break;
+        case "SSD":
+            collectionPath = "ssdListings";
+            break;
+        default:
+            return "Error: Unknown type";
     }
+
+    // Add the listing to the database
+    ApiFuture<DocumentReference> future = dbFirestore.collection(collectionPath).add(listing);
+    DocumentReference newListingRef = future.get();
+    return newListingRef.getId();
+}
+
 
     public Listing getListingById(String LID) throws Exception {
         return dbFirestore.collection("listings").document(LID).get().get().toObject(Listing.class);
