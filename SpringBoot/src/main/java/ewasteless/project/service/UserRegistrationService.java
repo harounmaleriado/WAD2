@@ -4,9 +4,12 @@ package ewasteless.project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
 // Firebase imports
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -14,6 +17,7 @@ import com.google.firebase.auth.UserRecord;
 // Java imports
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 // Model imports
 import ewasteless.project.DTO.UserDTO;
@@ -26,13 +30,24 @@ public class UserRegistrationService {
 
     // Expects User object from UserRegistrationController 
     // Returns UID of successful new user
-    public String signUp(UserDTO user) {
+    public String signUp(UserDTO user) throws InterruptedException, ExecutionException {
+
+        CollectionReference usersRef = dbFirestore.collection("users");
+
+        // Check if the username already exists
+        ApiFuture<QuerySnapshot> query = usersRef.whereEqualTo("username", user.getUsername()).get();
+        if (!query.get().isEmpty()) {
+            // Username is already taken
+            throw new RuntimeException("Username is already taken");
+        }
         try {
             
-            UserRecord.CreateRequest AccountCreationRequest = new UserRecord.CreateRequest()
-                .setEmail(user.getEmail())
-                .setPassword(user.getPassword());
-            UserRecord userRecord = FirebaseAuth.getInstance().createUser(AccountCreationRequest);
+            UserRecord.CreateRequest createRequest = new UserRecord.CreateRequest()
+            .setEmail(user.getEmail())
+            .setPassword(user.getPassword())
+            .setDisplayName(user.getUsername()); // This sets the display name in Firebase Auth
+
+            UserRecord userRecord = FirebaseAuth.getInstance().createUser(createRequest);
             
 
             // Create user in firestore with matching DocID

@@ -31,10 +31,10 @@ public class ListingController {
     private ListingService listingService;
 
     @PostMapping
-    public ResponseEntity<String> addListing(@RequestBody ListingDTO listing) {
+    public ResponseEntity<String> addListing(@RequestBody ListingDTO listingDTO) {
         try {
             
-            String listingId = listingService.addListing(listing.getUID(), listing.getPID(), listing.getPrice(), listing.getProductDescription(), listing.getPostalCode());
+            String listingId = listingService.addListing(listingDTO.getUID(), listingDTO.getPID(), listingDTO.getPrice(), listingDTO.getProductDescription(), listingDTO.getPostalCode());
             return ResponseEntity.ok("Listing added with ID: " + listingId);
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(500).body("Error while adding listing: " + e.getMessage());
