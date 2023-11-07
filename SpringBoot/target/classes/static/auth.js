@@ -4,7 +4,6 @@ const checklogin = (user)=>{
     if (user){
         loggedInLinks.forEach(item=>item.style.display="block")
         loggedOutLinks.forEach(item=>item.style.display="none")
-        document.getElementById("accountinfo").innerText=user.displayName
     }else{
         loggedInLinks.forEach(item=>item.style.display="none")
         loggedOutLinks.forEach(item=>item.style.display="block");
@@ -137,19 +136,18 @@ signout.addEventListener("click",(e)=>{
 // })
 
 
-// const app = Vue.createApp({
-//     data() {
-//         return {
-//             accountName: ""
-//         };
-//     },
-//     methods: {
-//         updateAccountName(user) {
-//             if (user) {
-//                 console.log("====UpdateAccountName=====")
-//                 this.accountName = user.displayName ? user.displayName : "Account";
-//             }
-//         }
-//     }
-// });
-// app.mount("#accountinfo")
+const app = Vue.createApp({
+    data() {
+        return {
+            accountName: ""
+        };
+    },
+    methods: {
+        updateAccountName(user) {
+            if (user) {
+                this.accountName = user.displayName ? user.displayName : "Account";
+            }
+        }
+    }
+});
+app.mount("#accountinfo")
