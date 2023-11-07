@@ -79,7 +79,7 @@
         }
         .product-image {
             max-width: 100%;
-            height: 250px;
+            max-height: 250px;
         }
         .sort-dropdown {
             width: 120px;
@@ -99,8 +99,8 @@
             margin-top: auto;
         }
         .photo{
-            width: 200px;
-            height: 200px;
+            max-width: 80%;
+            max-height: 500px;
         }
     </style>
 </head>
@@ -341,10 +341,10 @@
                 },
                 
                 getImageUrl(brand) {
-                    if (brand === 'Intel') {
-                        return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
-                    } else if (brand === 'AMD') {
-                        return 'https://i.ebayimg.com/images/g/uPQAAOSwDVxexpBc/s-l400.jpg';
+                    if (brand === 'Samsung') {
+                        return 'https://m.media-amazon.com/images/I/61ZL9Qpo1-L._AC_SL1320_.jpg';
+                    } else if (brand === 'Crucial') {
+                        return 'https://m.media-amazon.com/images/I/51XuNS7R-lL._AC_SL1500_.jpg';
                     }
                     return ''; // default image or empty if no image is required for other brands
                 },
