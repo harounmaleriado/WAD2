@@ -100,9 +100,15 @@
               <li class="nav-item">
                 <a class="nav-link" href="aboutus.html">About Us</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="marketplace.html">Market Place</a>
-              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="marketplaceDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Market Place
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="marketplaceDropdown">
+                    <li><a class="dropdown-item" href="browseListing.html">Browse Listings</a></li>
+                    <li><a class="dropdown-item" href="marketplace.html">Create Listing</a></li>
+                </ul>
+            </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Donation</a>
               </li>
@@ -124,14 +130,25 @@
                 <a href="" data-toggle="modal" data-target="#Login" class="logged-out text-reset" style="display:none">
                     Login 
                 </a>
-                <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
+                <div class="dropdown">
+                    <a id="accountinfo" class="logged-in text-decoration-none dropdown-toggle bg-transparent border border-white text-reset" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display:none">
+                      Account
+                    </a>
+                  
+                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                      <li><a href=""  display="hidden" id="signout" class="logged-in text-reset dropdown-item" style="display:none">Sign Out</a></li>
+                      <li><a class="dropdown-item" href="userProfile.html">Profile</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </div>
+                <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
                     Sign Out
-                </a>
+                </a> -->
             </div>
           </div>
           
         </div>
-      </nav>>
+      </nav>
       <!--Register Modal-->
 <div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
