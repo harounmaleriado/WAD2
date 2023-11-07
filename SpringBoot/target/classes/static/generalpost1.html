@@ -425,6 +425,7 @@
                     });
                 },
                 submitPost() {
+
                     const user = auth.currentUser;
                     if (user != null) {
                         const username = user.displayName;
@@ -439,6 +440,7 @@
                             creatorName: username,
                             // date: new Date(),
                         };
+                        
 
                         // Perform your post submission logic here, e.g., using Axios to send the data to your server
                         // Use Axios to send a POST request
@@ -458,6 +460,8 @@
                         new bootstrap.Modal(document.getElementById('createPostModal')).hide();
                     }
                 },
+                
+
 
                 async fetchAllPosts() {
 
