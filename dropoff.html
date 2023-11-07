@@ -1,7 +1,6 @@
 <!DOCTYPE html>
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://unpkg.com/vue@next"></script>
     <link href="recycle.css" rel="stylesheet">
     <style>
       #map {
@@ -26,8 +25,14 @@
             <li class="nav-item">
               <a class="nav-link" href="marketplace.html">Market Place</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Donation</a>
+            <li class="nav-item dropdown active">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Recycle
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="recycle.html">How to Recycle your E-Waste</a>
+                <a class="dropdown-item disabled">E-Waste Bin Locations</a>
+              </div>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,48 +112,133 @@
               </ul>
             </div>
           </div>
+        </div>
       </div>
-    </div>
-    <!-- <div class="container border border-secondary">
+      <h5>Navigate the map below to find the bin nearest to you.</h5>
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <div id="map"></div>
       
-
-       <p style="text-align: left">Please only deposit the following types of batteries into the 3-in-1 Bin:
-        <br><br>
-        (a) Batteries* (AA, AAA, AAAA, D, C, 9-volt, Button Cell only) – circumference ≤ 50mm;
-        <br><br>
-        *If depositing Rechargeable or Lithium-Ion Batteries, please make sure to tape the terminal of the batteries before depositing them into the E-Bin. You may also use plastic wrap to wrap them individually to prevent any contact from terminals of other batteries. If batteries are leaking, please place them in a sealable plastic bag before disposing them in the E-Bin.
-        <br><br>
-        (b) Bulbs – circumference ≤ 100mm;
-        <br><br>
-        (c) ICT Equipment including Printers, power banks, computers & laptops, mobile phones & tablets, network & set-top boxes, TVs & desktop monitors – devices must be able to fit through a 500mm x 250mm slot. Do note that ICT equipment peripherals such as Mouse, Keyboard, Cables and Adaptors can be disposed of together.
-      </p>
-    </div> -->
-    <h5>Navigate the map below to find the bin nearest to you.</h5>
-    <div id="map"></div>
+    </div>
     <!--The div element for the map -->
     <script>
       // Initialize and add the map
       function initMap() {
-        // The location of Uluru
-        var uluru = {lat: -25.344, lng: 131.036};
-        // The map, centered at Uluru
-        var map = new google.maps.Map(
-            document.getElementById('map'), {zoom: 4, center: uluru});
-        // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: uluru, map: map});
+        // Map options
+        var options = {
+          zoom: 11.5,
+          center: {lat: 1.3521, lng: 103.8198}
+        };
+
+        // New map
+        var map = new google.maps.Map(document.getElementById('map'), options);
+
+        // Use axios to fetch the JSON data
+        axios.get('list-of-e-waste-collection-points.json')
+          .then(function (response) {
+            // Handle success
+            var locations = response.data;
+
+            locations.forEach(function(location) {
+              // Call the Geocoding API
+              axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+                params: {
+                  address: location.Location, // Assuming your JSON has a 'name' key for the address
+                  key: 'AIzaSyDgwddHIHwVxQH2Ezlv5d33LtR-geooGQA'
+                }
+              })
+              .then(function(response) {
+                // Geocoding API success response
+                if (response.data.results[0]) {
+                  var geoLocation = response.data.results[0].geometry.location;
+                  var marker = new google.maps.Marker({
+                    position: geoLocation,
+                    map: map,
+                    title: location.Location
+                  });
+                } else {
+                  console.error('Geocoding failed for: ' + location.Location);
+                }
+              })
+              .catch(function(error) {
+                console.error('Error with the Geocoding API:', error);
+              });
+            });
+          })
+          .catch(function(error) {
+            // Handle error
+            console.error('Error fetching the locations:', error);
+          });
+          
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the search box results towards the current map's viewport
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve more details for that place
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length === 0) {
+            return;
+          }
+
+          // Clear out the old markers
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name, and location
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
       }
+
     </script>
     <!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgwddHIHwVxQH2Ezlv5d33LtR-geooGQA&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgwddHIHwVxQH2Ezlv5d33LtR-geooGQA&libraries=places&callback=initMap">
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="recycle.js"></script>
   </body>
 </html>
