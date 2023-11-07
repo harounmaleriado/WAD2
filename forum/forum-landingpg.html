@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HARD CYCLE - Home</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+
+        // const firebaseConfig = { 
+        //     // apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+        //     // authDomain: "is216-e-wasteless.firebaseapp.com", 
+        //     // databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+        //     // projectId: "is216-e-wasteless", 
+        //     // storageBucket: "is216-e-wasteless.appspot.com", 
+        //     // messagingSenderId: "739112462842", 
+        //     // appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+        //     // measurementId: "G-3Q1JMEGCBE" 
+        // };
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+            authDomain: "is216-proj-76064.firebaseapp.com",
+            projectId: "is216-proj-76064",
+            storageBucket: "is216-proj-76064.appspot.com",
+            messagingSenderId: "1065642689100",
+            appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+        
+
+    </script>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">HARD CYCLE</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">About Us</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Market Place</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Donation</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Communities 
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <li><a class="dropdown-item" href="community-info.html">About Support Community </a></li>
+                    <li><a class="dropdown-item" href="community-guides.html">How to Earn Points</a></li>
+                    <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <header>
+        <h1>Welcome to HARD CYCLE's Forum</h1>
+        <p>Join the conversation, ask questions, and share your expertise.</p>
+    </header>
+
+    <main>
+      <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Hello!</h5>
+
+            <!-- Default Tabs -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="communities-tab" data-bs-toggle="tab" data-bs-target="#communities" type="button" role="tab" aria-controls="communities" aria-selected="true">Communities</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">My Profile</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="score-tab" data-bs-toggle="tab" data-bs-target="#score" type="button" role="tab" aria-controls="score" aria-selected="false">Upload Benchmark Score</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="leaderboard-tab" data-bs-toggle="tab" data-bs-target="#leaderboard" type="button" role="tab" aria-controls="leaderboard" aria-selected="false">Leaderboard</button>
+            </li>
+            </ul>
+
+            <div class="tab-content pt-2" id="myTabContent">
+              <div class="tab-pane fade show active" id="communities" role="tabpanel" aria-labelledby="communities-tab">
+                  <!-- Content for "All Questions" tab -->
+                  <div class="row">
+                    <div class="col-8">
+                        <h1 class="section-title">All Questions</h1>
+                    </div>
+                    <div class="col-4 text-end">
+                        <a href="ask_questions.html" class="btn btn-primary">Ask Questions</a>
+                    </div>
+                  </div>
+
+                  <!-- Container for dynamically fetched questions -->
+                  <div id="questions-container"></div>
+                  
+              </div>
+          
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="container mt-5">
+                  <div class="row">
+                      <div class="col-md-3">
+                          <!-- Profile Photo -->
+                          <img src="/is216/Project/forum/images/profile_test.avif" alt="Profile Photo" class="img-fluid rounded-circle">
+                      </div>
+                      <div class="col-md-9">
+                          <!-- User Name -->
+                          <h2 id="user-name">User's Name</h2>
+      
+                          <!-- Add more user details as needed -->
+                          <h4 id="user-points">Current Points Earned</h4>
+                          
+                      </div>
+                      
+                  </div>
+                </div>
+                  
+              </div>
+          
+              <div class="tab-pane fade" id="score" role="tabpanel" aria-labelledby="score-tab">
+                  <!-- Content for "Upload Benchmark Scores" tab -->
+                  <div class="container">
+                    <h2 class="mt-5">Upload Benchmark Scores</h2>
+                    <form id="benchmark-form" enctype="multipart/form-data">
+                      <div class="mb-3">
+                        <label for="image" class="form-label">Upload Image:</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+                      </div>
+                      <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
+                    </form>
+                    <br><br>
+                    <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
+                  </div>
+              </div>
+
+              <div class="tab-pane fade" id="leaderboard" role="tabpanel" aria-labelledby="leaderboard-tab">
+                <!-- Content for "Leaderboard" tab -->
+                <h2>Top Contributors</h2>
+                <table id="leaderboard-table">
+                    <thead>
+                        <!-- Table headers -->
+                        <tr>
+                          <th>Rank</th>
+                          <th>User</th>
+                          <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dynamically fetch rows for top contributors -->
+                        
+                    </tbody>
+                </table>
+                
+              
+                
+              </div>
+          </div>
+
+  </main>
+
+  <script>
+    // Initialize Firestore
+    const firestore = firebase.firestore();
+
+    // Reference to your Firestore collection
+    const questionsCollection = firestore.collection('questions');
+
+    ///////// COMMUNITIES TAB /////////
+
+    // Fetch and display questions when the "All Questions" tab is active
+    document.querySelector('#communities-tab').addEventListener('click', () => {
+      fetchQuestions();
+    });
+
+    // Function to fetch and display questions
+    function fetchQuestions() {
+        questionsCollection.get().then((querySnapshot) => {
+            const questionsContainer = document.getElementById('questions-container');
+            questionsContainer.innerHTML = '';
+
+            querySnapshot.forEach((doc) => {
+                const question = doc.data();
+                const questionCard = createQuestionCard(question);
+                questionsContainer.appendChild(questionCard);
+            });
+        }).catch((error) => {
+            console.error('Error fetching questions:', error);
+        });
+    }
+
+    function createQuestionCard(question) {
+      const card = document.createElement('div');
+      card.className = 'card border-light mb-3';
+
+      // Create card content based on the question data
+      // Replace 'question.fieldName' with the actual fields in your Firestore document
+      card.innerHTML = `
+          <div class="card-body">
+              <h5 class="card-title">${question.title}</h5>
+              <h6 class="card-subtitle mb-2 text-body-secondary">${question.category}</h6>
+              <p class="card-text">${question.content}</p>
+
+              <a href="#" class="btn btn-primary" onclick="replyQuestions('${question.title}', '${question.category},${question.content}')">Reply</a>
+
+          </div>
+      `;
+
+      return card;
+    }
+    function replyQuestion(title, category, content) {
+      // Construct the URL for the "replyQuestion.html" page with query parameters
+      const url = `replyQuestion.html?title=${title}&category=${category}&content=${content}`;
+
+      // Navigate to the new page
+      window.location.href = url;
+    }
+
+
+
+    ///////// MY PROFILE TAB /////////
+    document.querySelector('#profile-tab').addEventListener('click', () => {
+      fetchUserProfile();
+    });
+
+    function displayUserProfile(userName, userPoints) {
+      document.getElementById('user-name').textContent = userName;
+      document.getElementById('user-points').textContent = `Current Points Earned: ${userPoints}`;
+    }
+    function fetchUserProfile(userId) {
+      firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+              // The user is signed in, you can access user information using 'user' object
+              const userName = user.displayName;
+
+              // Fetch the user's points from Firestore
+              const usersCollection = firestore.collection('users');
+              const userDoc = usersCollection.doc(userId);
+
+              userDoc.get()
+                  .then((userSnapshot) => {
+                      if (userSnapshot.exists) {
+                          const userData = userSnapshot.data();
+                          const userPoints = userData.points || 0; // Default to 0 if points field doesn't exist
+                          displayUserProfile(userName, userPoints);
+                      } else {
+                          console.error('User document not found');
+                      }
+                  })
+                  .catch((error) => {
+                      console.error('Error fetching user data:', error);
+                  });
+          } else {
+              // User is not signed in, handle this case accordingly
+          }
+      });
+  }
+
+
+
+    ///////// UPLOAD BENCHMARK SCORE TAB /////////
+    document.querySelector('#score-tab').addEventListener('click', () => {
+      fetchBenchmarkScore();
+    });
+
+    function fetchBenchmarkScore() {
+      // Reference to your Firestore collection
+      const benchmarkScoreCollection = firestore.collection('your_collection'); // Replace 'your_collection' with the actual collection name
+
+      benchmarkScoreCollection.orderBy('points', 'desc').limit(10).get()
+          .then((querySnapshot) => {
+              const benchmarkScoreData = [];
+
+              querySnapshot.forEach((doc) => {
+                  const data = doc.data();
+                  benchmarkScoreData.push(data);
+              });
+
+              displayBenchmarkScore(benchmarkScoreData);
+          })
+          .catch((error) => {
+              console.error('Error fetching benchmark score data:', error);
+          });
+    }
+
+    function uploadScore(userId) {
+      // Get the file input element
+      const fileInput = document.getElementById('image');
+      const file = fileInput.files[0];
+
+      if (file) {
+        const fileName = `user_${userId}_${Date.now()}_${file.name}`;
+        const storage = firebase.storage();
+        const storageRef = storage.ref(fileName);
+        const uploadTask = storageRef.put(file);
+
+        uploadTask.on('state_changed', (snapshot) => {
+          // Handle progress (optional)
+        }, (error) => {
+          console.error('Upload error:', error);
+        }, () => {
+          console.log('Upload successful');
+
+          // Get the download URL of the uploaded file
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            // Now save the score data to Firestore
+            const benchmarkScoreCollection = firestore.collection('benchmarkScores'); // Replace with your collection name
+
+            // Save the user's benchmark score data
+            benchmarkScoreCollection.add({
+              userId: userId, // Assuming userId is the user's unique identifier
+              scoreImageURL: downloadURL,
+              // You can add more data fields here if needed
+            }).then((docRef) => {
+              console.log('Score data saved with ID: ', docRef.id);
+
+              // Now, after saving the data, you can call the function to calculate and award points.
+              awardPoints(userId, docRef.id); // Passing the userId and the document ID.
+            }).catch((error) => {
+              console.error('Error saving score data:', error);
+            });
+          });
+        });
+      } else {
+        // No file selected
+      }
+    }
+
+    // Firebase Cloud Function example to listen for new benchmark scores
+    const functions = require('firebase-functions');
+    const admin = require('firebase-admin');
+    admin.initializeApp();
+
+    exports.calculatePoints = functions.firestore
+      .document('benchmarkScores/{scoreId}')
+      .onCreate((snapshot, context) => {
+        const data = snapshot.data();
+
+        // Custom logic to calculate points based on the benchmark score data
+        const pointsAwarded = calculatePointsLogic(data.scoreImageURL);
+
+        // Update the user's points in their user document
+        const usersCollection = admin.firestore().collection('users');
+        const userDoc = usersCollection.doc(data.userId);
+
+        return admin.firestore().runTransaction((transaction) => {
+          return transaction.get(userDoc).then((userSnapshot) => {
+            if (!userSnapshot.exists) {
+              throw new Error('User document does not exist');
+            }
+
+            const currentPoints = userSnapshot.data().points || 0;
+            const updatedPoints = currentPoints + pointsAwarded;
+
+            // Update the user's points
+            return transaction.update(userDoc, { points: updatedPoints });
+          });
+        });
+      });
+
+
+    function awardPoints(userId, scoreDocumentId) {
+      // Fetch the user's current points from Firestore
+      const usersCollection = firestore.collection('users'); // Replace with your user collection name
+      const userDoc = usersCollection.doc(userId);
+
+      userDoc.get()
+        .then((userSnapshot) => {
+          if (userSnapshot.exists) {
+            const userData = userSnapshot.data();
+            let currentPoints = userData.points || 0; // Default to 0 if points field doesn't exist
+
+            // Custom logic to calculate points based on the benchmark score
+            const pointsAwarded = calculatePointsLogic(scoreDocumentId);
+
+            // Award points
+            currentPoints += pointsAwarded;
+
+            // Update the user's points in Firestore
+            return userDoc.update({ points: currentPoints });
+          } else {
+            console.error('User document not found');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+        });
+    }
+
+    // Custom logic to calculate points based on the benchmark score
+    function calculatePointsLogic(scoreDocumentId) {
+      // Implement your own logic here to calculate points based on the benchmark score.
+      // You can access the scoreDocumentId to retrieve the score data if needed.
+      // Return the number of points to be awarded.
+      return 30; // Adjust this value based on your calculation.
+    }
+
+
+
+
+
+
+    ///////// LEADERBOARD TAB /////////
+    document.querySelector('#leaderboard-tab').addEventListener('click', () => {
+      fetchLeaderboard();
+    });
+
+    function fetchLeaderboard() {
+      // Reference to your Firestore collection
+      const leaderboardCollection = firestore.collection('your_collection'); // Replace 'your_collection' with the actual collection name
+
+      leaderboardCollection.orderBy('points', 'desc').limit(10).get()
+          .then((querySnapshot) => {
+              const leaderboardData = [];
+
+              querySnapshot.forEach((doc) => {
+                  const data = doc.data();
+                  leaderboardData.push(data);
+              });
+
+              displayLeaderboard(leaderboardData);
+          })
+          .catch((error) => {
+              console.error('Error fetching leaderboard data:', error);
+          });
+    }
+
+    function displayLeaderboard(leaderboardData) {
+      const leaderboardTable = document.getElementById('leaderboard-table');
+      const tbody = leaderboardTable.querySelector('tbody');
+
+      // Clear existing rows in the table
+      tbody.innerHTML = '';
+
+      leaderboardData.forEach((entry, index) => {
+          const row = document.createElement('tr');
+          const rankCell = document.createElement('td');
+          const userCell = document.createElement('td');
+          const pointsCell = document.createElement('td');
+
+          rankCell.textContent = index + 1; // Rank
+          userCell.textContent = entry.username; // User's name
+          pointsCell.textContent = entry.points; // Points
+
+          row.appendChild(rankCell);
+          row.appendChild(userCell);
+          row.appendChild(pointsCell);
+
+          tbody.appendChild(row);
+      });
+  }
+
+  </script>
+
+
+  <footer>
+      <p>&copy; 2023 HARD CYCLE</p>
+  </footer>
+
+
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+  
+
+
+</body>
+</html>
+
+
+
