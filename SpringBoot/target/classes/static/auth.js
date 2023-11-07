@@ -15,7 +15,7 @@ auth.onAuthStateChanged(user =>{
     if(user){
         console.log('User logged in: ', user)
         checklogin(user)
-        console.log(user.displayName)
+        document.getElementById("accountinfo").innerText=user.displayName
     }
     else{
         sessionStorage.removeItem('idToken');
