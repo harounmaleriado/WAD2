@@ -26,25 +26,12 @@
 
 #userAuth {
     display: flex;
-    gap: 20px;
+
     justify-content: center;
     align-items: center;
 }
 
-#userAuth a {
-    text-decoration: none;
-    padding: 10px 20px; /* Add padding to the buttons */
-    border: 2px solid #009688;
-    border-radius: 5px;
-    color: #009688;
-    transition: all 0.3s ease;
-    margin: 10px; /* Add margin around the buttons */
-}
 
-#userAuth a:hover {
-    background-color: #009688;
-    color: white;
-}
 
 .carousel-inner img {
     width: 450px; /* Specify the desired width */
