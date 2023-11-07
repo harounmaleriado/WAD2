@@ -76,7 +76,6 @@
         footer{
             text-align: center;
         }
-        
     </style>
 </head>
 <body>
@@ -122,26 +121,15 @@
                 <a href="" data-toggle="modal" data-target="#Login" class="logged-out text-reset" style="display:none">
                     Login 
                 </a>
-                <div class="dropdown">
-                    <a class="logged-in text-decoration-none dropdown-toggle bg-transparent border border-white text-reset" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="display:none">
-                      Account
-                    </a>
-                  
-                    <ul class="dropdown-menu dropdown-menu-lg-end">
-                      <li><a href=""  display="hidden" id="signout" class="logged-in text-reset dropdown-item" style="display:none">Sign Out</a></li>
-                      <li><a class="dropdown-item" href="userProfile.html">Profile</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </div>
-                <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
+                <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
                     Sign Out
-                </a> -->
+                </a>
             </div>
           </div>
           
         </div>
       </nav>
-
+      
 <!--Register Modal-->
 <div class="modal fade" id="Register" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -218,14 +206,14 @@
     <div class="container">
         <div class="row">
             <div class="header-text py-3 text-center">
-                <h2>Give your hardwares a new lease of life.</h2>
-                <h2>Find them a new home now!</h2>
+                <h2>Looking for computer parts? You've got the right place.</h2>
+                <h2>Browse Listings Now!</h2>
             </div>
         </div>
         <div class="row">
             <!-- CPU Category Box -->
             <div class="col-md-6 col-sm-12">
-                    <a href="cpu.html" class="category-box">
+                    <a href="cpuListing.html" class="category-box">
                         <img class="category-image"
                             src="https://static.vecteezy.com/system/resources/previews/020/094/296/non_2x/computer-cpu-icon-in-comic-style-circuit-board-cartoon-illustration-on-white-isolated-background-motherboard-chip-splash-effect-business-concept-vector.jpg"
                             alt="CPU">
@@ -234,7 +222,7 @@
             </div>
             <!-- RAM Category Box -->
             <div class="col-md-6 col-sm-12">
-                    <a href="ram.html" class="category-box">
+                    <a href="ramListing.html" class="category-box">
                         <img class="category-image"
                             src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
                             alt="RAM">
@@ -243,7 +231,7 @@
             </div>
             <!-- HDD Category Box -->
             <div class="col-md-6 col-sm-12">
-                <a href="hdd.html" class="category-box">
+                <a href="hddListing.html" class="category-box">
                         <img class="category-image"
                             src="https://media.istockphoto.com/id/1204276195/vector/hard-disk-vector-icon-style-illustration.jpg?s=612x612&w=0&k=20&c=Yxs2t6J3-dqvScdN-dnhEBMhfH1ygb84stn3YuhbY0Q="
                             alt="HDD">
@@ -252,7 +240,7 @@
             </div>
             <!-- SSD Category Box -->
             <div class="col-md-6 col-sm-12">
-                <a href="ssd.html" class="category-box">
+                <a href="ssdListing.html" class="category-box">
                         <img class="category-image"
                             src="https://static.vecteezy.com/system/resources/previews/022/610/149/non_2x/disk-ssd-storage-cartoon-illustration-vector.jpg"
                             alt="SSD">
@@ -262,19 +250,18 @@
             <!-- GPU Category Box -->
             <div class="row justify-content-center">
             <div class="col-md-6 col-sm-12">
-                    <a href="gpu.html" class="category-box">
+                    <a href="gpuListing.html" class="category-box">
                         <img class="category-image"
                             src="https://png.pngtree.com/png-vector/20230414/ourmid/pngtree-graphics-card-vector-png-image_6705735.png"
                             alt="GPU">
                         <div class="category-label">GPU</div>
                     </a>
             </div>
-            </div>
             <!-- Add more boxes as needed -->
         </div>
     </div>
     </div>
-    <footer class="text-center">
+    <footer>
         <p>&copy; 2023 HARD CYCLE</p>
     </footer>    
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
