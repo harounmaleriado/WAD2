@@ -4,6 +4,7 @@ const checklogin = (user)=>{
     if (user){
         loggedInLinks.forEach(item=>item.style.display="block")
         loggedOutLinks.forEach(item=>item.style.display="none")
+        document.getElementById("accountinfo").innerText=user.displayName
     }else{
         loggedInLinks.forEach(item=>item.style.display="none")
         loggedOutLinks.forEach(item=>item.style.display="block");
@@ -15,6 +16,7 @@ auth.onAuthStateChanged(user =>{
     if(user){
         console.log('User logged in: ', user)
         checklogin(user)
+        console.log(user.displayName)
     }
     else{
         sessionStorage.removeItem('idToken');
@@ -135,3 +137,19 @@ signout.addEventListener("click",(e)=>{
 // })
 
 
+// const app = Vue.createApp({
+//     data() {
+//         return {
+//             accountName: ""
+//         };
+//     },
+//     methods: {
+//         updateAccountName(user) {
+//             if (user) {
+//                 console.log("====UpdateAccountName=====")
+//                 this.accountName = user.displayName ? user.displayName : "Account";
+//             }
+//         }
+//     }
+// });
+// app.mount("#accountinfo")
