@@ -249,7 +249,7 @@
       <div  class="container">
         <div class="h1-container d-flex justify-content-between align-items-center"> 
             <h1>General Posts</h1>
-            <button class="btn btn-primary" @click="openCreatePostModal">Create Post</button>
+            <button class="btn btn-primary" @click="openCreatePostModal" >Create Post</button>
         </div>
         <br>
         <!-- Display the submitted posts  -->
@@ -419,16 +419,28 @@
             },
 
             methods: {
+
+                async fetchAllPosts() {
+                    const productsRef = db.collection('posts');
+                    const snapshot = await productsRef.get();
+                    this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                },
+
+
+
                 openCreatePostModal() {
                     this.$nextTick(() => {
                         new bootstrap.Modal(document.getElementById('createPostModal')).show();
                     });
                 },
+
+                
                 submitPost() {
 
                     const user = auth.currentUser;
                     if (user != null) {
                         const username = user.displayName;
+
 
                         // Get the form data
                         const title = document.getElementById('title').value; 
@@ -458,25 +470,72 @@
 
                         // Close the modal after submission
                         new bootstrap.Modal(document.getElementById('createPostModal')).hide();
-                    }
+                    // }else {
+                    //     // User is not logged in, show an error message
+                    //     alert('You must be logged in to create a post.');
+                    // }
+                }
                 },
+                // submitPost() {
+                //     const postData = {
+                //         title : this.selectedProduct.id,
+                //         postMessage: this.createPostForm.description,
+                        
+                //     };
+                //     if (!postData.title || !postData.productDescription) {
+                //         alert("All fields must be filled!");
+                //         return;
+                //     }
+
+                //     const user = auth.currentUser;
+                //     if (user != null) {
+                //         // const UID = user.uid;
+                //         const username = user.displayName;
+                        
+                //         try {
+                            
+                //             // const response = await axios.post('/api/posts', { ...postData, username });
+                //             axios.post('/api/posts', postData)
+                //             console.log('Post Created: ', response);
+                //             alert('Post successfully created!');
+                //             // Close the modal here if needed
+                //             let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
+                //             modalInstance.hide();
+                //             // Redirect to the original CPU page
+                //             window.location.href = 'generalpost1.html';
+                //         } catch (error) {
+                //             console.error('Error creating post: ', error);
+                //             alert('Error creating post.');
+                //         }
+
+                //         } else {
+                //             console.error("No user is signed in");
+                //             alert("Please sign in to create a post.");
+                //         }
+                // },
                 
 
 
-                async fetchAllPosts() {
+                // async fetchAllPosts() {
 
-                    // const postsRef = db.collection('general_posts');
-                    // const snapshot = await postsRef.get();
-                    // this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                //     // const postsRef = db.collection('general_posts');
+                //     // const snapshot = await postsRef.get();
+                //     // this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
 
-                    // Make an HTTP GET request to your server to fetch all posts
-                    try {
-                        const response = await axios.get('/api/posts'); // Replace '/api/posts' with your actual endpoint
-                        this.posts = response.data; // Update your data to store all posts
-                    } catch (error) {
-                        console.error('Error fetching all posts: ', error);
-                    }
-                },
+                //     // Make an HTTP GET request to your server to fetch all posts
+                //     try {
+                //         const response = await axios.get('/api/posts'); // Replace '/api/posts' with your actual endpoint
+                //         this.posts = response.data; // Update your data to store all posts
+                //     } catch (error) {
+                //         console.error('Error fetching all posts: ', error);
+                //     }
+                // },
+
+                // async fetchAllPosts() {
+                //     const postRef = db.collection('posts');
+                //     const snapshot = await postRef.get();
+                //     this.post = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                // },
 
                 openPostModal(post) {
                     console.log(post); // This should log the product that was clicked
