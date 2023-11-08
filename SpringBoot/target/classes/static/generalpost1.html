@@ -62,11 +62,11 @@
             justify-content: center; 
         }
 
-        #post-list {
+        /* #post-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center; 
-        }
+        } */
         
         .product-box {
             text-align: center;
@@ -270,14 +270,13 @@
                 
             </div>
         <br>
-            <div class="row">
-                <div id="post-list" class="col-12">
-                    <div v-for="post in filteredPosts" :key="post.id" class="col-md-4 product-box" @click="openModal(post)">
-                        <h3>{{ post.title }}</h3>
-                        <p>{{ post.message }}</p>
-                        <p>User: {{ post.username }}</p>
-                        <!-- Add more post details here -->
-                        
+           
+            <div>
+                <div class="card border-light mb-3" v-for="post in filteredPosts" :key="post.id" @click="openModal(post)">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
+                        <p class="card-text">{{ post.message }}</p>
                     </div>
                 </div>
             </div>
