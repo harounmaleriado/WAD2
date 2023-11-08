@@ -386,9 +386,7 @@
                             const response = await axios.post('/api/listings', { ...listingData, username });
                             console.log('Listing Created: ', response);
                             alert('Listing successfully created!');
-                            // Close the modal here if needed
-                            let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
-                            modalInstance.hide();
+                            
                             // Redirect to the original CPU page
                             window.location.href = 'ram.html';
                         } catch (error) {

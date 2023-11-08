@@ -279,7 +279,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Purchase Listing</h3>
+                <h3>Listing</h3>
                 <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -291,7 +291,7 @@
                 <!-- Add more details if needed -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="purchaseListing">Purchase</button>
+                <button type="button" class="btn btn-primary" @click="purchaseListing"> Start Chatting</button>
             </div>
         </div>
     </div>
@@ -388,21 +388,11 @@
                 },
                 async purchaseListing() {
                     const user = auth.currentUser;
-                    if (user) {
-                        // Perform the purchase action here
-                        // For example, you might send a request to your server to process the purchase
-                        console.log('Purchase made for product:', this.selectedProduct);
-                        alert('Purchase successful!');
-                        // Close the modal
-                        let modalInstance = bootstrap.Modal.getInstance(document.getElementById('purchaseModal'));
-                        modalInstance.hide();
-                    } else {
-                        console.error("No user is signed in");
-                        alert("Please sign in to make a purchase.");
+                        window.open("chats.html") ;
                     }
                 }
             }
-        }); 
+        ); 
 
     </script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@2.11.6/dist/umd/popper.min.js"></script>
