@@ -76,6 +76,28 @@
         footer{
             text-align: center;
         }
+    }
+        .tooltip-container {
+            position: absolute;
+            bottom: 30%;
+            display: none;
+        }
+
+        .tooltip-container video {
+            width: 500px; /* Set the desired width for the video */
+
+        }
+        
+
+#video-tooltip {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 50%;
+    margin-top: 20%;
+}
     </style>
 </head>
 <body>
@@ -240,13 +262,14 @@
             </div>
             <!-- RAM Category Box -->
             <div class="col-md-6 col-sm-12">
-                    <a href="ramListing.html" class="category-box">
-                        <img class="category-image"
-                            src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
-                            alt="RAM">
-                        <div class="category-label">RAM</div>
-                    </a>
-            </div>
+                <a href="ram.html" id="rambox" class="category-box" data-video-src="Comp 1.mp4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<div id='video-tooltip'><video width='320' height='240' controls autoplay><source src='Comp 1.mp4' type='video/mp4'></video></div>">
+                    <div id="video-tooltip" class="tooltip-container"></div>
+                    <img class="category-image"
+                        src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
+                        alt="RAM">
+                    <div class="category-label">RAM</div>
+                </a>
+        </div>
             <!-- HDD Category Box -->
             <div class="col-md-6 col-sm-12">
                 <a href="hddListing.html" class="category-box">
@@ -302,6 +325,8 @@
 
       </script>
       <script src="auth.js"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
@@ -309,7 +334,29 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
+    <script>
+        var $j = jQuery.noConflict();
+        
+        $j(document).ready(function () {
+            $j('#rambox').hover(function () {
+                var videoSrc = $j(this).data('video-src');
+                var tooltipContainer = $j('#video-tooltip');
+                var videoElement = $j('<video autoplay controls><source src="' + videoSrc + '" type="video/mp4"></video>');
+        
+                tooltipContainer.html(videoElement);
+                tooltipContainer.css({
+                    top: $j(this).offset().top - tooltipContainer.outerHeight(),
+                    left: $j(this).offset().left + ($j(this).outerWidth() - tooltipContainer.outerWidth()) / 2
+                });
+        
+                tooltipContainer.fadeIn();
+            }, function () {
+                $j('#video-tooltip').fadeOut().empty();
+            });
+        });
+        
+            </script>
+        
 </body>
 </html>
 
