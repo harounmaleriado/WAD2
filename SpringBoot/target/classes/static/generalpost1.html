@@ -483,11 +483,7 @@
                     if (user) {
                         user.getIdToken()
                             .then((token) => {
-                                return axios.post('/api/posts', { ...postData, username: user.displayName }, {
-                                    headers: {
-                                        Authorization: `Bearer ${token}`
-                                    }
-                                });
+                                return axios.post('/api/posts', { ...postData, username: user.displayName });
                             })
                             .then((response) => {
                                 if (response.data && response.data.error) {
@@ -509,9 +505,10 @@
                         alert("Please sign in to create a listing.");
                     }
                 },
+
                 async createComment() {
                     const commentData = {
-                        comment: this.commentForm.comment
+                        comment: this.commentForm.comment,
                     };
                     
                     if (!commentData.comment) {
@@ -521,11 +518,14 @@
 
                     const user = firebase.auth().currentUser;
                     // alert(user.displayName);
+                    const postID = this.selectedPost.id ;
 
                     if (user) {
                         user.getIdToken()
                             .then((token) => {
-                                return axios.post('/api/posts/comments', { ...commentData, username: user.displayName }, {
+                                // Use template literals to embed the postId in the URL
+                                const url = `/api/posts/${postID}/comments`;
+                                return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
                                     headers: {
                                         Authorization: `Bearer ${token}`
                                     }
@@ -539,18 +539,19 @@
                                 alert('Comment successfully added!');
                                 // Close the modal here if needed
                                 document.getElementById('commentModal').style.display = 'none';
-                                // Redirect to the original CPU page
-                                window.location.href = 'lis.html';
+                                // Redirect to the original page
+                                window.location.href = 'generalpost1.html'; // Assuming 'lis.html' was a typo
                             })
                             .catch((error) => {
                                 console.error('Error adding comment: ', error.message);
                                 alert('Error adding comment.');
                             });
-                    } else {
-                        console.error('User not authenticated');
-                        alert("Please sign in to create a listing.");
-                    }
+                            } else {
+                                console.error('User not authenticated');
+                                alert("Please sign in to create a comment.");
+                            }
                 }
+
             }
         });
 

@@ -1,9 +1,12 @@
 package ewasteless.project.classes;
 
 import java.time.Instant;
-import java.util.List;
 
-import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.Timestamp;
+import com.google.cloud.firestore.annotation.ServerTimestamp;
+
+import com.google.cloud.Timestamp;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +23,6 @@ public class Post {
     private String message;
     private String PostID ;
     private String username ;
-    private List<DocumentReference> comments;
+    
     private Instant createdTimestamp;
 }
