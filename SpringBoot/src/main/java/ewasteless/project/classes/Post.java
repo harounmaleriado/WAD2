@@ -18,7 +18,7 @@ public class Post {
 
     private String title ;
     private String message;
-
+    private String PostID ;
     private String username ;
     private List<DocumentReference> comments;
     private Instant createdTimestamp;

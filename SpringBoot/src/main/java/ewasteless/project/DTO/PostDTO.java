@@ -13,6 +13,5 @@ public class PostDTO {
 
     private String title ;
     private String message;
-
     private String username ;
 }
