@@ -1,106 +1,123 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>HARD CYCLE - Market Place</title>
+    <title>HARD CYCLE - Market Place(CPU)</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+    
+    
+    <script>
+
+        const firebaseConfig = { 
+            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
+            authDomain: "is216-e-wasteless.firebaseapp.com", 
+            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
+            projectId: "is216-e-wasteless", 
+            storageBucket: "is216-e-wasteless.appspot.com", 
+            messagingSenderId: "739112462842", 
+            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
+            measurementId: "G-3Q1JMEGCBE" 
+        };
+        // const firebaseConfig = {
+        //     apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+        //     authDomain: "is216-proj-76064.firebaseapp.com",
+        //     projectId: "is216-proj-76064",
+        //     storageBucket: "is216-proj-76064.appspot.com",
+        //     messagingSenderId: "1065642689100",
+        //     appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        // };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig)
+        const auth = firebase.auth()
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="axiosInterceptor.js"></script>  
+
+
+
     <style>
         body {
             background-color: #f8f9fa;
-            padding: 0%;
-            margin: 0%;
-            margin-bottom: 20px;
+            margin-bottom: 100px;
         }
         .container {
             margin-top: 20px;
         }
         .search-bar {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
-        .search-bar input {
-            width: 70%;
-            padding-right: 810px;
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
         }
-        .category-box {
+        .product-box {
             text-align: center;
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 10px;
             background-color: #fff;
-            margin-bottom: 20px;
             transition: transform 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 280px;
-        }
-        .category-image {
-            max-width: 230px;
-            max-height: 230px;
-            height: auto;
-        }
-        .category-label {
-            color: gray;
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-        /* Responsive grid adjustments */
-        @media (max-width: 576px) {
-            .category-box {
-                margin-right: 0;
-                margin-left: 0;
-            }
-        }
-        a {
-            color: gray;
-        }
-        .header-text {
-            color: #495057; /* Dark grey text */
-            margin-top: -20px; /* Adjusts the space between the nav and the header text */
-            margin-bottom: 20px; /* Adds some space below the header text */
-            border-bottom: 2px solid #dee2e6; /* Adds a subtle border line */
-        }
-
-        .header-text h2 {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            font-weight: bold;
-            font-size: 24px; /* Adjust the size as needed */
-            margin: 0;
+            max-width: 370px;
+            max-height: 500px;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
-        footer{
+        .product-box:hover {
+            transform: scale(1.04);
+        }
+        .product-image {
+            max-width: 100%;
+            height: 250px;
+        }
+        .sort-dropdown {
+            width: 120px;
+        }
+        h1 {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .h1-container {
+            padding-right: 15px; 
+            padding-left: 15px;  
+        }
+        .product-description {
+            cursor: pointer;
+        }
+        footer {
             text-align: center;
+            padding: 10px 0;
+            bottom: 0;
+            left: 0; /* Add this to ensure it starts from the very left */
+            right: 0; /* Add this to ensure it stretches to the very right */
+            width: 100%;
+            box-sizing: border-box; /* Include padding and border in the width */
+            margin: 0; /* Reset any inherited margin */
         }
-        .tooltip-container {
-            position: absolute;
-            bottom: 30%;
-            display: none;
+        .photo{
+            width: 200px;
+            height: 200px;
         }
 
-        .tooltip-container video {
-            width: 500px; /* Set the desired width for the video */
-
+        .leaderboard {
+            margin: 0 auto;
+            width: 100%;
+            max-width: 800px;
+            padding: 0 15px;
         }
-        
-
-#video-tooltip {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40%;
-    height: 50%;
-    margin-top: 20%;
-}
     </style>
 </head>
-<body>
-
+<body class="d-flex flex-column h-100">
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -239,131 +256,66 @@
     </div>
 </div>
 
-        </div>
-        </div>
-    </nav>
+
+<section id="app">
     <div class="container">
-        <div class="row">
-            <div class="header-text py-3 text-center">
-                <h2>Give your hardwares a new lease of life.</h2>
-                <h2>Find them a new home now!</h2>
-            </div>
+      <div  class="container">
+        <div class="h1-container"> 
+            <h1>Upload Benchmark Scores</h1>
         </div>
-        <div class="row">
-            <!-- CPU Category Box -->
-            <div class="col-md-6 col-sm-12">
-                    <a href="cpu.html" class="category-box">
-                        <img class="category-image"
-                            src="https://static.vecteezy.com/system/resources/previews/020/094/296/non_2x/computer-cpu-icon-in-comic-style-circuit-board-cartoon-illustration-on-white-isolated-background-motherboard-chip-splash-effect-business-concept-vector.jpg"
-                            alt="CPU">
-                        <div class="category-label">CPU</div>
-                    </a>
-            </div>
-            <!-- RAM Category Box -->
-            <div class="col-md-6 col-sm-12">
-                    <a href="ram.html" id="rambox" class="category-box" data-video-src="Comp 1.mp4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<div id='video-tooltip'><video width='320' height='240' controls autoplay><source src='Comp 1.mp4' type='video/mp4'></video></div>">
-                        <div id="video-tooltip" class="tooltip-container"></div>
-                        <img class="category-image"
-                            src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
-                            alt="RAM">
-                        <div class="category-label">RAM</div>
-                    </a>
-            </div>
-            <!-- HDD Category Box -->
-            <div class="col-md-6 col-sm-12">
-                <a href="hdd.html" class="category-box">
-                        <img class="category-image"
-                            src="https://media.istockphoto.com/id/1204276195/vector/hard-disk-vector-icon-style-illustration.jpg?s=612x612&w=0&k=20&c=Yxs2t6J3-dqvScdN-dnhEBMhfH1ygb84stn3YuhbY0Q="
-                            alt="HDD">
-                        <div class="category-label">HDD</div>
-                    </a>
-            </div>
-            <!-- SSD Category Box -->
-            <div class="col-md-6 col-sm-12">
-                <a href="ssd.html" class="category-box">
-                        <img class="category-image"
-                            src="https://static.vecteezy.com/system/resources/previews/022/610/149/non_2x/disk-ssd-storage-cartoon-illustration-vector.jpg"
-                            alt="SSD">
-                        <div class="category-label">SSD</div>
-                    </a>
-            </div>
-            <!-- GPU Category Box -->
-            <div class="row justify-content-center">
-            <div class="col-md-6 col-sm-12">
-                    <a href="gpu.html" class="category-box">
-                        <img class="category-image"
-                            src="https://png.pngtree.com/png-vector/20230414/ourmid/pngtree-graphics-card-vector-png-image_6705735.png"
-                            alt="GPU">
-                        <div class="category-label">GPU</div>
-                    </a>
-            </div>
-            </div>
-            <!-- Add more boxes as needed -->
-        </div>
+        <br>
+        <div class="container">
+            <form id="benchmark-form" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="image" class="form-label">Upload Image:</label>
+                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="uploadScore()">Submit Score</button>
+            </form>
+            <br><br>
+            <p>Disclaimer: HARD CYCLE Admin will facilitate in awarding points</p>
+          </div>
+        
+    
     </div>
-    </div>
-    <footer class="text-center">
-        <p>&copy; 2023 HARD CYCLE</p>
-    </footer>    
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+   
+</section>
+    
     <script>
-        const firebaseConfig = { 
-            apiKey: "AIzaSyDvMDBVMhRhwjMCxByvbBlLEBI33glaKrU", 
-            authDomain: "is216-e-wasteless.firebaseapp.com", 
-            databaseURL: "https://is216-e-wasteless-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "is216-e-wasteless", 
-            storageBucket: "is216-e-wasteless.appspot.com", 
-            messagingSenderId: "739112462842", 
-            appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
-            measurementId: "G-3Q1JMEGCBE" 
-        };
-        firebase.initializeApp(firebaseConfig)
-        // Initialize Firebase
-        const auth = firebase.auth()
+        
+    // fetch
+        const db = firebase.firestore();
 
+        new Vue({
+            el: '#app',
+            data: {
+                leaderboard: [], // Array to store leaderboard data
+                // Other data properties...
+            },
+            created() {
+                this.fetchLeaderboard(); // Call the method to fetch leaderboard data
+                // Other code...
+            },
+            methods: {
+                async fetchLeaderboard() {
+                const leaderboardRef = db.collection('leaderboard'); // Replace 'leaderboard' with the actual collection name in Firebase
+                const snapshot = await leaderboardRef.orderBy('score', 'desc').get(); // Assuming you want to order by score in descending order
+                this.leaderboard = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                },
+                // Other methods...
+            }
+            });
 
-      </script>
-      <script src="auth.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script>
-        // Enable Bootstrap tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl, {
-                html: true // Enable HTML content in the tooltip
-            })
-        });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    <script>
-var $j = jQuery.noConflict();
+    <script src="auth.js"></script>
 
-$j(document).ready(function () {
-    $j('#rambox').hover(function () {
-        var videoSrc = $j(this).data('video-src');
-        var tooltipContainer = $j('#video-tooltip');
-        var videoElement = $j('<video autoplay controls><source src="' + videoSrc + '" type="video/mp4"></video>');
-
-        tooltipContainer.html(videoElement);
-        tooltipContainer.css({
-            top: $j(this).offset().top - tooltipContainer.outerHeight(),
-            left: $j(this).offset().left + ($j(this).outerWidth() - tooltipContainer.outerWidth()) / 2
-        });
-
-        tooltipContainer.fadeIn();
-    }, function () {
-        $j('#video-tooltip').fadeOut().empty();
-    });
-});
-
-    </script>
-
+    <footer>
+        <p>&copy; 2023 HARD CYCLE</p>
+    </footer>
 </body>
 </html>
 
