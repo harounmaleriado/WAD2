@@ -1,3 +1,5 @@
+
+
 const loggedOutLinks = document.querySelectorAll(".logged-out")
 const loggedInLinks = document.querySelectorAll(".logged-in")
 const checklogin = (user)=>{
@@ -88,6 +90,7 @@ document.getElementById('signinForm').addEventListener('submit', function(event)
         // Reset the form here
         document.getElementById('signinForm').reset();
         console.log('User signed in and token stored.');
+;
     })
     .catch((error) => {
         console.error("Error signing in", error);

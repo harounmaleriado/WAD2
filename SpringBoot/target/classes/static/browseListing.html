@@ -76,7 +76,6 @@
         footer{
             text-align: center;
         }
-    }
         .tooltip-container {
             position: absolute;
             bottom: 30%;
@@ -262,7 +261,7 @@
             </div>
             <!-- RAM Category Box -->
             <div class="col-md-6 col-sm-12">
-                <a href="ram.html" id="rambox" class="category-box" data-video-src="Comp 1.mp4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<div id='video-tooltip'><video width='320' height='240' controls autoplay><source src='Comp 1.mp4' type='video/mp4'></video></div>">
+                <a href="ramListing.html" id="rambox" class="category-box" data-video-src="Comp 1.mp4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="<div id='video-tooltip'><video width='320' height='240' controls autoplay><source src='Comp 1.mp4' type='video/mp4'></video></div>">
                     <div id="video-tooltip" class="tooltip-container"></div>
                     <img class="category-image"
                         src="https://cdn.vectorstock.com/i/preview-1x/48/67/ram-flash-memory-chip-pc-hardware-icon-in-flat-vector-28054867.jpg"
@@ -325,15 +324,25 @@
 
       </script>
       <script src="auth.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+   
+    <script>
+        // Enable Bootstrap tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl, {
+                html: true // Enable HTML content in the tooltip
+            })
+        });
+    </script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
         var $j = jQuery.noConflict();
         
@@ -356,7 +365,6 @@
         });
         
             </script>
-        
 </body>
 </html>
 
