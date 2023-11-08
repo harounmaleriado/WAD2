@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>HARD CYCLE - Market Place(CPU)</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
@@ -44,7 +44,7 @@
     <style>
         body {
             background-color: #f8f9fa;
-            margin-bottom: 100px;
+            min-height: 1000px;
         }
         .container {
             margin-top: 20px;
@@ -61,6 +61,13 @@
             flex-wrap: wrap;
             justify-content: center; 
         }
+
+        #post-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+        }
+        
         .product-box {
             text-align: center;
             padding: 20px;
@@ -96,13 +103,7 @@
         }
         footer {
             text-align: center;
-            padding: 10px 0;
-            bottom: 0;
-            left: 0; /* Add this to ensure it starts from the very left */
-            right: 0; /* Add this to ensure it stretches to the very right */
-            width: 100%;
-            box-sizing: border-box; /* Include padding and border in the width */
-            margin: 0; /* Reset any inherited margin */
+            margin-top: auto;
         }
         .photo{
             width: 200px;
@@ -160,7 +161,6 @@
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                       <li><a href=""  display="hidden" id="signout" class="logged-in text-reset dropdown-item" style="display:none">Sign Out</a></li>
                       <li><a class="dropdown-item" href="userProfile.html">Profile</a></li>
-
                     </ul>
                   </div>
                 <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
@@ -243,58 +243,64 @@
 </div>
 
 
-
 <section id="app">
     <div class="container">
-      <div  class="container">
-        <div class="h1-container d-flex justify-content-between align-items-center"> 
-            <h1>General Posts</h1>
-            <button class="btn btn-primary" @click="openCreatePostModal" >Create Post</button>
-        </div>
+        <div  class="container">
+            <div class="h1-container d-flex justify-content-between align-items-center"> 
+                <h1>General Posts</h1>
+                <button class="btn btn-primary" @click="openCreatePostModal">Create Post</button>  
+            </div>
+            <br>
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Search Posts" v-model="searchQuery">
+                <!-- <select class="form-control sort-dropdown" v-model="sortOption">
+                    <option value="priceUp">Price Up</option>
+                    <option value="priceDown">Price Down</option>
+                    <option value="benchmarkUp">Benchmark Up</option>
+                    <option value="benchmarkDown">Benchmark Down</option>
+                </select> -->
+                
+            </div>
         <br>
-        <!-- Display the submitted posts  -->
-        <!-- <div class="row">
             <div class="row">
                 <div id="post-list" class="col-12">
-                    <div v-for="post in submittedPosts" :key="post.id" class="col-md-4 product-box" @click="openPostModal(post)">
+                    <div v-for="post in filteredPosts" :key="post.id" class="col-md-4 product-box" @click="openModal(post)">
                         <h3>{{ post.title }}</h3>
-                        <p>{{ post.creatorName }}</p>
+                        <p>{{ post.message }}</p>
+                        <p>User: {{ post.username }}</p>
+                        <!-- Add more post details here -->
+                        
                     </div>
                 </div>
             </div>
-        </div> -->
-
-        <div>
-            <div class="post" v-for="post in posts" @click="openPostModal(post)">
-              <h3>{{ post.title }}</h3>
-              <p>Creator: {{ post.creatorName }}</p>
-            </div>
+            
         </div>
-
-        <!-- post Modal -->
+        
+    <!-- Post Modal -->
         <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h3>{{ selectedPost.title }}</h3>
-                  <p>Creator: {{ selectedPost.creatorName }}</p>
-                  <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Post</h3>
+                        <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Title {{ selectedPost.title }}</p>
+                        <p>User: {{ selectedPost.username }}</p>
+                        <p>Message: {{ selectedPost.message }}</p>
+                        <p>Comments: {{ selectedPost.comments }}</p>
+
+                        <!-- Add more details if needed -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="openCommentModal">Comment</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <ul>
-                    <li v-for="response in selectedPost.responses" :key="response.id">{{ response.content }}</li>
-                  </ul>
-                </div>
-              </div>
             </div>
         </div>
-       
-            
-        
-          
-        <!-- postForm Modal -->
+
         <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -304,78 +310,55 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
                     <div class="modal-body">
                         <form id="createPostForm">
                             <div class="mb-3">
                                 <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" required>
+                                <input type="text" class="form-control" id="title" v-model="createPostForm.title">
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message" required></textarea>
+                                <textarea class="form-control" id="message" v-model="createPostForm.message"></textarea>
                             </div>
-                            <!-- <div class="mb-3">
-                                <label for="usernameInput" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="usernameInput" required>
-                            </div> -->
-                            <button type="button" class="btn btn-primary" @click="submitPost">Submit Post</button>
+                            <button type="button" class="btn btn-primary" @click="createPost">Submit Post</button>
                         </form>
                     </div>
+
                 </div>
             </div>
-        </div>
-        
+        </div> 
 
+        <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Comment</h3>
+                        <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
-        <div class="search-bar">
-            <input type="text" class="form-control" placeholder="Search Posts" v-model="searchQuery">
-            <select class="form-control sort-dropdown" v-model="sortOption">
-                <option value="alphabet">A-Z</option>
-                <option value="date-asc">Date (Oldest to Latest)</option>
-                <option value="date-desc">Date (Latest to Oldest)</option>
-            </select>
-        </div>
-        
-        <!-- <div class="row">
-            <div class="row">
-                <div id="post-list" class="col-12">
-                  <div v-for="post in posts" :key="post.id" class="col-md-4 product-box" @click="openPostModal(post)">
-                    <h3>{{ post.title }}</h3>
-                    <p>{{ post.creatorName }}</p>
-                    
-                  </div>
+                    <div class="modal-body">
+                        <form id="commentForm">
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea class="form-control" id="comment" v-model="commentForm.comment"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="createComment">Submit Comment</button>
+                        </form>
+                    </div>
+
                 </div>
             </div>
-        </div> -->
+        </div> 
+        
     </div>
-    <!-- Modal -->
-<!-- <div class="modal fade" id="listingModal" tabindex="-1" aria-labelledby="listingModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>{{ selectedPost.title }}</h3>
-                <h5 class="modal-title" id="listingModalLabel"></h5> Removed the brand and model bindings here
-                <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Creator: {{ selectedPost.creatorName }}</p>
-                <h4>Responses</h4>
-                <ul v-if="userAuthenticated">
-                    <li v-for="response in responses" :key="response.id">{{ response.content }}</li>
-                </ul>
-                <p v-else>Log in to view responses.</p>
-            </div>
-            
-        </div>
-    </div>
-</div> -->
-
-
 </section>
     
     <script>
+
+        
         
     // fetch
         const db = firebase.firestore();
@@ -383,255 +366,188 @@
         new Vue({
             el: '#app',
             data: {
-                posts: [], // Array to store general posts
-                responses: [], // Array to store responses
+                posts: [],
                 searchQuery: '',
-                sortOption: 'alphabet',
-                selectedPost: {} // This will hold the selected product data
-                // userAuthenticated: false
+                sortOption: 'priceUp',
+                selectedPost: {}, // This will hold the selected post data
+                createPostForm: { // This will bind to your form inputs
+                    title: '',
+                    message: ''
+                },
+                commentForm: { // This will bind to your form inputs
+                    comment: ''
+                }
             },
             computed: {
                 filteredPosts() {
                     let filtered = this.posts;
-
                     if (this.searchQuery) {
-                    const searchLower = this.searchQuery.toLowerCase();
-                    filtered = filtered.filter(post => {
-                        // Concatenate post title and creator name and check if the search query is included
-                        const fullPostInfo = (post.title + " " + post.creatorName).toLowerCase();
-                        return fullPostInfo.includes(searchLower);
-                    });
+                        const searchLower = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(post => {
+                            // Concatenate brand and model with a space and check if the search query is included
+                            const fullPostName = (post.title + " " + post.username).toLowerCase();
+                            return fullPostName.includes(searchLower);
+                        });
                     }
-
-                    if (this.sortOption === 'alphabet') {
-                    filtered.sort((a, b) => a.title.localeCompare(b.title));
-                    } else if (this.sortOption === 'date-asc') {
-                    filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-                    } else if (this.sortOption === 'date-desc') {
-                    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    switch (this.sortOption) {
+                        case "priceUp":
+                            filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                            break;
+                        case "priceDown":
+                            filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                            break;
+                        case "benchmarkUp":
+                            filtered.sort((a, b) => parseFloat(a.benchmark) - parseFloat(b.benchmark));
+                            break;
+                        case "benchmarkDown":
+                            filtered.sort((a, b) => parseFloat(b.benchmark) - parseFloat(a.benchmark));
+                            break;
                     }
-
                     return filtered;
                 }
             },
             created() {
-                this.fetchAllPosts(); // Fetch submitted posts when the page loads
+                this.fetchPosts();
             },
-
             methods: {
 
-                async fetchAllPosts() {
-                    const productsRef = db.collection('posts');
-                    const snapshot = await productsRef.get();
-                    this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                async fetchPosts() {
+                    const postsRef = db.collection('posts');
+                    const snapshot = await postsRef.get();
+                    this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
                 },
 
-
-
-                openCreatePostModal() {
-                    this.$nextTick(() => {
-                        new bootstrap.Modal(document.getElementById('createPostModal')).show();
-                    });
+                getImageUrl(brand) {
+                    if (brand === 'Intel') {
+                        return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
+                    } else if (brand === 'AMD') {
+                        return 'https://i.ebayimg.com/images/g/uPQAAOSwDVxexpBc/s-l400.jpg';
+                    }
+                    return ''; // default image or empty if no image is required for other brands
                 },
-
-                
-                submitPost() {
-
-                    const user = auth.currentUser;
-                    if (user != null) {
-                        const username = user.displayName;
-
-
-                        // Get the form data
-                        const title = document.getElementById('title').value; 
-                        const message = document.getElementById('message').value;
-
-                        const postData = {
-                            title: title, // Use the 'title' variable
-                            message: message, // Use the 'message' variable
-                            creatorName: username,
-                            // date: new Date(),
-                        };
-                        
-
-                        // Perform your post submission logic here, e.g., using Axios to send the data to your server
-                        // Use Axios to send a POST request
-                        axios.post('/api/posts', postData)
-                            .then(function (response) {
-                                // Handle success
-                                console.log('Post created: ', response.data);
-                                alert('Post successfully created at ' + response.data);
-                            })
-                            .catch(function (error) {
-                                // Handle error
-                                console.error('Error creating post: ', error);
-                                alert('Error creating post: ' + error.message);
-                            });
-
-                        // Close the modal after submission
-                        new bootstrap.Modal(document.getElementById('createPostModal')).hide();
-                    // }else {
-                    //     // User is not logged in, show an error message
-                    //     alert('You must be logged in to create a post.');
-                    // }
-                }
-                },
-                // submitPost() {
-                //     const postData = {
-                //         title : this.selectedProduct.id,
-                //         postMessage: this.createPostForm.description,
-                        
-                //     };
-                //     if (!postData.title || !postData.productDescription) {
-                //         alert("All fields must be filled!");
-                //         return;
-                //     }
-
-                //     const user = auth.currentUser;
-                //     if (user != null) {
-                //         // const UID = user.uid;
-                //         const username = user.displayName;
-                        
-                //         try {
-                            
-                //             // const response = await axios.post('/api/posts', { ...postData, username });
-                //             axios.post('/api/posts', postData)
-                //             console.log('Post Created: ', response);
-                //             alert('Post successfully created!');
-                //             // Close the modal here if needed
-                //             let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
-                //             modalInstance.hide();
-                //             // Redirect to the original CPU page
-                //             window.location.href = 'generalpost1.html';
-                //         } catch (error) {
-                //             console.error('Error creating post: ', error);
-                //             alert('Error creating post.');
-                //         }
-
-                //         } else {
-                //             console.error("No user is signed in");
-                //             alert("Please sign in to create a post.");
-                //         }
-                // },
-                
-
-
-                // async fetchAllPosts() {
-
-                //     // const postsRef = db.collection('general_posts');
-                //     // const snapshot = await postsRef.get();
-                //     // this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-
-                //     // Make an HTTP GET request to your server to fetch all posts
-                //     try {
-                //         const response = await axios.get('/api/posts'); // Replace '/api/posts' with your actual endpoint
-                //         this.posts = response.data; // Update your data to store all posts
-                //     } catch (error) {
-                //         console.error('Error fetching all posts: ', error);
-                //     }
-                // },
-
-                // async fetchAllPosts() {
-                //     const postRef = db.collection('posts');
-                //     const snapshot = await postRef.get();
-                //     this.post = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                // },
-
-                openPostModal(post) {
+                openModal(post) {
                     console.log(post); // This should log the product that was clicked
                     this.selectedPost = post;
                     this.$nextTick(() => {
                         new bootstrap.Modal(document.getElementById('postModal')).show();
                     });
                 },
-                
+                async purchaseListing() {
+                    const user = auth.currentUser;
+                    if (user) {
+                        // Perform the purchase action here
+                        // For example, you might send a request to your server to process the purchase
+                        console.log('Purchase made for product:', this.selectedProduct);
+                        alert('Purchase successful!');
+                        // Close the modal
+                        let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
+                        modalInstance.hide();
+                    } else {
+                        console.error("No user is signed in");
+                        alert("Please sign in to make a purchase.");
+                    }
+                },
 
+                openCreatePostModal() {
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('createPostModal')).show();
+                    });
+                },
+                openCommentModal() {
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('commentModal')).show();
+                    });
+                },
 
+                async createPost() {
+                    const postData = {
+                        title: this.createPostForm.title, 
+                        message: this.createPostForm.message
+                    };
+                    
+                    if (!postData.title || !postData.message) {
+                        alert("All fields must be filled!");
+                        return;
+                    }
 
+                    const user = firebase.auth().currentUser;
+                    // alert(user.displayName);
 
+                    if (user) {
+                        user.getIdToken()
+                            .then((token) => {
+                                return axios.post('/api/posts', { ...postData, username: user.displayName }, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
+                            })
+                            .then((response) => {
+                                if (response.data && response.data.error) {
+                                    throw new Error(`Server Error: ${response.data.error}`);
+                                }
+                                console.log('Post Created: ', response);
+                                alert('Post successfully created!');
+                                // Close the modal here if needed
+                                document.getElementById('createPostModal').style.display = 'none';
+                                // Redirect to the original CPU page
+                                window.location.href = 'generalpost1.html';
+                            })
+                            .catch((error) => {
+                                console.error('Error creating post: ', error.message);
+                                alert('Error creating post.');
+                            });
+                    } else {
+                        console.error('User not authenticated');
+                        alert("Please sign in to create a listing.");
+                    }
+                },
+                async createComment() {
+                    const commentData = {
+                        comment: this.commentForm.comment
+                    };
+                    
+                    if (!commentData.comment) {
+                        alert("All fields must be filled!");
+                        return;
+                    }
 
+                    const user = firebase.auth().currentUser;
+                    // alert(user.displayName);
 
-
-
-
-                // async fetchPosts() {
-                //     const postsRef = db.collection('general_posts');
-                //     const snapshot = await postsRef.get();
-                //     this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                // },
-                // openPostModal(post) {
-                //     this.selectedPost = post;
-                //     this.fetchResponsesForPost(post.id); // Fetch responses for the selected post
-                //     this.$nextTick(() => {
-                //     new bootstrap.Modal(document.getElementById('listingModal')).show();
-                //     });
-                // },
-
-                // async fetchResponsesForPost(postId) {
-                //     // Check authentication status here
-                //     const user = auth().currentUser;
-
-                //     if (!user) {
-                //         // User is not authenticated, you can choose to display a message or take any other action.
-                //         this.responses = []; // Clear responses if not authenticated.
-                //         return;
-                //     }
-
-                //     // User is authenticated, proceed to fetch responses for the selected post
-                //     const responsesRef = db.collection('post_responses').where('postId', '==', postId);
-                //     const snapshot = await responsesRef.get();
-                //     this.responses = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                // },
-                // openCreatePostModal() {
-                //     // Show the "Create Post" modal
-                //     this.$nextTick(() => {
-                //         new bootstrap.Modal(document.getElementById('createPostModal')).show();
-                //     });
-                // },
-
-       
-                // async createPost() {
-                //     const postData = {
-                //         title: this.postForm.title,
-                //         postDescription: this.postForm.postDescription,
-                //         creatorName: this.postForm.creatorName,  // Add the creator's name
-                //         date: new Date(),  // Add the current date as a timestamp
-                //     };
-
-                //     if (!postData.title || !postData.postDescription || !postData.creatorName) {
-                //         alert("All fields must be filled!");
-                //         return;
-                //     }
-
-                //     const user = auth.currentUser;
-                //     if (user != null) {
-                //         const UID = user.uid;
-
-                //         try {
-                //             // Add the post to the "general_posts" collection
-                //             const response = await db.collection('general_posts').add(postData);
-
-                //             console.log('Post Created: ', response);
-                //             alert('Post successfully created!');
-                //             // Close the modal here if needed
-                //             let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
-                //             modalInstance.hide();
-                //             // Redirect to the original CPU page or wherever you need to go
-                //             window.location.href = 'generalposts.html';
-                //         } catch (error) {
-                //             console.error('Error creating post: ', error);
-                //             alert('Error creating post.');
-                //         }
-                //     } else {
-                //         console.error("No user is signed in");
-                //         alert("Please sign in to create a post.");
-                //     }
-                // }
-
-
+                    if (user) {
+                        user.getIdToken()
+                            .then((token) => {
+                                return axios.post('/api/posts/comments', { ...commentData, username: user.displayName }, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
+                            })
+                            .then((response) => {
+                                if (response.data && response.data.error) {
+                                    throw new Error(`Server Error: ${response.data.error}`);
+                                }
+                                console.log('Comment Added: ', response);
+                                alert('Comment successfully added!');
+                                // Close the modal here if needed
+                                document.getElementById('commentModal').style.display = 'none';
+                                // Redirect to the original CPU page
+                                window.location.href = 'lis.html';
+                            })
+                            .catch((error) => {
+                                console.error('Error adding comment: ', error.message);
+                                alert('Error adding comment.');
+                            });
+                    } else {
+                        console.error('User not authenticated');
+                        alert("Please sign in to create a listing.");
+                    }
+                }
             }
-        }); 
+        });
 
+    
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -644,4 +560,3 @@
     </footer>
 </body>
 </html>
-

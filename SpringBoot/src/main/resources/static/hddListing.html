@@ -99,8 +99,7 @@
             margin-top: auto;
         }
         .photo{
-            width: 200px;
-            height: 200px;
+            max-height: 200px;
         }
     </style>
 </head>
@@ -365,10 +364,10 @@
 
 
                 getImageUrl(brand) {
-                    if (brand === 'Intel') {
-                        return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
-                    } else if (brand === 'AMD') {
-                        return 'https://i.ebayimg.com/images/g/uPQAAOSwDVxexpBc/s-l400.jpg';
+                    if (brand === 'Seagate') {
+                        return 'https://m.media-amazon.com/images/I/71dpms8gexL._AC_SL1500_.jpg';
+                    } else if (brand === 'Toshiba') {
+                        return 'https://tradepac.com.sg/image/cache/product-images/toshiba%201%20tb-500x500.jpg';
                     }
                     return ''; // default image or empty if no image is required for other brands
                 },
