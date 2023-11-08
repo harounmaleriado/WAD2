@@ -354,14 +354,22 @@
                 }
             },
             created() {
-                this.fetchPosts();
+                this.listenForNewPosts();
             },
-            methods: {
 
-                async fetchPosts() {
+            
+            methods: {
+                listenForNewPosts() {
                     const postsRef = db.collection('chats');
-                    const snapshot = await postsRef.get();
-                    this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                    postsRef.onSnapshot(snapshot => {
+                        snapshot.docChanges().forEach(change => {
+                            if (change.type === "added") {
+                                // Add the new post to the posts array
+                                const newPost = { ...change.doc.data(), id: change.doc.id };
+                                this.posts.push(newPost);
+                            }
+                        });
+                    });
                 },
 
                 
