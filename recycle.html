@@ -13,47 +13,66 @@
 <body id="app">
 
   <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="#">HARD CYCLE</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="homepage.html">HARD CYCLE</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">About Us</a>
+      <div class="collapse navbar-collapse justify-content-between" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="aboutus.html">About Us</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Market Place</a>
+            <a class="nav-link" href="marketplace.html">Market Place</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Donation</a>
-          </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown active">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Communities
+              Recycle
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="community-info.html">About Support Community</a>
-              <a class="dropdown-item" href="community-guides.html">How to Earn Points</a>
-              <a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a>
+              <a class="dropdown-item disabled">How to Recycle your E-Waste</a>
+              <a class="dropdown-item" href="dropoff.html">E-Waste Bin Locations</a>
             </div>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Communities 
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="community-info.html">About Support Community </a></li>
+                <li><a class="dropdown-item" href="community-guides.html">How to Earn Points</a></li>
+                <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
+            </ul>
+          </li>
         </ul>
+        <div class="nav-item d-flex" id="userAuth">
+            <a href="" data-toggle="modal" data-target="#Register" class="logged-out text-reset me-2" style="display:none">
+                Register 
+            </a>
+            <a href="" data-toggle="modal" data-target="#Login" class="logged-out text-reset" style="display:none">
+                Login 
+            </a>
+            <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
+                Sign Out
+            </a>
+        </div>
       </div>
+      
     </div>
   </nav>
 
   <!-- Carousel Section -->
   <div class="carousel slide mt-4" id="ewasteCarousel" data-ride="carousel">
     <div class="container border border-secondary">
-      <h1 class="border-bottom border-secondary">Types of E-Waste</h1>
+      <h3 class="border-bottom border-secondary">Types of E-Waste</h3>
       <div class="carousel-inner">
         <!-- Add your carousel items here -->
         <!-- Example: -->
         <div class="carousel-item active">
             <h5>Information and Communication Equipment</h5>
+            <img src="https://static.thenounproject.com/png/252447-200.png">
             <ul class="list-group">
                 <li class="list-group-item">Printer</li>
                 <li class="list-group-item">Computer</li>
@@ -70,6 +89,7 @@
         </div>
         <div class="carousel-item">
             <h5>Large Household Appliance</h5>
+            <img src="https://static.thenounproject.com/png/1205515-200.png">
             <ul class="list-group">
                 <li class="list-group-item">Consumer Refrigerator</li>
                 <li class="list-group-item">Air Conditioner</li>
@@ -80,6 +100,7 @@
         </div>
         <div class="carousel-item">
             <h5>Electric Mobility Device</h5>
+            <img src="https://static.thenounproject.com/png/1141070-200.png">
             <ul class="list-group">
                 <li class="list-group-item">Personal Mobility Device</li>
                 <li class="list-group-item">Power Assisted Bicycle</li>
@@ -88,6 +109,7 @@
         </div>
         <div class="carousel-item">
             <h5>Household Battery</h5>
+            <img src="https://static.thenounproject.com/png/2090538-200.png">
             <ul class="list-group">
                 <li class="list-group-item">D</li>
                 <li class="list-group-item">C</li>
@@ -101,6 +123,7 @@
         </div>
         <div class="carousel-item">
             <h5>Lithium-Ion Portable Battery</h5>
+            <img src="https://static.thenounproject.com/png/887370-200.png">
             <ul class="list-group">
                 <li class="list-group-item">Powerbank</li>
                 <li class="list-group-item">Mobile Telephone Battery</li>
@@ -109,6 +132,8 @@
         </div>
         <div class="carousel-item">
             <h5>Consumer Lamp</h5>
+            <img src="https://static.thenounproject.com/png/7582-200.png">
+            <img src="https://static.thenounproject.com/png/1850460-200.png">
             <ul class="list-group">
                 <li class="list-group-item">Bulb</li>
                 <li class="list-group-item">Fluorescent Tube</li>
@@ -128,7 +153,7 @@
 
   <!-- Recycling Options Section -->
   <div class="container mt-4 border border-secondary">
-    <h1>These are the different recycling options available for you.</h1>
+    <h3>These are the various locations for you to drop off your E-Waste!</h3>
     </p>
     <div class="row">
       <div class="col-md-4 mb-3">
@@ -139,14 +164,14 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4 mb-3">
+      <!-- <div class="col-md-4 mb-3">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Doorstep Collection</h5>
             <a href="#" class="btn btn-primary">Select</a>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 

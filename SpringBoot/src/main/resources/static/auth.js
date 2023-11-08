@@ -134,20 +134,3 @@ signout.addEventListener("click",(e)=>{
 //         loginForm.reset();
 //     })
 // })
-
-
-const app = Vue.createApp({
-    data() {
-        return {
-            accountName: ""
-        };
-    },
-    methods: {
-        updateAccountName(user) {
-            if (user) {
-                this.accountName = user.displayName ? user.displayName : "Account";
-            }
-        }
-    }
-});
-app.mount("#accountinfo")
