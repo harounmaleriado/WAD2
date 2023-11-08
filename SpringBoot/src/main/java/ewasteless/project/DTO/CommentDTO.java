@@ -1,6 +1,6 @@
-package ewasteless.project.classes;
+package ewasteless.project.DTO;
 
-
+import com.google.cloud.firestore.DocumentReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,10 +13,8 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
-public class Comment {
+public class CommentDTO {
     private String comment;
     private String username; // Assuming this is the creator's UID
-    private Instant createdTimestamp; // This will store the creation timestamp
+    
 }
-
