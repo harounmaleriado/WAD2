@@ -51,7 +51,10 @@ th, td {
 tr:not(:first-child) td {
     border-bottom: 1px solid #000; /* Add a 1px solid black border to non-header cells */
 }
-
+main {
+    margin-left: 100px;
+    margin-right: 100px; /* Add left and right margins of 20 pixels */
+}
 
 .container {
     display: flex;
