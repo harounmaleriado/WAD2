@@ -347,11 +347,12 @@
                 async fetchChats() {
                     try {
                         const user = firebase.auth().currentUser;
+                        
                         if (!user) {
                         throw new Error('Authentication required to chats.');
                         }
                         const postsRef = db.collection('chats');
-                        const snapshot = await postsRef.where('uid', '==', user.uid).get();
+                        const snapshot = await postsRef.where('BID', '==', user.uid).get();
 
                         if (snapshot.empty) {
                         console.log('No matching documents.');
