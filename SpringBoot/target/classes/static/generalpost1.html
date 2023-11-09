@@ -392,13 +392,11 @@
 
                     const user = firebase.auth().currentUser;
                     // alert(user.displayName);
-                    let UID = String(user.uid) ;
 
                     if (user) {
                         user.getIdToken()
                             .then((token) => {
-                                console.log(user.uid)
-                                return axios.post('/api/posts', { ...postData, username: user.displayName, UID: UID });
+                                return axios.post('/api/posts', { ...postData, username: user.displayName });
                             })
                             .then((response) => {
                                 if (response.data && response.data.error) {

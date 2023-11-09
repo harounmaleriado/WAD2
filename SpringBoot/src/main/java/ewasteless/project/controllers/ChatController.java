@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import ewasteless.project.DTO.ChatDTO;
+import ewasteless.project.classes.Chat;
 import ewasteless.project.service.ChatService;
 
 @RestController
@@ -18,9 +19,9 @@ public class ChatController {
     private ChatService ChatService;
 
     @PostMapping
-    public ResponseEntity<String> createChat(@RequestBody ChatDTO ChatDTO) {
+    public ResponseEntity<String> createChat(@RequestBody ChatDTO chatDTO) {
         try {
-            String updateTime = ChatService.createChat(ChatDTO);
+            String updateTime = ChatService.createChat(chatDTO);
             return ResponseEntity.ok(updateTime);
         } catch (ExecutionException | InterruptedException e) {
             // Handle exceptions properly

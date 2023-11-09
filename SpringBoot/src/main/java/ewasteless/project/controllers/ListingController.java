@@ -39,7 +39,9 @@ public class ListingController {
                                                         listingDTO.getPrice(), 
                                                         listingDTO.getProductDescription(), 
                                                         listingDTO.getPostalCode(),
-                                                        listingDTO.getType());
+                                                        listingDTO.getType(),
+                                                        listingDTO.getSID());
+
             return ResponseEntity.ok("Listing added with ID: " + listingId);
         } catch (ExecutionException | InterruptedException e) {
             return ResponseEntity.status(500).body("Error while adding listing: " + e.getMessage());

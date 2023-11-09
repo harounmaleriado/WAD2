@@ -22,7 +22,14 @@
             appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
             measurementId: "G-3Q1JMEGCBE" 
         };
-      
+        // const firebaseConfig = {
+        //     apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+        //     authDomain: "is216-proj-76064.firebaseapp.com",
+        //     projectId: "is216-proj-76064",
+        //     storageBucket: "is216-proj-76064.appspot.com",
+        //     messagingSenderId: "1065642689100",
+        //     appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        // };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig)
@@ -270,7 +277,7 @@
                 <tr v-for="(player, index) in leaderboard" :key="player.id">
                   <td>{{ index + 1 }}</td>
                   <td>{{ player.username }}</td>
-                  <td>{{ player.forumScore }}</td>
+                  <td>{{ player.score }}</td>
                 </tr>
               </tbody>
             </table>
@@ -304,14 +311,13 @@
                 // Other code...
             },
             methods: {
-    async fetchLeaderboard() {
-        const leaderboardRef = db.collection('users'); // Reference to the users collection
-        const snapshot = await leaderboardRef.orderBy('forumScore', 'desc').get(); // Sort by forumScore in descending order
-        this.leaderboard = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-    },
-    // Other methods...
-}
-
+                async fetchLeaderboard() {
+                const leaderboardRef = db.collection('leaderboard'); // Replace 'leaderboard' with the actual collection name in Firebase
+                const snapshot = await leaderboardRef.orderBy('score', 'desc').get(); // Assuming you want to order by score in descending order
+                this.leaderboard = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                },
+                // Other methods...
+            }
             });
 
     </script>

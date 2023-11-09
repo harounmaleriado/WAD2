@@ -34,7 +34,8 @@ public class ListingService {
                          double price, 
                          String productDescription, 
                          int postalCode,
-                         String type) 
+                         String type,
+                         String SID) 
                          throws ExecutionException, InterruptedException {
     
     // Get the product reference
@@ -42,7 +43,7 @@ public class ListingService {
     
     
     // Create a Listing object
-    Listing listing = new Listing(username, price, productDescription, postalCode, productRef);
+    Listing listing = new Listing(username, price, productDescription, postalCode, productRef, SID);
     
     // Decide the collection based on the type
     String collectionPath;

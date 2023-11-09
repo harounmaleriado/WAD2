@@ -319,18 +319,18 @@
                 }
             },
             created() {
-                // Use an observer to check for changes in authentication state
-                firebase.auth().onAuthStateChanged(async (user) => {
-                    if (user) {
-                    // User is signed in, fetch user posts
-                    await this.fetchPosts(); // Using await to make sure posts are fetched after user is confirmed
-                    } else {
-                    // User is signed out, you may want to handle this case or redirect to the login page
-                    console.error('User not authenticated');
-                    alert("Please sign in to fetch user posts.");
-                    }
-                });
-                },
+  // Use an observer to check for changes in authentication state
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      // User is signed in, fetch user posts
+      await this.fetchPosts(); // Using await to make sure posts are fetched after user is confirmed
+    } else {
+      // User is signed out, you may want to handle this case or redirect to the login page
+      console.error('User not authenticated');
+      alert("Please sign in to fetch user posts.");
+    }
+  });
+},
 
             methods: {
                 redirectToCommentsPage(post) {

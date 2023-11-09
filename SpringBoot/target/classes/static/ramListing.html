@@ -360,11 +360,6 @@
                 this.fetchProducts();
             },
             methods: {
-                // async fetchProducts() {
-                //     const productsRef = db.collection('CPU');
-                //     const snapshot = await productsRef.get();
-                //     this.products = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                // },
 
                 async fetchProducts() {
                     const listingsRef = db.collection('ramListings');
@@ -411,6 +406,39 @@
                     const user = auth.currentUser;
                         window.open("chats.html") ;
                     }
+                },
+                async createListing() {
+                    const listingData = {
+                       
+                        brand : this.selectedProduct.brand,
+                        model : this.selectedProduct.model,
+                        SID : this.selectedProduct.SID 
+                        
+                    };
+                    
+
+                    const user = auth.currentUser;
+                    if (user != null) {
+                        const BID = String(user.uid);
+                        
+                        
+                        try {
+                            
+                            const response = await axios.post('/api/chats', { ...listingData, BID : BID });
+                            console.log('Listing Created: ', response);
+                            alert('Listing successfully created!');
+                            
+                            
+                            window.location.href = 'ram.html';
+                        } catch (error) {
+                            console.error('Error creating listing: ', error);
+                            alert('Error creating listing.');
+                        }
+
+                        } else {
+                            console.error("No user is signed in");
+                            alert("Please sign in to create a listing.");
+                        }
                 }
             }
         ); 

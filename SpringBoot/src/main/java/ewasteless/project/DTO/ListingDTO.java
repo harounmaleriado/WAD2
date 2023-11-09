@@ -25,4 +25,7 @@ public class ListingDTO {
     // reference to product sold
     @JsonProperty("PID")
     private String PID ;
+
+    @JsonProperty("SID")
+    private String SID ;
 }
