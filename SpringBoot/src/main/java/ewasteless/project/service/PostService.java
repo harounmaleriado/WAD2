@@ -2,13 +2,16 @@ package ewasteless.project.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.FieldValue;
+import com.google.cloud.firestore.DocumentSnapshot;
+
 import com.google.cloud.firestore.Firestore;
+
 import com.google.cloud.firestore.WriteResult;
 
 import ewasteless.project.DTO.PostDTO;
 import ewasteless.project.classes.Comment;
 import ewasteless.project.classes.Post;
+import ewasteless.project.classes.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +25,9 @@ public class PostService {
     @Autowired
     private Firestore firestore;
 
-    public String createPost(PostDTO postDTO) throws ExecutionException, InterruptedException {
-        // Create a new document reference with a generated ID
+    public String createPost(PostDTO postDTO) throws Exception {
+    
+        // Reference to the new post document with a generated ID
         DocumentReference newPostRef = firestore.collection("posts").document();
     
         // Create the Post object
@@ -33,15 +37,40 @@ public class PostService {
         post.setMessage(postDTO.getMessage());
         post.setUsername(postDTO.getUsername());
         post.setUID(postDTO.getUID());
-        post.setCreatedTimestamp(Instant.now()); // Set the timestamp when creating a new post
+        post.setCreatedTimestamp(Instant.now()); 
     
-        // Use the 'set' method to create the document with the Post object.
-        // The 'set' method is used instead of 'create' to allow setting the document ID inside the document.
-        ApiFuture<WriteResult> future = newPostRef.set(post);
-        WriteResult result = future.get();
+        
+        ApiFuture<WriteResult> futurePost = newPostRef.set(post);
     
-        return result.getUpdateTime().toString();
+    
+        DocumentReference userRef = firestore.collection("users").document(postDTO.getUID());
+       
+        ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
+    
+     
+        DocumentSnapshot userSnapshot = futureUserSnapshot.get();
+    
+        if (userSnapshot.exists()) {
+            User user = userSnapshot.toObject(User.class);
+            int currentForumScore = user.getForumScore();
+    
+            // Increment the forumScore by 2
+            int newForumScore = currentForumScore + 2;
+            
+            // Update the user's forumScore
+            ApiFuture<WriteResult> futureUpdateUser = userRef.update("forumScore", newForumScore);
+    
+            
+            WriteResult userUpdateResult = futureUpdateUser.get();
+        
+            } else {              
+                throw new Exception("User does not exist with ID: " + postDTO.getUID());
+            }         
+            return newPostRef.get().get().getUpdateTime().toString();
     }
+        
+    
+    
     
 
     public String addCommentToPost(String postId, Comment comment) throws ExecutionException, InterruptedException {

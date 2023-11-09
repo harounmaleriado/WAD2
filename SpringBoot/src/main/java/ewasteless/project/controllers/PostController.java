@@ -21,9 +21,9 @@ public class PostController {
     private PostService postService;
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody PostDTO postDTO) {
+    public ResponseEntity<String> createPost(@RequestBody PostDTO postDTO) throws Exception {
         try {
-            System.out.println(postDTO.getUID());
+           
             String updateTime = postService.createPost(postDTO);
             return ResponseEntity.ok(updateTime);
         } catch (ExecutionException | InterruptedException e) {
