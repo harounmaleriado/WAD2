@@ -265,7 +265,7 @@
         <br>
            
             <div id="post-list">
-                <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
+                <!-- <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
                     <div class="card-header">
                         {{ post.title }}
                     </div>
@@ -273,7 +273,16 @@
                         <p class="card-text">{{ post.message }}</p>
                         <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
                     </div>
-                </div>
+                </div> -->
+
+                <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ post.title }}</h5>
+                      <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
+                      <p class="card-text">{{ post.message }}</p>
+                     
+                    </div>
+                  </div>
             </div>
             
         </div>
