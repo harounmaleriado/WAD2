@@ -41,7 +41,7 @@ public class ListingService {
     // Get the product reference
     DocumentReference productRef = dbFirestore.collection(type).document(PID);
     
-    
+
     // Create a Listing object
     Listing listing = new Listing(username, price, productDescription, postalCode, productRef, SID);
     

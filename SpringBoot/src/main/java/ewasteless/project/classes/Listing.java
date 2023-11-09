@@ -25,5 +25,5 @@ public class Listing {
     // reference to product sold
     private DocumentReference PID ;
 
-    private String LID ;
+    private String SID ;
 }

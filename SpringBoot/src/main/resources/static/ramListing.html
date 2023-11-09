@@ -303,7 +303,7 @@
                 <!-- Add more details if needed -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="purchaseListing"> Start Chatting</button>
+                <button type="button" class="btn btn-primary" @click="createChat"> Start Chatting</button>
             </div>
         </div>
     </div>
@@ -407,7 +407,7 @@
                         window.open("chats.html") ;
                     }
                 },
-                async createListing() {
+                async createChat() {
                     const listingData = {
                        
                         brand : this.selectedProduct.brand,
