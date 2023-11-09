@@ -102,6 +102,17 @@
             width: 200px;
             height: 200px;
         }
+        .green {
+            color: #90EE90;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+
+        .red {
+            color: red;
+        }
     </style>
 </head>
 <body class="d-flex flex-column h-100">
@@ -266,7 +277,8 @@
                     <h3>{{ product.brand }}</h3>
                     <p>{{ product.model }}</p>
                     <p>Price: ${{ product.price }}</p>
-                    <p>Benchmark Score: {{ product.benchmark }}</p>
+                    Benchmark Score: 
+                    <p :class="getBenchmarkClass(product.benchmark)">{{ product.benchmark }}</p>
                     <p>Seller: {{ product.username }}</p>
                     <img class="photo":src="getImageUrl(product.brand)" class="product-image" alt="Product Image">
                     <!-- Add more product details here -->
@@ -370,6 +382,16 @@
                     this.products = productsWithDetails;
                 },
 
+                getBenchmarkClass(score) {
+                    if (score >= 68 && score <= 131) {
+                        return 'green';
+                    } else if (score >= 42 && score < 68) {
+                        return 'yellow';
+                    } else if (score >= 1 && score < 42) {
+                        return 'red';
+                    }
+                    return '';
+                },
 
                 getImageUrl(brand) {
                     if (brand === 'Intel') {
