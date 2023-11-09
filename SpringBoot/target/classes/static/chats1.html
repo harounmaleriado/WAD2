@@ -322,18 +322,18 @@
                 }
             },
             created() {
-  // Use an observer to check for changes in authentication state
-  firebase.auth().onAuthStateChanged(async (user) => {
-    if (user) {
-      // User is signed in, fetch user chats
-      await this.fetchChats(); // Using await to make sure chats are fetched after user is confirmed
-    } else {
-      // User is signed out, you may want to handle this case or redirect to the login page
-      console.error('User not authenticated');
-      alert("Please sign in to chat.");
-    }
-  });
-},
+                // Use an observer to check for changes in authentication state
+                firebase.auth().onAuthStateChanged(async (user) => {
+                    if (user) {
+                    // User is signed in, fetch user chats
+                    await this.fetchChats(); // Using await to make sure chats are fetched after user is confirmed
+                    } else {
+                    // User is signed out, you may want to handle this case or redirect to the login page
+                    console.error('User not authenticated');
+                    alert("Please sign in to chat.");
+                    }
+                });
+                },
 
             methods: {
                 redirectToCommentsPage(post) {
@@ -363,6 +363,51 @@
                     } catch (error) {
                         console.error("Error fetching user chats: ", error);
                     }
+                    },
+                    async createComment() {
+                        const commentData = {
+                            comment: this.commentForm.comment,
+                        };
+
+                        if (!commentData.comment) {
+                            alert("All fields must be filled!");
+                            return;
+                        }
+
+                        const user = firebase.auth().currentUser;
+                        const postId = this.post.id; // Use this.post.id to get the current post's ID
+
+                        if (user) {
+                            user.getIdToken()
+                                .then((token) => {
+                                    // Use template literals to embed the postId in the URL
+                                    const url = `/api/posts/${LID}/comments`; // Replace with the actual API endpoint
+                                    return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
+                                        headers: {
+                                            Authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                })
+                                .then((response) => {
+                                    if (response.data && response.data.error) {
+                                        throw new Error(`Server Error: ${response.data.error}`);
+                                    }
+                                    console.log('Comment Added: ', response);
+                                    alert('Comment successfully added!');
+                                    // Close the modal here if needed
+                                    document.getElementById('commentModal').style.display = 'none';
+                                    // After submitting a comment, you may want to refresh the comment list
+                                    this.fetchComments(); // Fetch comments again to show the updated list
+                                    window.location.reload();
+                                })
+                                .catch((error) => {
+                                    console.error('Error adding comment: ', error.message);
+                                    alert('Error adding comment.');
+                                });
+                        } else {
+                            console.error('User not authenticated');
+                            alert("Please sign in to create a comment.");
+                        }
                     },
 
             }
