@@ -37,7 +37,7 @@ public class PostController {
             @PathVariable String postId,
             @RequestBody CommentDTO commentDTO) throws Exception {
             
-                System.out.println("comment.uid" + commentDTO.getUID());
+                
 
         try {
             // Map the DTO to your Comment entity

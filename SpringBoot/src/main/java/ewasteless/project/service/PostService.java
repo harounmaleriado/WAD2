@@ -71,7 +71,7 @@ public class PostService {
     
 
     public String addCommentToPost(String postId, Comment comment) throws Exception {
-        System.out.println("comment.uid" + comment.getUID());
+        
         
         comment.setCreatedTimestamp(Instant.now());
         DocumentReference postRef = firestore.collection("posts").document(postId);

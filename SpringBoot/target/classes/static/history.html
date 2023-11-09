@@ -22,7 +22,14 @@
             appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
             measurementId: "G-3Q1JMEGCBE" 
         };
-       
+        // const firebaseConfig = {
+        //     apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
+        //     authDomain: "is216-proj-76064.firebaseapp.com",
+        //     projectId: "is216-proj-76064",
+        //     storageBucket: "is216-proj-76064.appspot.com",
+        //     messagingSenderId: "1065642689100",
+        //     appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
+        // };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig)
@@ -55,6 +62,11 @@
             justify-content: center; 
         }
 
+        /* #post-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; 
+        } */
         
         .product-box {
             text-align: center;
@@ -159,7 +171,9 @@
       
                         </ul>
                       </div>
-                  
+                    <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
+                        Sign Out
+                    </a> -->
                 </div>
               </div>
               
@@ -241,7 +255,7 @@
     <div class="container">
         <div  class="container">
             <div class="h1-container d-flex justify-content-between align-items-center"> 
-                <h1>My post history</h1>
+                <h1>My Post History</h1>
                 
             </div>
             <br>
@@ -251,15 +265,7 @@
         <br>
            
             <div id="post-list">
-                <!-- <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
-                    <div class="card-header">
-                        {{ post.title }}
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">{{ post.message }}</p>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
-                    </div>
-                </div> -->
+                
 
                 <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
                     <div class="card-body">
@@ -274,8 +280,6 @@
         </div>
         
     
-
-        
 </section>
     
     <script>
@@ -315,18 +319,18 @@
                 }
             },
             created() {
-                // Use an observer to check for changes in authentication state
-                firebase.auth().onAuthStateChanged(async (user) => {
-                    if (user) {
-                    // User is signed in, fetch user posts
-                    await this.fetchPosts(); // Using await to make sure posts are fetched after user is confirmed
-                    } else {
-                    // User is signed out, you may want to handle this case or redirect to the login page
-                    console.error('User not authenticated');
-                    alert("Please sign in to fetch user posts.");
-                    }
-                });
-                },
+  // Use an observer to check for changes in authentication state
+  firebase.auth().onAuthStateChanged(async (user) => {
+    if (user) {
+      // User is signed in, fetch user posts
+      await this.fetchPosts(); // Using await to make sure posts are fetched after user is confirmed
+    } else {
+      // User is signed out, you may want to handle this case or redirect to the login page
+      console.error('User not authenticated');
+      alert("Please sign in to fetch user posts.");
+    }
+  });
+},
 
             methods: {
                 redirectToCommentsPage(post) {
@@ -357,14 +361,6 @@
                     }
                     },
 
-
-                openCreatePostModal() {
-                    this.$nextTick(() => {
-                        new bootstrap.Modal(document.getElementById('createPostModal')).show();
-                    });
-                },
-              
-        
             }
         });
 

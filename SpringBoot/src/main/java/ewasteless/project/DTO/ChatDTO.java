@@ -14,6 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ChatDTO {
     private String message;
-    private String username; // Assuming this is the creator's UID
+    private String username; // Assuming this is the creator's username
     
 }
