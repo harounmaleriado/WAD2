@@ -261,25 +261,53 @@
             <br>
             <div class="search-bar">
                 <input type="text" class="form-control" placeholder="Search Posts" v-model="searchQuery">
+                <!-- <select class="form-control sort-dropdown" v-model="sortOption">
+                    <option value="priceUp">Price Up</option>
+                    <option value="priceDown">Price Down</option>
+                    <option value="benchmarkUp">Benchmark Up</option>
+                    <option value="benchmarkDown">Benchmark Down</option>
+                </select> -->
                 
             </div>
         <br>
-
+           
             <div id="post-list">
-                <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
-                    <div class="card-header">
-                        {{ post.title }}
-                    </div>
+                <div class="card border-light mb-3" v-for="post in filteredPosts" :key="post.id" @click="openModal(post)">
                     <div class="card-body">
-                      <p class="card-text">{{ post.message }}</p>
-                      <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
+                        <p class="card-text">{{ post.message }}</p>
                     </div>
-                    
                 </div>
             </div>
-   
+            
         </div>
         
+    <!-- Post Modal -->
+        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Post</h3>
+                        <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Title {{ selectedPost.title }}</p>
+                        <p>User: {{ selectedPost.username }}</p>
+                        <p>Message: {{ selectedPost.message }}</p>
+                        <p>Comments: {{ selectedPost.comments }}</p>
+
+                        <!-- Add more details if needed -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" @click="openCommentModal">Comment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -298,9 +326,33 @@
                             </div>
                             <div class="mb-3">
                                 <label for="message" class="form-label">Message</label>
-                                <textarea class="form-control" id="message" v-model="createPostForm.message" style="height: 150px; resize: vertical; overflow-y: auto;"></textarea>
+                                <textarea class="form-control" id="message" v-model="createPostForm.message"></textarea>
                             </div>
                             <button type="button" class="btn btn-primary" @click="createPost">Submit Post</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div> 
+
+        <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Comment</h3>
+                        <button type="button" class="close btn btn-secondary" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form id="commentForm">
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea class="form-control" id="comment" v-model="commentForm.comment"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-primary" @click="createComment">Submit Comment</button>
                         </form>
                     </div>
 
@@ -344,6 +396,20 @@
                             return fullPostName.includes(searchLower);
                         });
                     }
+                    switch (this.sortOption) {
+                        case "priceUp":
+                            filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                            break;
+                        case "priceDown":
+                            filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                            break;
+                        case "benchmarkUp":
+                            filtered.sort((a, b) => parseFloat(a.benchmark) - parseFloat(b.benchmark));
+                            break;
+                        case "benchmarkDown":
+                            filtered.sort((a, b) => parseFloat(b.benchmark) - parseFloat(a.benchmark));
+                            break;
+                    }
                     return filtered;
                 }
             },
@@ -352,23 +418,51 @@
             },
             methods: {
 
-                redirectToCommentsPage(post) {
-                    // Get the ID of the selected post
-                    const postId = post.id;
-                    
-                    // Redirect to comments.html with the post ID as a query parameter
-                    window.location.href = `comments_gpTest.html?postId=${postId}`;
-                },
-
                 async fetchPosts() {
                     const postsRef = db.collection('posts');
                     const snapshot = await postsRef.get();
                     this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
                 },
 
+                getImageUrl(brand) {
+                    if (brand === 'Intel') {
+                        return 'https://m.media-amazon.com/images/I/81eoV5SY8RL._AC_UF894,1000_QL80_.jpg';
+                    } else if (brand === 'AMD') {
+                        return 'https://i.ebayimg.com/images/g/uPQAAOSwDVxexpBc/s-l400.jpg';
+                    }
+                    return ''; // default image or empty if no image is required for other brands
+                },
+                openModal(post) {
+                    console.log(post); // This should log the product that was clicked
+                    this.selectedPost = post;
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('postModal')).show();
+                    });
+                },
+                async purchaseListing() {
+                    const user = auth.currentUser;
+                    if (user) {
+                        // Perform the purchase action here
+                        // For example, you might send a request to your server to process the purchase
+                        console.log('Purchase made for product:', this.selectedProduct);
+                        alert('Purchase successful!');
+                        // Close the modal
+                        let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
+                        modalInstance.hide();
+                    } else {
+                        console.error("No user is signed in");
+                        alert("Please sign in to make a purchase.");
+                    }
+                },
+
                 openCreatePostModal() {
                     this.$nextTick(() => {
                         new bootstrap.Modal(document.getElementById('createPostModal')).show();
+                    });
+                },
+                openCommentModal() {
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('commentModal')).show();
                     });
                 },
 
@@ -410,9 +504,54 @@
                         console.error('User not authenticated');
                         alert("Please sign in to create a listing.");
                     }
+                },
+
+                async createComment() {
+                    const commentData = {
+                        comment: this.commentForm.comment,
+                    };
+                    
+                    if (!commentData.comment) {
+                        alert("All fields must be filled!");
+                        return;
+                    }
+
+                    const user = firebase.auth().currentUser;
+                    // alert(user.displayName);
+                    const postID = this.selectedPost.id ;
+
+                    if (user) {
+                        user.getIdToken()
+                            .then((token) => {
+                                // Use template literals to embed the postId in the URL
+                                const url = `/api/posts/${postID}/comments`;
+                                return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
+                                    headers: {
+                                        Authorization: `Bearer ${token}`
+                                    }
+                                });
+                            })
+                            .then((response) => {
+                                if (response.data && response.data.error) {
+                                    throw new Error(`Server Error: ${response.data.error}`);
+                                }
+                                console.log('Comment Added: ', response);
+                                alert('Comment successfully added!');
+                                // Close the modal here if needed
+                                document.getElementById('commentModal').style.display = 'none';
+                                // Redirect to the original page
+                                window.location.href = 'generalpost1.html'; // Assuming 'lis.html' was a typo
+                            })
+                            .catch((error) => {
+                                console.error('Error adding comment: ', error.message);
+                                alert('Error adding comment.');
+                            });
+                            } else {
+                                console.error('User not authenticated');
+                                alert("Please sign in to create a comment.");
+                            }
                 }
 
-    
             }
         });
 
