@@ -44,10 +44,7 @@ public class PostService {
     
     
         DocumentReference userRef = firestore.collection("users").document(postDTO.getUID());
-       
         ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
-    
-     
         DocumentSnapshot userSnapshot = futureUserSnapshot.get();
     
         if (userSnapshot.exists()) {
@@ -73,20 +70,34 @@ public class PostService {
     
     
 
-    public String addCommentToPost(String postId, Comment comment) throws ExecutionException, InterruptedException {
-        // Set the created timestamp for the comment
-        comment.setCreatedTimestamp(Instant.now());
-
-        // Get a reference to the post document by its ID
-        DocumentReference postRef = firestore.collection("posts").document(postId);
+    public String addCommentToPost(String postId, Comment comment) throws Exception {
+        System.out.println("comment.uid" + comment.getUID());
         
-        // Create a new comment document within the 'comments' subcollection of the post
+        comment.setCreatedTimestamp(Instant.now());
+        DocumentReference postRef = firestore.collection("posts").document(postId);
         ApiFuture<WriteResult> writeResult = postRef.collection("comments").document().create(comment);
         
-        // Wait for the future to complete and get the write result
-        WriteResult result = writeResult.get();
+        DocumentReference userRef = firestore.collection("users").document(comment.getUID());
+        ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
+        DocumentSnapshot userSnapshot = futureUserSnapshot.get();
+    
+        if (userSnapshot.exists()) {
+            User user = userSnapshot.toObject(User.class);
+            int currentForumScore = user.getForumScore();
+    
+            // Increment the forumScore by 1
+            int newForumScore = currentForumScore + 1;
+            
+            // Update the user's forumScore
+            ApiFuture<WriteResult> futureUpdateUser = userRef.update("forumScore", newForumScore);
+    
+            
+            WriteResult userUpdateResult = futureUpdateUser.get();
         
-        return result.getUpdateTime().toString();
+            } else {              
+                throw new Exception("User does not exist with ID: " + comment.getUID());
+            }         
+            return postRef.get().get().getUpdateTime().toString();
     }
 }
 

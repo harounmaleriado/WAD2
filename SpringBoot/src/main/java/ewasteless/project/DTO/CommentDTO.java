@@ -1,5 +1,6 @@
 package ewasteless.project.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.cloud.firestore.DocumentReference;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,7 @@ import java.time.Instant;
 public class CommentDTO {
     private String comment;
     private String username; // Assuming this is the creator's UID
+    @JsonProperty("UID")
+    private String UID;
     
 }

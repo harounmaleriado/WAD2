@@ -35,13 +35,16 @@ public class PostController {
     @PostMapping("/{postId}/comments")
     public ResponseEntity<String> addCommentToPost(
             @PathVariable String postId,
-            @RequestBody CommentDTO commentDTO) {
+            @RequestBody CommentDTO commentDTO) throws Exception {
+            
+                System.out.println("comment.uid" + commentDTO.getUID());
 
         try {
             // Map the DTO to your Comment entity
             Comment comment = new Comment();
             comment.setUsername(commentDTO.getUsername());
             comment.setComment(commentDTO.getComment());
+            comment.setUID(commentDTO.getUID()) ;
             // Set any other fields required by your Comment entity
 
             String updateTime = postService.addCommentToPost(postId, comment);
@@ -50,6 +53,7 @@ public class PostController {
             // Handle the exceptions properly here
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
+
     }
 }
 
