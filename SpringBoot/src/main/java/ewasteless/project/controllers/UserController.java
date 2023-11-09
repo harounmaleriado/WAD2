@@ -16,19 +16,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/username/{Username}")
-        public ResponseEntity<User> getUserByUsername(@PathVariable String Username) {
-            try {
-                User user = userService.getUserByUsername(Username);
-                if (user != null) {
-                    return ResponseEntity.ok(user);
-                } else {
-                    return ResponseEntity.notFound().build();
-                }
-            } catch (Exception e) {
-                return ResponseEntity.status(500).build();
-            }
-        }
+
 
     @GetMapping("/uid/{UID}")
     public ResponseEntity<User> getUserByUID(@PathVariable String UID) {

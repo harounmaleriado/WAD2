@@ -23,6 +23,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<String> createPost(@RequestBody PostDTO postDTO) {
         try {
+            System.out.println(postDTO.getUID());
             String updateTime = postService.createPost(postDTO);
             return ResponseEntity.ok(updateTime);
         } catch (ExecutionException | InterruptedException e) {

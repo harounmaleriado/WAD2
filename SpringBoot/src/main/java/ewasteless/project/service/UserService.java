@@ -9,6 +9,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 
 // Model import
 import ewasteless.project.classes.User;
@@ -24,17 +25,9 @@ public class UserService {
         return true;
     }
 
-    public User getUserByUsername(String username) throws Exception {
-        DocumentReference documentReference = dbFirestore.collection("users").document(username);
-        ApiFuture<DocumentSnapshot> future = documentReference.get();
-        DocumentSnapshot document = future.get();
+    
 
-        if (document.exists()) {
-            return document.toObject(User.class);
-        } else {
-            return null;
-        }
-    }
+
 
     public User getUserByUID(String UID) throws Exception {
         DocumentReference documentReference = dbFirestore.collection("users").document(UID);

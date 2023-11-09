@@ -23,6 +23,7 @@ public class Post {
     private String message;
     private String PostID ;
     private String username ;
+    private String UID;
     
     private Instant createdTimestamp;
 }

@@ -16,7 +16,7 @@ public class ProjectApplication {
 		SpringApplication.run(ProjectApplication.class, args);
 
         // update product collections
-        // ProductUpdateService.uploadDataFromCSV("SpringBoot/src/main/resources/Data/CPU2_UserBenchmarks.csv") ;      
+        // ProductUpdateService.uploadDataFromCSV("SpringBoot/src/main/resources/Data/CPU_UserBenchmarks.csv") ;      
 	}
 }
 

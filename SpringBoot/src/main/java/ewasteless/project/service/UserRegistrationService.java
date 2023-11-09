@@ -59,6 +59,7 @@ public class UserRegistrationService {
             userProfileMap.put("name", user.getName());
             userProfileMap.put("username", user.getUsername());
             userProfileMap.put("UID", userRecord.getUid());
+            userProfileMap.put("forumScore", 0);
             // ... add any other fields you want here
             userReference.set(userProfileMap);
             return userRecord.getUid(); 

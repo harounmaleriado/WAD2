@@ -2,6 +2,7 @@ package ewasteless.project.service;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 
@@ -31,6 +32,7 @@ public class PostService {
         post.setTitle(postDTO.getTitle());
         post.setMessage(postDTO.getMessage());
         post.setUsername(postDTO.getUsername());
+        post.setUID(postDTO.getUID());
         post.setCreatedTimestamp(Instant.now()); // Set the timestamp when creating a new post
     
         // Use the 'set' method to create the document with the Post object.
