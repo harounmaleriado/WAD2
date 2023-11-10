@@ -57,5 +57,17 @@ public class ChatController {
         }
 
     }
+
+    @DeleteMapping("/{chatId}")
+    public ResponseEntity<Void> deleteChat(@PathVariable String chatId) {
+        try {
+            ChatService.deleteChat(chatId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    
 }
 

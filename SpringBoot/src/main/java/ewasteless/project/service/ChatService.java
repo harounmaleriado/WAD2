@@ -53,10 +53,13 @@ public class ChatService {
     public String addCommentToChat(String chatId, Comment comment) throws Exception {
         DocumentReference postRef = firestore.collection("chats").document(chatId);
         ApiFuture<WriteResult> writeResultApiFuture = postRef.collection("comments").document().create(comment);
-    
-        
         WriteResult writeResult = writeResultApiFuture.get();
         return writeResult.getUpdateTime().toString();
+    }
+
+    public void deleteChat(String chatId) throws ExecutionException, InterruptedException {
+        // Attempt to delete the document from the 'listings' collection
+        firestore.collection("listings").document(chatId).delete().get();
     }
     
 }
