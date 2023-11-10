@@ -77,7 +77,7 @@ public class PostService {
         DocumentReference postRef = firestore.collection("posts").document(postId);
         ApiFuture<WriteResult> writeResult = postRef.collection("comments").document().create(comment);
         
-        DocumentReference userRef = firestore.collection("users").document(comment.getUID());
+        DocumentReference userRef = firestore.collection("users").document(comment.getUid());
         ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
         DocumentSnapshot userSnapshot = futureUserSnapshot.get();
     
@@ -95,7 +95,7 @@ public class PostService {
             WriteResult userUpdateResult = futureUpdateUser.get();
         
             } else {              
-                throw new Exception("User does not exist with ID: " + comment.getUID());
+                throw new Exception("User does not exist with ID: " + comment.getUid());
             }         
             return postRef.get().get().getUpdateTime().toString();
     }

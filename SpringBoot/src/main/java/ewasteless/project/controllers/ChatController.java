@@ -33,23 +33,24 @@ public class ChatController {
     }
 
 
-    @PostMapping("/{LID}/comments")
+    @PostMapping("/{chatId}/comments")
     public ResponseEntity<String> addCommentToPost(
-            @PathVariable String CID,
+            @PathVariable String chatId,
             @RequestBody CommentDTO commentDTO) throws Exception {
             
                 
 
         try {
+         
             // Map the DTO to your Comment entity
             Comment comment = new Comment();
             comment.setUsername(commentDTO.getUsername());
             comment.setComment(commentDTO.getComment());
-            comment.setUID(commentDTO.getUID()) ;
+            comment.setUid(commentDTO.getUid()) ;
             // Set any other fields required by your Comment entity
 
-            String updateTime = ChatService.addCommentToChat(CID, comment);
-            return ResponseEntity.ok(updateTime);
+            String response = ChatService.addCommentToChat(chatId, comment);
+            return ResponseEntity.ok(response);
         } catch (ExecutionException | InterruptedException e) {
             // Handle the exceptions properly here
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

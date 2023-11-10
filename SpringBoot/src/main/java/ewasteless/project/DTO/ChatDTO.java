@@ -16,11 +16,11 @@ public class ChatDTO {
     
     
 
-    @JsonProperty("BID")
-    private String BID ;
+    @JsonProperty("bid")
+    private String bid ;
 
-    @JsonProperty("SID")
-    private String SID ;
+    @JsonProperty("sid")
+    private String sid ;
 
     private String brand ;
     private String model ;

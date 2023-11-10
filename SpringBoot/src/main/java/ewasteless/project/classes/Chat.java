@@ -11,9 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Chat {
 
-   private String CID ;
-   private String BID ;
-   private String SID ;
+   private String cid ;
+   private String bid ;
+   private String sid ;
 
    private String brand ;
    private String model ;

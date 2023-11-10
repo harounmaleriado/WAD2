@@ -22,15 +22,7 @@
             appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
             measurementId: "G-3Q1JMEGCBE" 
         };
-        // const firebaseConfig = {
-        //     apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
-        //     authDomain: "is216-proj-76064.firebaseapp.com",
-        //     projectId: "is216-proj-76064",
-        //     storageBucket: "is216-proj-76064.appspot.com",
-        //     messagingSenderId: "1065642689100",
-        //     appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
-        // };
-
+       
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig)
         const auth = firebase.auth()
@@ -62,11 +54,6 @@
             justify-content: center; 
         }
 
-        /* #post-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; 
-        } */
         
         .product-box {
             text-align: center;
@@ -171,10 +158,7 @@
       
                         </ul>
                       </div>
-                    <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">
-                        Sign Out
-                    </a> -->
-                </div>
+                
               </div>
               
             </div>
@@ -250,64 +234,48 @@
     </div>
 </div>
 
-<!-- this is comments.html which should display the post details fetched from the selected post in generalpost.html -->
+
 <section id="app">
     <div class="container">
-        <div class="h1-container d-flex justify-content-between align-items-center">
-            <h1>{{ post.title }}</h1>
-        </div>
-        <br>
-
-        <!-- Display the selected post details from generalpost1.html -->
-        <div class="card mb-3">
-            <!-- <div class="card-header">
-                Author: {{ post.username }}
+        <div  class="container">
+            <!-- <div class="h1-container d-flex justify-content-between align-items-center"> 
+                <h1> Chat</h1>
+                <button class="btn btn-primary" @click="openCreatePostModal">Send message</button>  
             </div>
-            <div class="card-body">
-              <p class="card-text">{{ post.message }}</p>
-            </div> -->
-
-            <div class="card-body">
-                <h5 class="card-title"> {{ post.username }}</h5>
-                <!-- <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6> -->
-                <p class="card-text">{{ post.message }}</p>
+            <br> -->
+            <div class="search-bar">
+                <input type="text" class="form-control" placeholder="Search Chat" v-model="searchQuery">
                
+                
+            </div>
+        <br>
+           
+            <div id="post-list">
+                <div class="card border-light mb-3" v-for="post in filteredPosts" :key="post.id" @click="openModal(post)">
+                    <div class="card-body">
+                        
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
+                        <p class="card-text">{{ post.message }}</p>
+                    </div>
+                </div>
             </div>
             
         </div>
-    
-        <div class="d-flex justify-content-between align-items-center mt-5 mb-2">
-            <h3>Messages:</h3>
-            <button class="btn btn-primary" @click="openCommentModal">Reply</button>
-        </div>
-
-
-        <!-- Display comments related to the selected post -->
-        <!-- <div id="comment-list">
-            <div class="card mb-5" v-for="comment in comments" :key="comment.id">
-                <div class="card-header">
-                    Username: {{ comment.username }}
-                </div>
-                <div class="card-body">
-                  <p class="card-text">{{ comment.comment }}</p>
-                </div>
-                
+        <div class="sticky-form-container">
+            
+        
+            <div class="sticky-form-body">
+                <form id="createPostForm">
+                    <div class="mb-3">
+                        
+                        <textarea class="form-control" id="message" v-model="createPostForm.message"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="createPost">Send</button>
+                </form>
             </div>
-        </div> -->
-
-        <div id="comment-list">
-            <div class="card mb-3" v-for="comment in comments" :key="comment.id">
-                <div class="card-body">
-                  <h5 class="card-title">{{ comment.username }}</h5>
-                  <!-- <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6> -->
-                  <p class="card-text">{{ comment.comment }}</p>
-                 
-                </div>
-            </div>
-
         </div>
+        
 
-        <!-- Create comment modal -->
         <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -322,7 +290,7 @@
                         <form id="commentForm">
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Comment</label>
-                                <textarea class="form-control" id="comment" v-model="commentForm.comment" style="height: 150px; resize: vertical; overflow-y: auto;"></textarea>
+                                <textarea class="form-control" id="comment" v-model="commentForm.comment"></textarea>
                             </div>
                             <button type="button" class="btn btn-primary" @click="createComment">Submit Comment</button>
                         </form>
@@ -331,129 +299,192 @@
                 </div>
             </div>
         </div> 
-
-    </div>
-
-</section>
-
-<script>
-    // Initialize Firestore
-    const db = firebase.firestore();
-
-    new Vue({
-        el: '#app',
-        data: {
-            post:[],
-            comments: [],
-            commentForm: {
-                comment: '', // Define the 'comment' property within 'commentForm'
-            },
-        },
-        methods: {
-
-            async fetchPostDetails() {
-                // Parse the query parameters from the URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const postId = urlParams.get('postId'); // Get the value of 'postId' from the URL
-
-                if (postId) {
-                    const postRef = db.collection('posts').doc(postId); // Replace 'posts' with your Firestore collection name
-                    const doc = await postRef.get();
-
-                    if (doc.exists) {
-                    this.post = { ...doc.data(), id: doc.id }; // Set the post data
-                    } else {
-                    console.error('Post not found');
-                    }
-                } else {
-                    console.error('Post ID not found in the URL');
-                }
-            },
-            
-            async fetchComments() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const postId = urlParams.get('postId'); // Get the value of 'postId' from the URL
-
-                if (postId) {
-                    // Reference the 'comments' subcollection of a specific post
-                    const commentsRef = db.collection('posts').doc(postId).collection('comments');
-                    const querySnapshot = await commentsRef.get();
-
-                    this.comments = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                } else {
-                    console.error('Post ID not found in the URL');
-                }
-            },
-
-            openCommentModal() {
-                const user = firebase.auth().currentUser;
-                if (user) {
-                    this.$nextTick(() => {
-                        new bootstrap.Modal(document.getElementById('commentModal')).show();
-                    });
-                } else {
-                    // Handle the case where the user is not authenticated, e.g., show a sign-in prompt
-                    alert("Please sign in to submit a comment.");
-                }
-            },
-
-            async createComment() {
-                const commentData = {
-                    comment: this.commentForm.comment,
-                };
-
-                if (!commentData.comment) {
-                    alert("All fields must be filled!");
-                    return;
-                }
-
-                const user = firebase.auth().currentUser;
-                const postId = this.post.id; // Use this.post.id to get the current post's ID
-
-                if (user) {
-                    user.getIdToken()
-                        .then((token) => {
-                            // Use template literals to embed the postId in the URL
-                            const url = `/api/posts/${postId}/comments`; // Replace with the actual API endpoint
-                            return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
-                                headers: {
-                                    Authorization: `Bearer ${token}`
-                                }
-                            });
-                        })
-                        .then((response) => {
-                            if (response.data && response.data.error) {
-                                throw new Error(`Server Error: ${response.data.error}`);
-                            }
-                            console.log('Comment Added: ', response);
-                            alert('Comment successfully added!');
-                            // Close the modal here if needed
-                            document.getElementById('commentModal').style.display = 'none';
-                            // After submitting a comment, you may want to refresh the comment list
-                            this.fetchComments(); // Fetch comments again to show the updated list
-                            window.location.reload();
-                        })
-                        .catch((error) => {
-                            console.error('Error adding comment: ', error.message);
-                            alert('Error adding comment.');
-                        });
-                } else {
-                    console.error('User not authenticated');
-                    alert("Please sign in to create a comment.");
-                }
-            },
         
+    </div>
+</section>
+    
+    <script>
 
+        
+        
+    // fetch
+        const db = firebase.firestore();
+
+        new Vue({
+            el: '#app',
+            data: {
+                posts: [],
+                searchQuery: '',
+                sortOption: 'priceUp',
+                selectedPost: {}, // This will hold the selected post data
+                createPostForm: { // This will bind to your form inputs
+                    title: '',
+                    message: ''
+                },
+                commentForm: { // This will bind to your form inputs
+                    comment: ''
+                }
+            },
+            computed: {
+                filteredPosts() {
+                    let filtered = this.posts;
+                    if (this.searchQuery) {
+                        const searchLower = this.searchQuery.toLowerCase();
+                        filtered = filtered.filter(post => {
+                            // Concatenate brand and model with a space and check if the search query is included
+                            const fullPostName = (post.message).toLowerCase();
+                            return fullPostName.includes(searchLower);
+                        });
+                    }
+                    switch (this.sortOption) {
+                        case "priceUp":
+                            filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                            break;
+                        case "priceDown":
+                            filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                            break;
+                        case "benchmarkUp":
+                            filtered.sort((a, b) => parseFloat(a.benchmark) - parseFloat(b.benchmark));
+                            break;
+                        case "benchmarkDown":
+                            filtered.sort((a, b) => parseFloat(b.benchmark) - parseFloat(a.benchmark));
+                            break;
+                    }
+                    return filtered;
+                }
+            },
+            created() {
+                this.listenForNewPosts();
+            },
 
             
-        },
+            methods: {
+                listenForNewPosts() {
+                    const postsRef = db.collection('chats');
+                    postsRef.onSnapshot(snapshot => {
+                        snapshot.docChanges().forEach(change => {
+                            if (change.type === "added") {
+                                // Add the new post to the posts array
+                                const newPost = { ...change.doc.data(), id: change.doc.id };
+                                this.posts.push(newPost);
+                            }
+                        });
+                    });
+                },
 
-        mounted() {
-            this.fetchPostDetails(); // Call the method when the component is mounted
-            this.fetchComments();
-        },
+                
+                
+                async purchaseListing() {
+                    const user = auth.currentUser;
+                    if (user) {
+                        // Perform the purchase action here
+                        // For example, you might send a request to your server to process the purchase
+                        console.log('Purchase made for product:', this.selectedProduct);
+                        alert('Purchase successful!');
+                        // Close the modal
+                        let modalInstance = bootstrap.Modal.getInstance(document.getElementById('postModal'));
+                        modalInstance.hide();
+                    } else {
+                        console.error("No user is signed in");
+                        alert("Please sign in to make a purchase.");
+                    }
+                },
+
+                openCreatePostModal() {
+                    this.$nextTick(() => {
+                        new bootstrap.Modal(document.getElementById('createPostModal')).show();
+                    });
+                },
+                
+
+                async createPost() {
+                    const postData = {
+                        message: this.createPostForm.message
+                    };
+                    
+                    if (!postData.message) {
+                        alert("Message is blank");
+                        return;
+                    }
+
+                    const user = firebase.auth().currentUser;
+                    // alert(user.displayName);
+
+                    if (user) {
+                        user.getIdToken()
+                            .then((token) => {
+                                return axios.post('/api/chats', { ...postData, username: user.displayName });
+                            })
+                            .then((response) => {
+                                // if (response.data && response.data.error) {
+                                //     throw new Error(`Server Error: ${response.data.error}`);
+                                // }
+            
+                                // // Close the modal here if needed
+                                // document.getElementById('createPostModal').style.display = 'none';
+                                // // Redirect to the original CPU page
+                                window.location.href = 'chats.html';
+                            })
+                            // .catch((error) => {
+                            //     console.error('Error sending message: ', error.message);
+                            //     alert('Error sending message.');
+                            // });
+                    } else {
+                        console.error('User not authenticated');
+                        alert("Please sign in to create a listing.");
+                    }
+                },
+                // async createComment() {
+                    //     const commentData = {
+                    //         comment: this.commentForm.comment,
+                    //     };
+
+                    //     if (!commentData.comment) {
+                    //         alert("All fields must be filled!");
+                    //         return;
+                    //     }
+
+                    //     const user = firebase.auth().currentUser;
+                    //     const postId = this.post.id; // Use this.post.id to get the current post's ID
+
+                    //     if (user) {
+                    //         user.getIdToken()
+                    //             .then((token) => {
+                    //                 // Use template literals to embed the postId in the URL
+                    //                 const url = `/api/posts/${LID}/comments`; // Replace with the actual API endpoint
+                    //                 return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
+                    //                     headers: {
+                    //                         Authorization: `Bearer ${token}`
+                    //                     }
+                    //                 });
+                    //             })
+                    //             .then((response) => {
+                    //                 if (response.data && response.data.error) {
+                    //                     throw new Error(`Server Error: ${response.data.error}`);
+                    //                 }
+                    //                 console.log('Comment Added: ', response);
+                    //                 alert('Comment successfully added!');
+                    //                 // Close the modal here if needed
+                    //                 document.getElementById('commentModal').style.display = 'none';
+                    //                 // After submitting a comment, you may want to refresh the comment list
+                    //                 this.fetchComments(); // Fetch comments again to show the updated list
+                    //                 window.location.reload();
+                    //             })
+                    //             .catch((error) => {
+                    //                 console.error('Error adding comment: ', error.message);
+                    //                 alert('Error adding comment.');
+                    //             });
+                    //     } else {
+                    //         console.error('User not authenticated');
+                    //         alert("Please sign in to create a comment.");
+                    //     }
+                    // },
+
+            }
         });
-</script>
+
+    
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

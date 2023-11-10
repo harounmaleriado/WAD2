@@ -17,7 +17,7 @@ import java.time.Instant;
 public class Comment {
     private String comment;
     private String username; // Assuming this is the creator's username
-    private String UID ;
+    private String uid ;
     private Instant createdTimestamp; // This will store the creation timestamp
 }
 

@@ -378,18 +378,16 @@
 
                     const user = auth.currentUser;
                     if (user != null) {
-                        // const UID = user.uid;
+                        const SID = String (user.uid);
                         const username = user.displayName;
                         
                         try {
                             
-                            const response = await axios.post('/api/listings', { ...listingData, username });
+                            const response = await axios.post('/api/listings', { ...listingData, username : username, SID : SID });
                             console.log('Listing Created: ', response);
                             alert('Listing successfully created!');
-                            // Close the modal here if needed
-                            let modalInstance = bootstrap.Modal.getInstance(document.getElementById('listingModal'));
-                            modalInstance.hide();
-                            // Redirect to the original CPU page
+                            
+                            
                             window.location.href = 'gpu.html';
                         } catch (error) {
                             console.error('Error creating listing: ', error);

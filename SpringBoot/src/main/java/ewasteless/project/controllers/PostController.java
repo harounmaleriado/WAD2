@@ -44,7 +44,7 @@ public class PostController {
             Comment comment = new Comment();
             comment.setUsername(commentDTO.getUsername());
             comment.setComment(commentDTO.getComment());
-            comment.setUID(commentDTO.getUID()) ;
+            comment.setUid(commentDTO.getUid()) ;
             // Set any other fields required by your Comment entity
 
             String updateTime = postService.addCommentToPost(postId, comment);

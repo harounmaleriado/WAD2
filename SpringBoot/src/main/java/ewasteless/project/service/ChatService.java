@@ -33,9 +33,9 @@ public class ChatService {
     
         // Create the Chat object using the DTO
         Chat chat = new Chat();
-        chat.setCID(newChatRef.getId()); // Set the generated document ID as the CID
-        chat.setBID(chatDTO.getBID());
-        chat.setSID(chatDTO.getSID());
+        chat.setCid(newChatRef.getId()); // Set the generated document ID as the CID
+        chat.setBid(chatDTO.getBid());
+        chat.setSid(chatDTO.getSid());
         chat.setBrand(chatDTO.getBrand());
         chat.setModel(chatDTO.getModel());
 
@@ -50,34 +50,14 @@ public class ChatService {
 
     
 
-    public String addCommentToChat(String CID, Comment comment) throws Exception {
-        
-        
-        comment.setCreatedTimestamp(Instant.now());
-        DocumentReference postRef = firestore.collection("posts").document(CID);
-        ApiFuture<WriteResult> writeResult = postRef.collection("comments").document().create(comment);
-        
-        DocumentReference userRef = firestore.collection("users").document(comment.getUID());
-        ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
-        DocumentSnapshot userSnapshot = futureUserSnapshot.get();
+    public String addCommentToChat(String chatId, Comment comment) throws Exception {
+        DocumentReference postRef = firestore.collection("chats").document(chatId);
+        ApiFuture<WriteResult> writeResultApiFuture = postRef.collection("comments").document().create(comment);
     
-        if (userSnapshot.exists()) {
-            User user = userSnapshot.toObject(User.class);
-            int currentForumScore = user.getForumScore();
-    
-            // Increment the forumScore by 1
-            int newForumScore = currentForumScore + 1;
-            
-            // Update the user's forumScore
-            ApiFuture<WriteResult> futureUpdateUser = userRef.update("forumScore", newForumScore);
-    
-            
-            WriteResult userUpdateResult = futureUpdateUser.get();
         
-            } else {              
-                throw new Exception("User does not exist with ID: " + comment.getUID());
-            }         
-            return postRef.get().get().getUpdateTime().toString();
+        WriteResult writeResult = writeResultApiFuture.get();
+        return writeResult.getUpdateTime().toString();
     }
+    
 }
 

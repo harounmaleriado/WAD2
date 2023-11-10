@@ -7,17 +7,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.Instant;
 
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO {
     private String comment;
     private String username; // Assuming this is the creator's UID
-    @JsonProperty("UID")
-    private String UID;
+
+    @JsonProperty("uid")
+    private String uid;
     
 }
