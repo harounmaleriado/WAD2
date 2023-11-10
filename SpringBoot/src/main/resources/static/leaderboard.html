@@ -277,7 +277,7 @@
                 <tr v-for="(player, index) in leaderboard" :key="player.id">
                   <td>{{ index + 1 }}</td>
                   <td>{{ player.username }}</td>
-                  <td>{{ player.score }}</td>
+                  <td>{{ player.forumScore }}</td>
                 </tr>
               </tbody>
             </table>
@@ -312,12 +312,12 @@
             },
             methods: {
                 async fetchLeaderboard() {
-                const leaderboardRef = db.collection('leaderboard'); // Replace 'leaderboard' with the actual collection name in Firebase
-                const snapshot = await leaderboardRef.orderBy('score', 'desc').get(); // Assuming you want to order by score in descending order
-                this.leaderboard = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-                },
-                // Other methods...
-            }
+        const leaderboardRef = db.collection('users'); // Reference to the users collection
+        const snapshot = await leaderboardRef.orderBy('forumScore', 'desc').get(); // Sort by forumScore in descending order
+        this.leaderboard = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+    },
+    // Other methods...
+}
             });
 
     </script>
