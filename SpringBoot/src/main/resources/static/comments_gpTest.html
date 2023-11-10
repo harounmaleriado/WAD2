@@ -409,13 +409,13 @@
 
                 const user = firebase.auth().currentUser;
                 const postId = this.post.id; // Use this.post.id to get the current post's ID
-
+                
                 if (user) {
                     user.getIdToken()
                         .then((token) => {
                             // Use template literals to embed the postId in the URL
                             const url = `/api/posts/${postId}/comments`; // Replace with the actual API endpoint
-                            return axios.post(url, { ...commentData, userId: user.uid, username: user.displayName }, {
+                            return axios.post(url, { ...commentData, uid: user.uid, username: user.displayName }, {
                                 headers: {
                                     Authorization: `Bearer ${token}`
                                 }

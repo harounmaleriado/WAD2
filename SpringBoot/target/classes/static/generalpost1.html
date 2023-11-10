@@ -391,12 +391,13 @@
                     }
 
                     const user = firebase.auth().currentUser;
+                    const uid = String(user.uid)
                     // alert(user.displayName);
 
                     if (user) {
                         user.getIdToken()
                             .then((token) => {
-                                return axios.post('/api/posts', { ...postData, username: user.displayName });
+                                return axios.post('/api/posts', { ...postData, username: user.displayName, uid : uid });
                             })
                             .then((response) => {
                                 if (response.data && response.data.error) {
@@ -406,7 +407,7 @@
                                 alert('Post successfully created!');
                                 // Close the modal here if needed
                                 document.getElementById('createPostModal').style.display = 'none';
-                                // Redirect to the original CPU page
+                                
                                 window.location.href = 'generalpost1.html';
                             })
                             .catch((error) => {

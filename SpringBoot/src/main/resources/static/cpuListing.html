@@ -303,7 +303,7 @@
                 <!-- Add more details if needed -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="purchaseListing">Purchase</button>
+                <button type="button" class="btn btn-primary" @click="createChat">Purchase</button>
             </div>
         </div>
     </div>
@@ -408,20 +408,34 @@
                         new bootstrap.Modal(document.getElementById('purchaseModal')).show();
                     });
                 },
-                async purchaseListing() {
-                    const user = auth.currentUser;
-                    if (user) {
-                        // Perform the purchase action here
-                        // For example, you might send a request to your server to process the purchase
-                        console.log('Purchase made for product:', this.selectedProduct);
-                        alert('Purchase successful!');
-                        // Close the modal
-                        let modalInstance = bootstrap.Modal.getInstance(document.getElementById('purchaseModal'));
-                        modalInstance.hide();
-                    } else {
-                        console.error("No user is signed in");
-                        alert("Please sign in to make a purchase.");
-                    }
+                async createChat() {
+                    const listingData = {
+                       
+                       brand : this.selectedProduct.brand,
+                       model : this.selectedProduct.model,
+                       sid : this.selectedProduct.sid
+                       
+                   };
+                
+                   const user = auth.currentUser;
+                   if (user != null) {
+                       const bid = String(user.uid);
+                    
+                       try {
+                            const response = await axios.post('/api/chats', { ...listingData, bid : bid });
+                            console.log('Listing Created: ', response);
+                            alert('Listing successfully created!');
+                            
+                           
+                            window.location.href = 'chats.html';
+                       } catch (error) {
+                           console.error('Error creating chat: ', error);
+                           alert('Error creating chat.');
+                       }
+                       } else {
+                           console.error("No user is signed in");
+                           alert("Please sign in to create a chat.");
+                       }
                 }
             }
         }); 

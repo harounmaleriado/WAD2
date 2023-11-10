@@ -36,14 +36,14 @@ public class PostService {
         post.setTitle(postDTO.getTitle());
         post.setMessage(postDTO.getMessage());
         post.setUsername(postDTO.getUsername());
-        post.setUID(postDTO.getUID());
+        post.setUid(postDTO.getUid());
         post.setCreatedTimestamp(Instant.now()); 
     
         
         ApiFuture<WriteResult> futurePost = newPostRef.set(post);
     
     
-        DocumentReference userRef = firestore.collection("users").document(postDTO.getUID());
+        DocumentReference userRef = firestore.collection("users").document(postDTO.getUid());
         ApiFuture<DocumentSnapshot> futureUserSnapshot = userRef.get();
         DocumentSnapshot userSnapshot = futureUserSnapshot.get();
     
@@ -61,7 +61,7 @@ public class PostService {
             WriteResult userUpdateResult = futureUpdateUser.get();
         
             } else {              
-                throw new Exception("User does not exist with ID: " + postDTO.getUID());
+                throw new Exception("User does not exist with ID: " + postDTO.getUid());
             }         
             return newPostRef.get().get().getUpdateTime().toString();
     }

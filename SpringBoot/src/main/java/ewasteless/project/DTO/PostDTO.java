@@ -17,7 +17,7 @@ public class PostDTO {
     private String message;
     private String username ;
 
-    @JsonProperty("UID")
-    private String UID ;
+    @JsonProperty("uid")
+    private String uid ;
     
 }
