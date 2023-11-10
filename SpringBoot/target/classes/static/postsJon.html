@@ -8,7 +8,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
-    
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
     
     <script>
 
@@ -125,8 +126,14 @@
                     <li><a class="dropdown-item" href="marketplace.html">Create Listing</a></li>
                 </ul>
             </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Donation</a>
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Recycle
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="recycle.html">How to Recycle your E-Waste</a>
+                  <a class="dropdown-item" href="dropoff.html">E-Waste Bin Locations</a>
+                </div>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="community-info.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -138,12 +145,15 @@
                     <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
                 </ul>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="chats.html">Chats</a>
+              </li>
             </ul>
             <div class="nav-item d-flex" id="userAuth">
-                <a href="" data-toggle="modal" data-target="#Register" class="logged-out text-reset me-2" style="display:none">
+                <a href="" data-toggle="modal" data-target="#Register" class="logged-out text-reset me-2 text-decoration-none" style="display:none">
                     Register 
                 </a>
-                <a href="" data-toggle="modal" data-target="#Login" class="logged-out text-reset" style="display:none">
+                <a href="" data-toggle="modal" data-target="#Login " class="logged-out text-reset text-decoration-none" style="display:none">
                     Login 
                 </a>
                 <div class="dropdown">
@@ -154,7 +164,7 @@
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                       <li><a href=""  display="hidden" id="signout" class="logged-in text-reset dropdown-item" style="display:none">Sign Out</a></li>
                       <li><a class="dropdown-item" href="userProfile.html">Profile</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+  
                     </ul>
                   </div>
                 <!-- <a href=""  display="hidden" id="signout" class="logged-in text-reset" style="display:none">

@@ -9,7 +9,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
     
-    
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
     <script>
 
         const firebaseConfig = { 
@@ -152,6 +153,9 @@
                         <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
                     </ul>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="chats.html">Chats</a>
+                  </li>
                 </ul>
                 <div class="nav-item d-flex" id="userAuth">
                     <a href="" data-toggle="modal" data-target="#Register" class="logged-out text-reset me-2 text-decoration-none" style="display:none">
@@ -271,10 +275,12 @@
                 
 
                 <div class="card mb-3" v-for="post in filteredPosts" :key="post.id" @click="redirectToCommentsPage(post)">
-                    <div class="card-body">
+                    <div class="card-body d-flex">
+                    <div>
                       <h5 class="card-title">{{ post.brand }}</h5>
                       <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.model }}</h6>
-                      
+                    </div>
+                      <!-- <button class="btn btn-danger position-absolute end-0 mx-2" @click="deleteChat()">Delete</button> -->
                      
                     </div>
                   </div>
@@ -374,6 +380,53 @@
                         console.error("Error fetching user chats: ", error);
                     }
                 },
+                async deleteChat() {
+                try {
+                    const chatId = this.chat.cid; 
+                    if (!chatId) {
+                        console.error('No chat ID provided');
+                        return; 
+                    }
+
+                    const user = firebase.auth().currentUser;
+                    if (user) {
+                        const url = `/api/chats/${chatId}`; 
+                        let response = await axios.delete(url);
+                        console.log('Chat deleted successfully', response);
+                        window.location.href = 'chats.html';
+                        return response;
+                    } else {
+                        console.error('User not authenticated');
+                        
+                    }
+                } catch (error) {
+                    console.error('Error deleting chat:', error);
+                    
+                }
+            },
+    //         async deleteChat(chat) {
+    //     try {
+    //         const chatId = chat.id; // Assuming the ID is stored in the 'id' property
+    //         if (!chatId) {
+    //             console.error('No chat ID provided');
+    //             return;
+    //         }
+
+    //         const user = firebase.auth().currentUser;
+    //         if (user) {
+    //             const url = `/api/chats/${chatId}`;
+    //             let response = await axios.delete(url);
+    //             console.log('Chat deleted successfully', response);
+    //             // Optionally, you can remove the deleted chat from the local array
+    //             this.chats = this.chats.filter(c => c.id !== chatId);
+    //             return response;
+    //         } else {
+    //             console.error('User not authenticated');
+    //         }
+    //     } catch (error) {
+    //         console.error('Error deleting chat:', error);
+    //     }
+    // },
 
 
             }
