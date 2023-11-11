@@ -264,6 +264,12 @@
       <div  class="container">
         <div class="search-bar">
             <input type="text" class="form-control" placeholder="Search CPUs" v-model="searchQuery">
+            <select class="form-control" v-model="colorFilter" style="width: 150px">
+                <option value="">All Colors</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="red">Red</option>
+            </select>
             <select class="form-control sort-dropdown" v-model="sortOption">
                 <option value="priceUp">Price Up</option>
                 <option value="priceDown">Price Down</option>
@@ -330,7 +336,8 @@
                     price: '',
                     description: '',
                     postalCode: ''
-                }
+                },
+                colorFilter: '',
             },
             computed: {
                 filteredProducts() {
@@ -356,6 +363,12 @@
                         case "benchmarkDown":
                             filtered.sort((a, b) => parseFloat(b.benchmark) - parseFloat(a.benchmark));
                             break;
+                    }
+                    if (this.colorFilter) {
+                        filtered = filtered.filter(product => {
+                            const benchmarkClass = this.getBenchmarkClass(product.benchmark);
+                            return benchmarkClass === this.colorFilter;
+                        });
                     }
                     return filtered;
                 }
