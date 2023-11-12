@@ -435,7 +435,7 @@
                             document.getElementById('commentModal').style.display = 'none';
                             // After submitting a comment, you may want to refresh the comment list
                             this.fetchComments(); // Fetch comments again to show the updated list
-                            window.location.reload();
+                            
                         })
                         .catch((error) => {
                             console.error('Error adding comment: ', error.message);

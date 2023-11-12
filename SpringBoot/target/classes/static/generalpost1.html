@@ -419,8 +419,9 @@
                                 });
                                 // Close the modal here if needed
                                 document.getElementById('createPostModal').style.display = 'none';
+                                this.fetchPosts() ;
                                 
-                                window.location.href = 'generalpost1.html';
+                               
                             })
                             .catch((error) => {
                                 console.error('Error creating post: ', error.message);
