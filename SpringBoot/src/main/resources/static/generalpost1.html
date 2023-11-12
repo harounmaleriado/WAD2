@@ -416,6 +416,10 @@
                                
                                 // Close the modal here if needed
                                 document.getElementById('createPostModal').click();
+                                Swal.fire({
+                                    title: "Post successfully created!",
+                                    icon: "success"
+                                });
                                 this.fetchPosts() ;
                                 
                                

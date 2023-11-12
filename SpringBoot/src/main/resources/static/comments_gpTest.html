@@ -397,7 +397,11 @@
                     });
                 } else {
                     // Handle the case where the user is not authenticated, e.g., show a sign-in prompt
-                    alert("Please sign in to submit a comment.");
+                    // alert("Please sign in to submit a comment.");
+                    Swal.fire({
+                                title: "Please sign in to submit a comment.",
+                                icon: "warning"
+                                });
                 }
             },
 
@@ -407,7 +411,11 @@
                 };
 
                 if (!commentData.comment) {
-                    alert("All fields must be filled!");
+                    // alert("All fields must be filled!");
+                    Swal.fire({
+                                title: "All fields must be filled!",
+                                icon: "warning"
+                                });
                     return;
                 }
 
@@ -430,7 +438,11 @@
                                 throw new Error(`Server Error: ${response.data.error}`);
                             }
                             console.log('Comment Added: ', response);
-                            alert('Comment successfully added!');
+                            // alert('Comment successfully added!');
+                            Swal.fire({
+                                title: "Comment successfully added!",
+                                icon: "success"
+                                });
                             // Close the modal here if needed
                             document.getElementById('commentModal').click();
                             // After submitting a comment, you may want to refresh the comment list
@@ -439,11 +451,20 @@
                         })
                         .catch((error) => {
                             console.error('Error adding comment: ', error.message);
-                            alert('Error adding comment.');
+                            // alert('Error adding comment.');
+                            Swal.fire({
+                                title: "Error adding comment.",
+                                text: error.message,
+                                icon: "success"
+                                });
                         });
                 } else {
                     console.error('User not authenticated');
-                    alert("Please sign in to create a comment.");
+                    // alert("Please sign in to create a comment.");
+                    Swal.fire({
+                                title: "Please sign in to submit a comment.",
+                                icon: "warning"
+                                });
                 }
             },
         
