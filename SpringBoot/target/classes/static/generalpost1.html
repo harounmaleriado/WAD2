@@ -284,6 +284,7 @@
                       <h5 class="card-title">{{ post.title }}</h5>
                       <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6>
                       <p class="card-text">{{ post.message }}</p>
+                      <p class="card-text">{{ post.createdTimestamp }}</p>
                      
                     </div>
                   </div>
@@ -372,10 +373,40 @@
                 },
 
                 async fetchPosts() {
-                    const postsRef = db.collection('posts');
-                    const snapshot = await postsRef.get();
-                    this.posts = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                    try {
+                        const postsRef = db.collection('posts');
+                        const snapshot = await postsRef.get();
+                        this.posts = snapshot.docs.map(doc => {
+                            const data = doc.data();
+
+                            // Assuming the timestamp field in your posts is named 'createdTimestamp'
+                            if (data.createdTimestamp && data.createdTimestamp.epochSecond !== undefined && data.createdTimestamp.nano !== undefined) {
+                                const milliseconds = (data.createdTimestamp.epochSecond * 1000) + (data.createdTimestamp.nano / 1e6);
+                                const date = new Date(milliseconds);
+
+                                data.createdTimestamp = this.formatDate(date);
+                            }
+
+                            return { ...data, id: doc.id };
+                        });
+                    } catch (error) {
+                        console.error('Error fetching posts:', error);
+                    }
                 },
+
+                formatDate(date) {
+                    const pad = (num) => num.toString().padStart(2, '0');
+                    const day = pad(date.getDate());
+                    const month = pad(date.getMonth() + 1); // Months are 0-indexed
+                    const year = date.getFullYear().toString().substring(2);
+                    const hours = pad(date.getHours());
+                    const minutes = pad(date.getMinutes());
+                    const seconds = pad(date.getSeconds());
+
+                    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+                },
+
+                
 
                 openCreatePostModal() {
                     this.$nextTick(() => {
