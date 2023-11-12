@@ -330,7 +330,11 @@
                     } else {
                     // User is signed out, you may want to handle this case or redirect to the login page
                     console.error('User not authenticated');
-                    alert("Please sign in to chat.");
+                    // alert("Please sign in to chat.");
+                    Swal.fire({
+                                title: "Please sign in to create a listing.",
+                                icon: "warning"
+                                });
                     }
                 });
                 },
