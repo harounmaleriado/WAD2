@@ -7,10 +7,6 @@ import org.springframework.stereotype.Service;
 // Firebase import
 import com.google.cloud.firestore.*;
 
-// Java imports
-import java.util.List;
-import java.util.Optional;
-import java.util.ArrayList;
 
 // Model import
 import ewasteless.project.classes.Product;

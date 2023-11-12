@@ -2,12 +2,6 @@ package ewasteless.project.classes;
 
 import java.time.Instant;
 
-import com.google.cloud.Timestamp;
-import com.google.cloud.firestore.annotation.ServerTimestamp;
-
-import com.google.cloud.Timestamp;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
