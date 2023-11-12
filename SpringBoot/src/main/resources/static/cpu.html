@@ -375,7 +375,11 @@
                         type: "CPU" 
                     };
                     if (!listingData.PID || !listingData.price || !listingData.productDescription || !listingData.postalCode) {
-                        alert("All fields must be filled!");
+                        // alert("All fields must be filled!");
+                        Swal.fire({
+                                title: "All fields must be filled!",
+                                icon: "warning"
+                                });
                         return;
                     }
 
@@ -388,18 +392,30 @@
                             
                             const response = await axios.post('/api/listings', { ...listingData, username : username, SID : SID });
                             console.log('Listing Created: ', response);
-                            alert('Listing successfully created!');
-                            
+                            // alert('Listing successfully created!');
+                            Swal.fire({
+                                title: "Listing successfully created!",
+                                icon: "success"
+                                });
                             
                             window.location.href = 'cpu.html';
                         } catch (error) {
                             console.error('Error creating listing: ', error);
-                            alert('Error creating listing.');
+                            // alert('Error creating listing.');
+                            Swal.fire({
+                                title: "Error Creating Listing",
+                                text: error,
+                                icon: "error"
+                                });
                         }
 
                         } else {
                             console.error("No user is signed in");
-                            alert("Please sign in to create a listing.");
+                            // alert("Please sign in to create a listing.");
+                            Swal.fire({
+                                title: "Please sign in to create a listing.",
+                                icon: "warning"
+                                });
                         }
                 }
             }
@@ -411,6 +427,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script src="auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <footer>
         <p>&copy; 2023 HARD CYCLE</p>

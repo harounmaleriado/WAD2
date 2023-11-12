@@ -57,15 +57,22 @@ document.getElementById('signupForm').addEventListener('submit', function(event)
     })
     .then(data => {
         console.log('User registered:', data);
-        alert('Registration successful!');
-
+        // alert('Registration successful!');
+        Swal.fire({
+            title: "Account Registered Successfully!",
+            icon: "success"
+          });
         //Reset the form here if registration is successful
         document.getElementById('signupForm').reset();
     })
     .catch(error => {
         console.error('Error:', error);
-        alert(`Registration failed: ${error.message}`);
-
+        // alert(`Registration failed: ${error.message}`);
+        Swal.fire({
+            title: "Error Registering User",
+            text: error.message,
+            icon:"error"
+        })
         // Reset the form
         document.getElementById('signupForm').reset();
     });
@@ -90,12 +97,21 @@ document.getElementById('signinForm').addEventListener('submit', function(event)
         // Reset the form here
         document.getElementById('signinForm').reset();
         console.log('User signed in and token stored.');
+        Swal.fire({
+        title: "Logged in Successfully",
+        icon: "success"
+        });
 ;
     })
     .catch((error) => {
         console.error("Error signing in", error);
-        alert("Error signing in: " + error.message);  // Feedback to user
-        document.getElementById('signinForm').reset(); // Reset form
+        Swal.fire({
+            title: "Error logging in",
+            text: error.message,
+            icon:"error"
+        })
+        // alert("Error signing in: " + error.message);  // Feedback to user
+        document.getElementById('signinForm').reset(); //  form
     });
 
 });
