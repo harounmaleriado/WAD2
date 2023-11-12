@@ -20,12 +20,11 @@ import java.util.concurrent.ExecutionException;
 @Service
 public class ChatService {
 
-    private final Firestore firestore;
-
     @Autowired
-    public ChatService(Firestore firestore) {
-        this.firestore = firestore;
-    }
+    private Firestore firestore;
+
+    
+   
 
     public String createChat(ChatDTO chatDTO) throws ExecutionException, InterruptedException {
         // Reference to the new chat document with a generated ID

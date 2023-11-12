@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import ewasteless.project.DTO.ChatDTO;
 import ewasteless.project.DTO.CommentDTO;
-import ewasteless.project.classes.Chat;
 import ewasteless.project.classes.Comment;
 import ewasteless.project.service.ChatService;
 
