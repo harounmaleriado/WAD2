@@ -301,7 +301,7 @@
         </div> -->
 
         <div id="comment-list">
-            <div class="card mb-3" v-for="comment in comments" :key="comment.id">
+            <div class="card mb-3" v-for="comment in sortedComments" :key="comment.id">
                 <div class="card-body">
                   <h5 class="card-title">{{ comment.username }}</h5>
                   <!-- <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6> -->
@@ -503,7 +503,15 @@
 
             
         },
-
+        computed: {
+            sortedComments() {
+            // Use the slice() method to create a shallow copy of the array
+            return this.comments.slice().sort((a, b) => {
+                // Assuming createdTimestamp is a valid timestamp
+                return new Date(a.createdTimestamp) - new Date(b.createdTimestamp);
+            });
+            },
+        },
         mounted() {
             this.fetchPostDetails(); // Call the method when the component is mounted
             this.fetchComments();

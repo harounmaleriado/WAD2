@@ -431,7 +431,11 @@
                     });
                 } else {
                     // Handle the case where the user is not authenticated, e.g., show a sign-in prompt
-                    alert("Please sign in to submit a comment.");
+                    // alert("Please sign in to submit a comment.");
+                    Swal.fire({
+                                title: "Please sign in to chat.",
+                                icon: "warning"
+                                });
                 }
             },
 
@@ -441,7 +445,11 @@
                 };
 
                 if (!commentData.comment) {
-                    alert("All fields must be filled!");
+                    // alert("All fields must be filled!");
+                    Swal.fire({
+                                title: "Your message is empty",
+                                icon: "warning"
+                                });
                     return;
                 }
 
@@ -476,11 +484,19 @@
                         })
                         .catch((error) => {
                             console.error('Error adding comment: ', error.message);
-                            alert('Error adding comment.');
+                            // alert('Error adding comment.');
+                            Swal.fire({
+                                title: "Error sending message.",
+                                icon: "error"
+                                });
                         });
                 } else {
                     console.error('User not authenticated');
-                    alert("Please sign in to create a comment.");
+                    // alert("Please sign in to create a comment.");
+                    Swal.fire({
+                                title: "Please sign in to chat.",
+                                icon: "warning"
+                                });
                 }
                 
             },
