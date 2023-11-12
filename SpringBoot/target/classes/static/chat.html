@@ -140,9 +140,7 @@
                         <li><a class="dropdown-item" href="forum-landingpg.html">HARD CYCLE's Community</a></li>               
                     </ul>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="chats.html">Chats</a>
-                  </li>
+    
                 </ul>
                 <div class="nav-item d-flex" id="userAuth">
                     <a href="" data-toggle="modal" data-target="#Register" class="logged-out text-reset me-2 text-decoration-none" style="display:none">
@@ -159,6 +157,9 @@
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                           <li><a href=""  display="hidden" id="signout" class="logged-in text-reset dropdown-item" style="display:none">Sign Out</a></li>
                           <li><a class="dropdown-item" href="userProfile.html">Profile</a></li>
+                          <li class="dropdown-item">
+                            <a class="nav-link" href="chats.html">Chats</a>
+                          </li>
       
                         </ul>
                       </div>
@@ -245,7 +246,8 @@
 <section id="app">
     <div class="container">
         <div class="h1-container d-flex justify-content-between align-items-center">
-            <h1>{{ chat.item }}</h1>
+            <h1>{{ chat.brand }}</h1>
+            
         </div>
         <br>
 
@@ -254,10 +256,8 @@
           
 
             <div class="card-body">
-                <h5 class="card-title"> {{ chat.username }}</h5>
-                <!-- <h6 class="card-subtitle mb-2 text-body-secondary">{{ chat.username }}</h6> -->
-                <p class="card-text">{{ chat.message }}</p>
-                <!-- <button class="btn btn-danger position-absolute end-0 mx-2" @click="deleteChat()">Delete</button> -->
+                <h5 class="card-title"> {{ chat.model }}</h5>
+               
 
                
             </div>
@@ -273,7 +273,7 @@
     
 
         <div id="comment-list">
-            <div class="card mb-3" v-for="comment in comments" :key="comment.id">
+            <div class="card mb-3" v-for="comment in sortedComments" :key="comment.id">
                 <div class="card-body">
                   <h5 class="card-title">{{ comment.username }}</h5>
                   <!-- <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.username }}</h6> -->
@@ -344,6 +344,8 @@
                 comment: '', // Define the 'comment' property within 'commentForm'
             },
         },
+        
+
         methods: {
 
             async fetchChatDetails() {
@@ -357,6 +359,7 @@
 
                     if (doc.exists) {
                     this.chat = { ...doc.data(), id: doc.id }; 
+                    console.log(this.chat.brand);
                     } else {
                     console.error('Chat not found');
                     }
@@ -365,51 +368,37 @@
                 }
             },
             
-            // async fetchComments() {
-            //     const urlParams = new URLSearchParams(window.location.search);
-            //     const chatId = urlParams.get('chatId'); // Get the value of 'chatId' from the URL
-
-            //     if (chatId) {
-            //         // Reference the 'comments' subcollection of a specific chat
-            //         const commentsRef = db.collection('').doc(chatId).collection('comments');
-            //         const querySnapshot = await commentsRef.get();
-
-            //         this.comments = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-            //     } else {
-            //         console.error('Chat ID not found in the URL');
-            //     }
-            // },
-            async fetchComments() {
+    
+            async setupRealtimeCommentsListener() {
                 try {
                     const urlParams = new URLSearchParams(window.location.search);
-                    const postId = urlParams.get('chatId'); // Get the value of 'postId' from the URL
+                    const chatId = urlParams.get('chatId'); // Get the value of 'chatId' from the URL
 
-                    if (postId) {
-                        const commentsRef = db.collection('chats').doc(postId).collection('comments');
-                        const querySnapshot = await commentsRef.get();
+                    if (chatId) {
+                        const commentsRef = db.collection('chats').doc(chatId).collection('comments');
 
-                        this.comments = querySnapshot.docs.map(doc => {
-                            const data = doc.data();
+                        // Setting up the real-time listener
+                        commentsRef.onSnapshot(querySnapshot => {
+                            this.comments = querySnapshot.docs.map(doc => {
+                                const data = doc.data();
 
-                            // Check if 'createdTimestamp' exists and has 'epochSecond' and 'nano' properties
-                            if (data.createdTimestamp && data.createdTimestamp.epochSecond !== undefined && data.createdTimestamp.nano !== undefined) {
-                                // Convert 'epochSecond' and 'nano' to a JavaScript Date object
-                                const milliseconds = (data.createdTimestamp.epochSecond * 1000) + (data.createdTimestamp.nano / 1e6);
-                                const date = new Date(milliseconds);
+                                if (data.createdTimestamp && data.createdTimestamp.epochSecond !== undefined && data.createdTimestamp.nano !== undefined) {
+                                    const milliseconds = (data.createdTimestamp.epochSecond * 1000) + (data.createdTimestamp.nano / 1e6);
+                                    const date = new Date(milliseconds);
+                                    data.createdTimestamp = this.formatDate(date);
+                                }
 
-                                // Format the date
-                                data.createdTimestamp = this.formatDate(date);
-                            }
-
-                            return { ...data, id: doc.id };
+                                return { ...data, id: doc.id };
+                            });
                         });
                     } else {
                         console.error('Chat ID not found in the URL');
                     }
                 } catch (error) {
-                    console.error('Error fetching messages:', error);
+                    console.error('Error setting up real-time listener:', error);
                 }
             },
+
 
             formatDate(date) {
                 const pad = (num) => num.toString().padStart(2, '0');
@@ -438,6 +427,7 @@
                                 });
                 }
             },
+            
 
             async createComment() {
                 const commentData = {
@@ -474,12 +464,9 @@
                                 throw new Error(`Server Error: ${response.data.error}`);
                             }
                             console.log('Comment Added: ', response);
-                            // alert('Comment successfully added!');
-                            // Close the modal here if needed
-                            // document.getElementById('commentModal').style.display = 'none';
-                            // After submitting a comment, you may want to refresh the comment list
+                          
                             
-                            this.fetchComments(); // Fetch comments again to show the updated list
+                            this.setupRealtimeCommentsListener(); // Fetch comments again to show the updated list
                             this.commentForm.comment=''
                         })
                         .catch((error) => {
@@ -526,10 +513,20 @@
             },
     
         },
+        computed: {
+            sortedComments() {
+            // Use the slice() method to create a shallow copy of the array
+            return this.comments.slice().sort((a, b) => {
+                // Assuming createdTimestamp is a valid timestamp
+                return new Date(a.createdTimestamp) - new Date(b.createdTimestamp);
+            });
+            },
+        },
 
         mounted() {
+            
             this.fetchChatDetails(); // Call the method when the component is mounted
-            this.fetchComments();
+            this.setupRealtimeCommentsListener();
         },
         });
 </script>

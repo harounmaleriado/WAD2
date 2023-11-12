@@ -23,14 +23,7 @@
             appId: "1:739112462842:web:a5d0e65a44163e23d4dc43", 
             measurementId: "G-3Q1JMEGCBE" 
         };
-        // const firebaseConfig = {
-        //     apiKey: "AIzaSyA6SDPUxrYWmZ5lboxGtSHVVRxpobsKYU4",
-        //     authDomain: "is216-proj-76064.firebaseapp.com",
-        //     projectId: "is216-proj-76064",
-        //     storageBucket: "is216-proj-76064.appspot.com",
-        //     messagingSenderId: "1065642689100",
-        //     appId: "1:1065642689100:web:4efe254f7846a27e4e2ae9"
-        // };
+    
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig)
@@ -265,12 +258,7 @@
 
         <!-- Display the selected post details from generalpost1.html -->
         <div class="card mb-3">
-            <!-- <div class="card-header">
-                Author: {{ post.username }}
-            </div>
-            <div class="card-body">
-              <p class="card-text">{{ post.message }}</p>
-            </div> -->
+           
 
             <div class="card-body">
                 <h5 class="card-title"> {{ post.username }}</h5>
@@ -288,18 +276,6 @@
         </div>
 
 
-        <!-- Display comments related to the selected post -->
-        <!-- <div id="comment-list">
-            <div class="card mb-5" v-for="comment in comments" :key="comment.id">
-                <div class="card-header">
-                    Username: {{ comment.username }}
-                </div>
-                <div class="card-body">
-                  <p class="card-text">{{ comment.comment }}</p>
-                </div>
-                
-            </div>
-        </div> -->
 
         <div id="comment-list">
             <div class="card mb-3" v-for="comment in sortedComments" :key="comment.id">
