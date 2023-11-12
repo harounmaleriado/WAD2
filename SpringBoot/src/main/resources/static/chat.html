@@ -319,7 +319,7 @@
             <form id="commentForm">
                 <div class="mb-3 d-flex">
                     
-                    <textarea class="form-control" id="comment" v-model="commentForm.comment" placeholder="Your Message"></textarea>
+                    <textarea class="form-control" id="comment" v-model="commentForm.comment" placeholder="Your Message" @keyup.enter="createComment"></textarea>
                     <button type="button" class="btn btn-primary" @click="createComment">Send</button>
 
                 </div>
@@ -422,12 +422,13 @@
                                 throw new Error(`Server Error: ${response.data.error}`);
                             }
                             console.log('Comment Added: ', response);
-                            alert('Comment successfully added!');
+                            // alert('Comment successfully added!');
                             // Close the modal here if needed
-                            document.getElementById('commentModal').style.display = 'none';
+                            // document.getElementById('commentModal').style.display = 'none';
                             // After submitting a comment, you may want to refresh the comment list
-                            this.fetchComments(); // Fetch comments again to show the updated list
                             
+                            this.fetchComments(); // Fetch comments again to show the updated list
+                            this.commentForm.comment=''
                         })
                         .catch((error) => {
                             console.error('Error adding comment: ', error.message);
