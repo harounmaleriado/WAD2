@@ -51,6 +51,7 @@ public class ChatService {
     
 
     public String addCommentToChat(String chatId, Comment comment) throws Exception {
+        comment.setCreatedTimestamp(Instant.now());
         DocumentReference postRef = firestore.collection("chats").document(chatId);
         ApiFuture<WriteResult> writeResultApiFuture = postRef.collection("comments").document().create(comment);
         WriteResult writeResult = writeResultApiFuture.get();
