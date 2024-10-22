@@ -12,11 +12,10 @@ Project Hardcycle
 - Project Manager for Java
 
 ## Things to note:
-1) Please grade the **if-time-extension-friday** Branch instead of the main branch as all latest updates are in the if-time-extension-friday Branch 
    
-2) Run ProjectApplication.java first after installing the neccessary extensions listed above
+1) Run ProjectApplication.java first after installing the neccessary extensions listed above
    (directory: SpringBoot/main/java/ProjectApplication.java)
    
-3) Run on port 8080
+2) Run on port 8080
    (localhost:8080/homepage.html will direct you to the landing page)
   
